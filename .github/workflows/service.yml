@@ -16,7 +16,7 @@ jobs:
     steps:
         - uses: actions/checkout@v2
 
-        - uses: .github/composite-actions/initialize
+        - uses: ./.github/composite-actions/initialize
           with:
             env_file: ${{ github.event.inputs.env-file }}
             token: ${{ secrets.GITHUB_TOKEN }}
