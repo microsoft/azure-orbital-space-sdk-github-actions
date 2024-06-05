@@ -1,0 +1,20 @@
+name: Build Service
+
+on:
+  workflow_call:
+    inputs:
+      env-file:
+        required: true
+        type: string
+    secrets:
+      token:
+        required: true
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/composite/initialize@v1
+          with:
+            env_file: ${{ github.event.inputs.env-file }}
+            token: ${{ secrets.GITHUB_TOKEN }}
