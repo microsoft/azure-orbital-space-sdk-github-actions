@@ -14,7 +14,7 @@ jobs:
   triage:
     runs-on: ubuntu-latest
     steps:
-        - uses: actions/composite/initialize@v1
+        - uses: ./github/composite-actions/initialize
           with:
             env_file: ${{ github.event.inputs.env-file }}
             token: ${{ secrets.GITHUB_TOKEN }}
