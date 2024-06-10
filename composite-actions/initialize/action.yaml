@@ -17,7 +17,7 @@ outputs:
 runs:
     using: 'composite'
     steps:
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@km/add_structure
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
           with:
             env_file: ${{ inputs.env_file }}
         
