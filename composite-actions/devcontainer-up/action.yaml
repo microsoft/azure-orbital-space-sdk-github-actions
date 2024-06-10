@@ -1,0 +1,26 @@
+name: 'stand-up-dev-container'
+description:  'This stands up the devcontainer'
+inputs:
+    registry_name:
+        description: 'The name of the registry'
+        default: 'ghcr.io/microsoft'
+    github-user-name:
+        description: 'The name of the github user'
+        required: true
+    github-user-token:
+        description: 'The token to use for the registry'
+        required: true
+runs:
+    using: 'composite'
+    steps:
+        - name: Log in to the Container registry
+          uses: docker/login-action@v3
+          with:
+            registry: ${{ inputs.registry_name }}
+            username: ${{ inputs.github-user-name }}
+            password: ${{ inputs.github-user-token }}
+
+        - name: Stand up the devcontainer
+          shell: bash
+          run: |
+            devcontainer up --workspace-folder ${PWD}
