@@ -1,15 +1,15 @@
 name: 'install-regctl'
 description:  'Installs regctl'
 inputs:
-    regctl_version:
-        description: 'The version of regctl to install'
-        default: 'v0.5.7'
+    env_file:
+        description: 'The path to the environment file'
+        required: true
 runs:
     using: 'composite'
     steps:
         - name: Install RegCtl
           run: |
-            VER_REGCTL=${{ inputs.regctl_version }}
+            source ${{{ inputs.env_file}}}
             echo "Installing regctl - version ${VER_REGCTL}..."
             curl -L https://github.com/regclient/regclient/releases/download/${VER_REGCTL}/regctl-linux-amd64 >regctl
             sudo mv regctl /usr/local/bin/

@@ -19,6 +19,8 @@ runs:
     using: 'composite'
     steps:
         - uses: actions/composite-actions/install-regctl@km/add_structure
+          with:
+            env_file: ${{ inputs.env_file }}
         
         - name: Log in to the Container registry
           uses: docker/login-action@v3
