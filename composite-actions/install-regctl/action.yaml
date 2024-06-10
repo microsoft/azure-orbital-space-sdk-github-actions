@@ -8,6 +8,7 @@ runs:
     using: 'composite'
     steps:
         - name: Install RegCtl
+          shell: bash
           run: |
             source ${{ inputs.env_file }}
             echo "Installing regctl - version ${VER_REGCTL}..."
