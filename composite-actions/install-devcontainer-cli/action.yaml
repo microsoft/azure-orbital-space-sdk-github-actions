@@ -1,0 +1,11 @@
+name: 'install-dev-container-cli'
+description:  'Installs the devcontainer cli'
+runs:
+    using: 'composite'
+    steps:
+        - name: Install Devcontainer cli
+          shell: bash
+          run: |
+            npm install -g @devcontainers/cli
+            devcontainer --version
+            printenv

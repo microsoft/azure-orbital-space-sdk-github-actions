@@ -1,0 +1,17 @@
+name: 'install-regctl'
+description:  'Installs regctl'
+inputs:
+    oras-version:
+        description: 'The version of oras to install'
+        default: '0.16.0'
+runs:
+    using: 'composite'
+    steps:
+        - name: Install oras
+          shell: bash
+          run: |
+            curl -LO https://github.com/oras-project/oras/releases/download/v${{ inputs.oras-version }}/oras_${{ inputs.oras-version }}_linux_amd64.tar.gz
+            mkdir -p oras-install/
+            tar -zxf oras_${{ inputs.oras-version }}_*.tar.gz -C oras-install/
+            mv oras-install/oras /usr/local/bin/
+            rm -rf oras_${{ inputs.oras-version }}_*.tar.gz oras-install/
