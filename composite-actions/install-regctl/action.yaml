@@ -9,7 +9,7 @@ runs:
     steps:
         - name: Install RegCtl
           run: |
-            source ${{{ inputs.env_file}}}
+            source ${{ inputs.env_file }}
             echo "Installing regctl - version ${VER_REGCTL}..."
             curl -L https://github.com/regclient/regclient/releases/download/${VER_REGCTL}/regctl-linux-amd64 >regctl
             sudo mv regctl /usr/local/bin/

@@ -22,7 +22,7 @@ runs:
             env_file: ${{ inputs.env_file }}
         
         - name: Log in to the Container registry
-          uses: docker/login-action@v3
+          uses: docker/login-action@v4
           with:
             registry: ${{ inputs.registry_name }}
             username: ${{ github.actor }}
