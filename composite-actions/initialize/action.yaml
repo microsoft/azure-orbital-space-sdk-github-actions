@@ -7,7 +7,6 @@ inputs:
     registry_name:
         description: 'The name of the registry'
         default: 'ghcr.io/microsoft/ao-spacesdk'
-secrets:
     token:
         description: 'The token to use for the registry'
         required: true
@@ -27,4 +26,4 @@ runs:
           with:
             registry: ${{ inputs.registry_name }}
             username: ${{ github.actor }}
-            password: ${{ secrets.token }}
+            password: ${{ inputs.token }}
