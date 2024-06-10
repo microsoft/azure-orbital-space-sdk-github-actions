@@ -18,16 +18,7 @@ outputs:
 runs:
     using: 'composite'
     steps:
-        - name: Install RegCtl
-          run: |
-            VER_REGCTL=v0.5.7
-            echo "Installing regctl - version ${VER_REGCTL}..."
-            curl -L https://github.com/regclient/regclient/releases/download/${VER_REGCTL}/regctl-linux-amd64 >regctl
-            sudo mv regctl /usr/local/bin/
-            sudo chmod 755 /usr/local/bin/regctl
-            rm -rf regctl
-            echo "Getting Version Information"
-            regctl version
+        - uses: actions/composite-actions/install-regctl@km/add_structure
         
         - name: Log in to the Container registry
           uses: docker/login-action@v3
@@ -35,25 +26,3 @@ runs:
             registry: ${{ inputs.registry_name }}
             username: ${{ github.actor }}
             password: ${{ secrets.token }}
-
-        # - name: Get setup tar file
-        #   run: |
-        #     echo "Loading environment variables..."
-        #     source ${{ inputs.env_file }}
-
-        #     echo "Creating temp directory..."
-
-        #     echo "Pulling artifact from registry..."
-        #     regctl artifact get $(ENV_CONFIG_SOURCE_REGISTRY)/env/config:${SPACEFX_VERSION} --strip-dirs --output .
-
-        #     sub_exit_code=${PIPESTATUS[0]}
-        #     if [[ $sub_exit_code -gt 0 ]]; then
-        #         echo "Previous step failed.  Troubleshoot"
-        #         exit 1
-        #     fi
-
-        #     echo "Copying to $(SPACEFX_DIR)/tmp/env/config..."
-        #     sudo cp -f ./msft-azure-orbital-sdk.tgz $(SPACEFX_DIR)/tmp/env/config
-
-        #     echo "Extracting..."
-        #     sudo tar -xzf ./msft-azure-orbital-sdk.tgz --directory $(SPACEFX_DIR)
