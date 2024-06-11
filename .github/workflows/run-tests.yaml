@@ -1,0 +1,20 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+  push:
+        branches:
+        - main
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test-install-regctl:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-install-regctl.yaml
+    with: 
+      env_file: ./test-artifacts/test-install-regctl/test.env
