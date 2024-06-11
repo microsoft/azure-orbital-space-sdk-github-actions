@@ -1,0 +1,16 @@
+name: Run tests
+
+on:
+  workflow_dispatch:
+  push:
+        branches:
+        - km/add_testing
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  test-install-regctl:
+    uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/testing/test-install-regctl.yaml@km/add_testing
+    with: 
+      env-file: ./test-artifacts/test-install-regctl/test.env
