@@ -11,6 +11,6 @@ on:
 
 jobs:
   test-install-regctl:
-    uses: microsoft/azure-orbital-space-sdk-github-actions/.github/workflows/testing/test-install-regctl.yaml@km/add_testing
+    uses: github/workflows/testing/test-install-regctl.yaml
     with: 
       env-file: ./test-artifacts/test-install-regctl/test.env
