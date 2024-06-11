@@ -22,7 +22,8 @@ jobs:
       run: |
         source ${{ inputs.env_file }}
 
-        INSTALLED_VER=$(regctl version)
+        VERSION_COMMAND_OUTPUT=$(regctl version)
+        INSTALLED_VER=$(echo $VERSION_COMMAND_OUTPUT | awk '{print $2}')
 
         # Compare the installed version with the required version
         if [ "$INSTALLED_VER" == "$VER_REGCTL" ]; then
