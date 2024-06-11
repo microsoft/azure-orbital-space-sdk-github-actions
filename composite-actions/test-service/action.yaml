@@ -1,5 +1,5 @@
 name: 'Test Service'
-description:  'Initializes the space sdk by setting up the /var/spacedev/directory'
+description:  'Runs and publishes the integration tests for a service in the space sdk environment'
 inputs:
     service_name:
         description: 'The name of the service to test'
