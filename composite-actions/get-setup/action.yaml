@@ -1,0 +1,17 @@
+name: 'clone-setup'
+description:  'Clone setup and run stage space sdk'
+inputs:
+    setup-repo-url:
+        description: 'The repo url to clone'
+        default: 'ghcr.io/microsoft'
+runs:
+    using: 'composite'
+    steps:
+        - name: Clone repo
+          shell: bash
+          run: |
+            mkdir -p /var/tmp
+            cd /var/tmp
+            git clone ${{ inputs.setup-repo-url }}
+            cd azure-orbital-space-sdk-setup
+            bash ./.vscode/copy_to_spacedev.sh
