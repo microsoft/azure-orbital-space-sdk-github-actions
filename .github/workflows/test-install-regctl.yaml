@@ -6,7 +6,7 @@ env:
 
 jobs:
   test-install-regctl:
-    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+    runs-on: ubuntu-latest
 
     permissions:
       contents: read
@@ -16,8 +16,8 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
-          with:
-            env_file: ${{ env.env-file }}
+      with:
+        env_file: ${{ env.env-file }}
 
     - name: Validate regctl
       shell: bash
