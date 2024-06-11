@@ -1,0 +1,56 @@
+on: 
+    workflow_call:
+        inputs:
+            REGISTRY: 
+              description: 'Registry to push the image to'
+              required: true
+              type: string 
+              default: 'ghcr.io'
+            APP_NAME:
+              description: 'Name of the application'
+              required: true
+              type: string
+            ANNOTATION:
+              description: 'Annotation file'
+              required: true
+              type: string
+            WORKFLOW_AGENT:
+              description: 'The name of the workflow agent'
+              type: string
+              default: 'ubuntu-latest'
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  build-core-service:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
+      with:
+        registry-name: ${{ inputs.REGISTRY}}
+        github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
+        github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+      with: 
+        setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
+      with: 
+        dockerfile: Dockerfiles/Dockerfile
+        architecture: amd64
+        repo-dir: ${{ github.workspace }}
+        app-name: ${{ inputs.APP_NAME }}
+        annotation-config: ${{ inputs.ANNOTATION }}
