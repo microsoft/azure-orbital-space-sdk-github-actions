@@ -8,7 +8,7 @@ on:
 
 jobs:
   test-install-regctl:
-    runs-on: ubuntu-latest
+    runs-on: spacesdk-ubuntu-2204LTS-arm64
 
     steps:
     - uses: actions/checkout@v2
