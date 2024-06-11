@@ -2,27 +2,23 @@ on:
     workflow_call:
 
 env: 
-  env-file: ./test-artifacts/test-install-regctl/test.env
+  env_file: ./test-artifacts/test-install-regctl/test.env
 
 jobs:
   test-install-regctl:
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
-      packages: write
 
     steps:
     - uses: actions/checkout@v2
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
       with:
-        env_file: ${{ env.env-file }}
+        env_file: ${{ env.env_file }}
 
     - name: Validate regctl
       shell: bash
       run: |
-        source ${{ env.env-file }}
+        source ${{ env.env_file }}
 
         INSTALLED_VER=$(regctl version)
 
