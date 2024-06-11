@@ -11,6 +11,6 @@ on:
 
 jobs:
   test-install-regctl:
-    uses: ./.github/workflows/testing/test-install-regctl.yaml
+    uses: ./.github/workflows/test-install-regctl.yaml
     with: 
       env-file: ./test-artifacts/test-install-regctl/test.env
