@@ -18,6 +18,10 @@ on:
               description: 'The name of the workflow agent'
               type: string
               default: 'ubuntu-latest'
+            ARCHITECTURE:
+              description: 'The architecture for the image'
+              required: true
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -50,7 +54,7 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
       with: 
         dockerfile: Dockerfiles/Dockerfile
-        architecture: amd64
+        architecture: ${{ inputs.ARCHITECTURE }}
         repo-dir: ${{ github.workspace }}
         app-name: ${{ inputs.APP_NAME }}
         annotation-config: ${{ inputs.ANNOTATION }}
