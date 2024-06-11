@@ -17,4 +17,4 @@ jobs:
     
     uses: ./.github/workflows/test-install-regctl.yaml
     with: 
-      env-file: ./test-artifacts/test-install-regctl/test.env
+      env_file: ./test-artifacts/test-install-regctl/test.env
