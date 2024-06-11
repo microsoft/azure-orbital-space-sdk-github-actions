@@ -24,3 +24,6 @@ runs:
           shell: bash
           run: |
             devcontainer up --workspace-folder ${PWD}
+            echo ""
+            echo "Directory structure"
+            ls ${PWD}
