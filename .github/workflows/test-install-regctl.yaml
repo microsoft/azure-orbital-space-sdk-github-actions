@@ -1,0 +1,36 @@
+on: 
+    workflow_call:
+
+env: 
+  env-file: ./test-artifacts/test-install-regctl/test.env
+
+jobs:
+  test-install-regctl:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
+          with:
+            env_file: ${{ env.env-file }}
+
+    - name: Validate regctl
+      shell: bash
+      run: |
+        source ${{ env.env-file }}
+
+        INSTALLED_VER=$(regctl version)
+
+        # Compare the installed version with the required version
+        if [ "$INSTALLED_VER" == "$VER_REGCTL" ]; then
+            echo "Version matches"
+        else
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_REGCTL"
+            exit 1
+        fi
+        
