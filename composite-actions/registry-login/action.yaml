@@ -1,0 +1,22 @@
+name: 'Perform login for registry'
+description:  'Performs the login for github packages'
+inputs:
+    registry-name:
+        description: 'The name of the registry'
+        default: 'ghcr.io'
+    github-user-name:
+        description: 'The name of the github user'
+        required: true
+    github-user-token:
+        description: 'The token to use for the registry'
+        required: true
+runs:
+    using: 'composite'
+    steps:
+        - name: Perform login steps
+          shell: bash
+          run: |
+            echo "Performing login step"
+            docker login ${{ inputs.registry-name }} -u ${{ inputs.github-user-name }} -p ${{ inputs.github-user-token }}
+            echo "Performing sudo login step"
+            sudo docker login ${{ inputs.registry-name }} -u ${{ inputs.github-user-name }} -p ${{ inputs.github-user-token }}

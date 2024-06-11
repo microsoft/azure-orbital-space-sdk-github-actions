@@ -1,0 +1,31 @@
+name: 'run-build-containerImage'
+description:  'Runs the build container image script'
+inputs:
+    env-file:
+        description: 'Path to the env file'
+        default: /var/spacedev/env/spacefx.env
+    docker-file:
+        description: 'Path to the docker file'
+        default: Dockerfiles/Dockerfile
+    architecture:
+        description: 'The architecture for the image'
+        required: true
+    repo-dir: 
+        description: 'The directory of the repo'
+        required: true
+    app-name:
+        description: 'The name of the app'
+        required: true
+    annotation-config:
+        description: 'The annotation config'
+        required: false
+runs:
+    using: 'composite'
+    steps:
+        - name: Perform login steps
+          shell: bash
+          run: |
+            source ${{ inputs.env-file }} 
+            echo "Running build_containerImage.sh script:"
+            echo ""
+            bash /var/spacedev/build/build_containerImage.sh --dockerfile Dockerfiles/Dockerfile --image-tag $SPACEFX_VERSION --architecture ${{ inputs.architecture }} --repo-dir ${{ inputs.repo-dir }} --app-name ${{ inputs.app-name }} --annotation-config ${{ inputs.annotation-config }}
