@@ -7,11 +7,11 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - name: Install RegCtl
+        - name: Install Docker
           shell: bash
           run: |
             source ${{ inputs.env_file }}
-            echo "Installing regctl - version ${VER_REGCTL}..."
+            echo "Installing docker - version ${VER_DOCKER_MIN}..."
             sudo apt-get update
             sudo apt-get install ca-certificates curl
             sudo install -m 0755 -d /etc/apt/keyrings
