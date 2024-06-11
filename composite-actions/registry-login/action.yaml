@@ -19,4 +19,4 @@ runs:
             echo "Performing login step"
             docker login ${{ inputs.registry-name }} -u ${{ inputs.github-user-name }} -p ${{ inputs.github-user-token }}
             echo "Performing sudo login step"
-            sudo docker login ${{ inputs.registry-name }} -u ${{ secrets.github-user-name }} -p ${{ inputs.github-user-token }}
+            sudo docker login ${{ inputs.registry-name }} -u ${{ inputs.github-user-name }} -p ${{ inputs.github-user-token }}
