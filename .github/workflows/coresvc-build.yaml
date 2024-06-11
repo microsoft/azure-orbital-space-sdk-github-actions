@@ -22,6 +22,10 @@ on:
               description: 'The architecture for the image'
               required: true
               type: string
+            INSTALL_DOCKER:
+              description: 'Install docker'
+              required: false
+              type: boolean
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
