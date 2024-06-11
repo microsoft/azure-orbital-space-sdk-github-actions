@@ -1,8 +1,10 @@
 on: 
     workflow_call:
-
-env: 
-  env_file: ./test-artifacts/test-install-regctl/test.env
+      inputs:
+        env_file:
+          description: 'The path to the environment file'
+          required: true
+          type: string
 
 jobs:
   test-install-regctl:
@@ -13,12 +15,12 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
       with:
-        env_file: ${{ env.env_file }}
+        env_file: ${{ inputs.env_file }}
 
     - name: Validate regctl
       shell: bash
       run: |
-        source ${{ env.env_file }}
+        source ${{ inputs.env_file }}
 
         INSTALLED_VER=$(regctl version)
 
