@@ -18,3 +18,19 @@ jobs:
     uses: ./.github/workflows/test-install-regctl.yaml
     with: 
       env_file: ./test-artifacts/test-install-regctl/test.env
+
+  test-get-setup:
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/test-get-setup.yaml
+
+  test-push-build-artifact:
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: read
+      actions: read
+    uses: ./.github/workflows/test-push-build-artifact.yaml
+    with: 
+      artifact: ./test-artifacts/test-push-build-artifact/test.txt

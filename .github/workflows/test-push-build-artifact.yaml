@@ -1,0 +1,46 @@
+on: 
+    workflow_call:
+      inputs:
+        artifact:
+          description: 'The path to the artifact that will be pushed'
+          required: true
+          type: string
+        env-file:
+            description: 'Path to the env file'
+            default: /var/spacedev/env/spacefx.env
+            type: string
+
+jobs:
+  test-install-regctl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
+      with:
+        artifact: ${{ inputs.artifact }}
+        env_file: "amd64"
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
+      with:
+        artifact: ${{ inputs.artifact }}
+        env_file: "arm64"
+
+
+    - name: Validate Artifact
+      shell: bash
+      run: |
+        source ${{ inputs.env_file }}
+
+        VERSION_COMMAND_OUTPUT=$(regctl version)
+        INSTALLED_VER=$(echo $VERSION_COMMAND_OUTPUT | awk '{print $2}')
+
+        # Compare the installed version with the required version
+        if [ "$INSTALLED_VER" == "$VER_REGCTL" ]; then
+            echo "Version matches"
+        else
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_REGCTL"
+            exit 1
+        fi
+        

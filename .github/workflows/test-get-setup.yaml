@@ -1,0 +1,30 @@
+on: workflow_call
+
+jobs:
+  test-install-regctl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+      with:
+        setup-repo-url: https://github.com/microsoft/azure-orbital-space-sdk-setup.git
+
+    - name: Validate setup directory
+      shell: bash
+      run: |
+        spacefx_dir="/var/spacedev"
+
+        if [ -d "$spacefx_dir" ]; then
+          echo "Directory exists"
+          if [ "$(ls -A $spacefx_dir)" ]; then
+              echo "Directory is not empty"
+          else
+              echo "Directory is empty"
+              exit 1
+          fi
+        else
+            echo "Directory does not exist"
+            exit 1
+        fi
