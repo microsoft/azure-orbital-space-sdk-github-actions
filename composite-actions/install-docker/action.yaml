@@ -11,7 +11,7 @@ runs:
           shell: bash
           run: |
             source ${{ inputs.env_file }}
-            echo "Installing docker - version ${VER_DOCKER_MIN}..."
+            echo "Installing docker - version ${VER_DOCKER_MAX}..."
             sudo apt-get update
             sudo apt-get install ca-certificates curl
             sudo install -m 0755 -d /etc/apt/keyrings
@@ -21,7 +21,7 @@ runs:
             # Add the repository to Apt sources:
             echo \
               "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
-              $(. /etc/os-release && echo "${VER_DOCKER_MIN}") stable" | \
+              $(. /etc/os-release && echo "${VER_DOCKER_MAX}") stable" | \
               sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
             sudo apt-get update
 
