@@ -31,6 +31,9 @@ runs:
                   echo ""
                   echo "Checking the version..."
                   npm --version
+                  echo "install n package globally..."
+                  sudo npm install -g nf
+                  echo ""
                   echo "Running 'npm cache clean -f'..."
                   sudo npm cache clean -f
                   echo ""
