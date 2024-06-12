@@ -17,7 +17,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@km/add_docker
       with:
         env_file: ${{ inputs.env_file }}
 
