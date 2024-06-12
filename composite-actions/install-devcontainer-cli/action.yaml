@@ -26,7 +26,7 @@ runs:
                 echo "Checking the direction..."
                 npm --version
                 sudo npm cache clean -f
-                mkdir -p /usr/local/lib/node_modules
+                sudo mkdir -p /usr/local/lib/node_modules
                 sudo chown -R $USER:$USER /usr/local/lib/node_modules
             else
                 echo "npm is installed"
