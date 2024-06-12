@@ -21,6 +21,10 @@ jobs:
       with:
         env_file: ${{ inputs.env_file }}
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@al/push_build_artifacts
+      with:
+        oras_version: 0.16.0
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@al/push_build_artifacts
       with:
         registry-name: ${{ inputs.REGISTRY }}
