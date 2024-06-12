@@ -23,6 +23,8 @@ runs:
                 echo "npm is not installed, installing..."
                 sudo apt-get update
                 sudo apt-get install -y npm
+                sudo chown -R `whoami` ~/.npm
+                sudo chown -R `whoami` /usr/local/lib/node_modules
             else
                 echo "npm is installed"
             fi
