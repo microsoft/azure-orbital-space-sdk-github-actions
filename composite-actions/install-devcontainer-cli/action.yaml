@@ -32,7 +32,6 @@ runs:
             echo "Runnning 'npm cache clean -f'..."
             sudo npm cache clean -f
             echo "Runnning 'npm install -g n'..."
-            chown 
             sudo npm install -g n
             # echo "Runnning 'n stable'..."
             # sudo n stable
