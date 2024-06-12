@@ -34,6 +34,9 @@ runs:
                   echo "Running 'npm cache clean -f'..."
                   sudo npm cache clean -f
                   echo ""
+                  echo "Upgrade nodejs"
+                  sudo n 16.13.0
+                  echo ""
                   echo "Setup the directory...."
                   sudo mkdir -p /usr/local/lib/node_modules
                   sudo chown -R $USER:$USER /usr/local/lib/node_modules
