@@ -7,6 +7,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@al/push_build_artifacts
+      with:
+        registry-name: ${{ inputs.REGISTRY}}
+        github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
+        github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@al/push_build_artifacts
+      with: 
+        setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
+
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@al/push_build_artifacts
       with:
         setup-repo-url:  ${{ secrets.SETUP_REPO_URL }}
