@@ -30,12 +30,13 @@ jobs:
     - name: Check for internet
       shell: bash
       run: |
-        if ping -c 1 google.com &> /dev/null
+        RESULT=$(curl https://www.microsoft.com)
+        if [ -z "$RESULT" ]
         then
-            echo "Internet connection is available"
+          echo "Internet connection is available"
         else
-            echo "Internet connection is not available"
-            exit 1
+          echo "Internet connection is not available"
+          exit 1
         fi
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker

@@ -11,7 +11,8 @@ jobs:
     - name: Check for internet
       shell: bash
       run: |
-        if ping -c 1 google.com &> /dev/null
+        RESULT=$(curl https://www.microsoft.com)
+        if [ -z "$RESULT" ]
         then
           echo "Internet connection is available"
         else
