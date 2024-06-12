@@ -22,12 +22,6 @@ runs:
             then
                 echo "npm is not installed, installing..."
                 sudo apt-get update
-                echo "Install node..."
-                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-                source ~/.bashrc
-                nvm install 16.13.0
-                nvm use 16.13.0
-                echo ""
                 echo "installing npm..."
                 sudo apt-get install -y npm
                 echo ""
@@ -55,7 +49,7 @@ runs:
             # echo "Runnning 'n stable'..."
             # sudo n stable
             echo "Runnning 'npm install -g @devcontainers/cli'..."
-            npm install -g @devcontainers/cli
+            sudo npm install -g @devcontainers/cli
             echo "Checking the version..."
             devcontainer --version
             printenv
