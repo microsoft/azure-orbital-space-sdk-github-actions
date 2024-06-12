@@ -5,10 +5,14 @@ on:
           description: 'The path to the environment file'
           required: true
           type: string
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
 
 jobs:
   test-install-docker:
-    runs-on: spacesdk-ubuntu-2204LTS-arm64
+    runs-on: ${{ inputs.agent }}
 
     steps:
     - uses: actions/checkout@v2
@@ -26,18 +30,6 @@ jobs:
         # Get the total memory in MB
         TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
         echo "Total memory: $TOTAL_MEM MB"
-
-    - name: Check for internet
-      shell: bash
-      run: |
-        RESULT=$(curl https://www.microsoft.com)
-        if [ -z "$RESULT" ]
-        then
-          echo "Internet connection is available"
-        else
-          echo "Internet connection is not available"
-          exit 1
-        fi
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
       with:

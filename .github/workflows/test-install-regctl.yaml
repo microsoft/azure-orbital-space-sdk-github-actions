@@ -5,10 +5,14 @@ on:
           description: 'The path to the environment file'
           required: true
           type: string
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
 
 jobs:
   test-install-regctl:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.agent }}
 
     steps:
     - uses: actions/checkout@v2

@@ -10,7 +10,7 @@ on:
       - '**'
 
 jobs:
-  test-install-regctl:
+  test-install-regctl-amd64:
     permissions:
       contents: read
       packages: read
@@ -18,8 +18,19 @@ jobs:
     uses: ./.github/workflows/test-install-regctl.yaml
     with: 
       env_file: ./test-artifacts/test-install-regctl/test.env
+      agent: ubuntu-latest
 
-  test-install-docker:
+  test-install-regctl-arm64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-install-regctl.yaml
+    with: 
+      env_file: ./test-artifacts/test-install-regctl/test.env
+      agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-install-docker-amd64:
     permissions:
       contents: read
       packages: read
@@ -27,10 +38,32 @@ jobs:
     uses: ./.github/workflows/test-install-docker.yaml
     with: 
       env_file: ./test-artifacts/test-install-docker/test.env
+      agent: ubuntu-latest
 
-  test-install-devcontainer-cli:
+  test-install-docker-arm64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-install-docker.yaml
+    with: 
+      env_file: ./test-artifacts/test-install-docker/test.env
+      agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-install-devcontainer-cli-amd64:
     permissions:
       contents: read
       packages: read
     
     uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with: 
+      agent: ubuntu-latest
+
+  test-install-devcontainer-cli-arm64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with: 
+      agent: spacesdk-ubuntu-2204LTS-arm64
