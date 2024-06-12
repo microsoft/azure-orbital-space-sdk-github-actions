@@ -13,6 +13,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Get details
+      shell: bash
+      run: |
+        echo "Running on ${{ runner.os }}"
+        echo "Architecture: ${{ runner.arch }}"
+        echo "Processor: ${{ runner.processor }}"
+        # Get the number of cores
+        NUM_CORES=$(nproc)
+        echo "Number of cores: $NUM_CORES"
+
+        # Get the total memory in MB
+        TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
+        echo "Total memory: $TOTAL_MEM MB"
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
       with:
         env_file: ${{ inputs.env_file }}
