@@ -1,0 +1,35 @@
+on: 
+    workflow_call:
+      inputs:
+        env_file:
+          description: 'The path to the environment file'
+          required: true
+          type: string
+
+jobs:
+  test-install-regctl:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
+      with:
+        env_file: ${{ inputs.env_file }}
+
+    - name: Validate regctl
+      shell: bash
+      run: |
+        source ${{ inputs.env_file }}
+
+        VERSION_COMMAND_OUTPUT=$(regctl version)
+        INSTALLED_VER=$(echo $VERSION_COMMAND_OUTPUT | awk '{print $2}')
+
+        # Compare the installed version with the required version
+        if [ "$INSTALLED_VER" == "$VER_REGCTL" ]; then
+            echo "Version matches"
+        else
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_REGCTL"
+            exit 1
+        fi
+        
