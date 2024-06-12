@@ -17,26 +17,26 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl
       with:
         env_file: ${{ inputs.env_file }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login
       with:
         registry-name: ${{ inputs.REGISTRY}}
         github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
         github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
   
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup
       with: 
         setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
   
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts
       with:
         artifact: ${{ inputs.artifact }}
         architecture: "amd64"
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts
       with:
         artifact: ${{ inputs.artifact }}
         architecture: "arm64"

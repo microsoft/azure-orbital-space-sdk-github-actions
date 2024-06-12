@@ -7,7 +7,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup
       with:
         setup-repo-url:  ${{ secrets.SETUP_REPO_URL }}
 
