@@ -7,7 +7,7 @@ on:
           type: string
 
 jobs:
-  test-install-regctl:
+  test-install-docker:
     runs-on: spacesdk-ubuntu-2204LTS-arm64
 
     steps:
