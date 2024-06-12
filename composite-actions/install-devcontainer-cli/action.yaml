@@ -7,7 +7,7 @@ runs:
           shell: bash
           run: |
             echo "Installing npm.."
-            sudo apt install npm
+            sudo apt-get install npm
             echo ""
             echo "Running npm cache clean -f..."
             sudo npm cache clean -f
