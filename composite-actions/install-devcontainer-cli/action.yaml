@@ -25,6 +25,7 @@ runs:
                 sudo apt-get install -y npm
                 echo "Checking the direction..."
                 npm --version
+                sudo chown -R $USER:$USER /usr/local/lib/node_modules
             else
                 echo "npm is installed"
             fi
@@ -35,7 +36,6 @@ runs:
             sudo npm install -g n
             # echo "Runnning 'n stable'..."
             # sudo n stable
-            sudo chown -R $USER:$USER /usr/local/lib/node_modules
             echo "Runnning 'npm install -g @devcontainers/cli'..."
             npm install -g @devcontainers/cli
             echo "Checking the version..."
