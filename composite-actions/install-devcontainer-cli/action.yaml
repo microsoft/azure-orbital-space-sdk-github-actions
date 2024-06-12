@@ -22,17 +22,34 @@ runs:
             then
                 echo "npm is not installed, installing..."
                 sudo apt-get update
+                echo "Install node..."
+                curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+                source ~/.bashrc
+                nvm install 16.13.0
+                nvm use 16.13.0
+                echo ""
+                echo "installing npm..."
                 sudo apt-get install -y npm
-                echo "Checking the direction..."
+                echo ""
+                echo "Checking the version..."
                 npm --version
+                echo "Running 'npm cache clean -f'..."
                 sudo npm cache clean -f
+                echo ""
+                echo "Setup the directory...."
                 sudo mkdir -p /usr/local/lib/node_modules
                 sudo chown -R $USER:$USER /usr/local/lib/node_modules
+                echo ""
+                echo "Setting up permissions"
+                mkdir ~/.npm-global
+                npm config set prefix '~/.npm-global'
+                echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+                source ~/.bashrc
             else
                 echo "npm is installed"
+                echo "Runnning 'npm cache clean -f'..."
+                sudo npm cache clean -f
             fi
-            echo "Runnning 'npm cache clean -f'..."
-            sudo npm cache clean -f
             echo "Runnning 'npm install -g n'..."
             sudo npm install -g n
             # echo "Runnning 'n stable'..."
