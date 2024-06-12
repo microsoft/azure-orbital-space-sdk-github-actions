@@ -31,9 +31,11 @@ runs:
             echo "Runnning 'npm cache clean -f'..."
             sudo npm cache clean -f
             echo "Runnning 'npm install -g n'..."
+            chown 
             sudo npm install -g n
             # echo "Runnning 'n stable'..."
             # sudo n stable
+            sudo chown -R $USER:$USER /usr/local/lib/node_modules
             echo "Runnning 'npm install -g @devcontainers/cli'..."
             npm install -g @devcontainers/cli
             echo "Checking the version..."
