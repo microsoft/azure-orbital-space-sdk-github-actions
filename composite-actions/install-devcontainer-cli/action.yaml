@@ -24,8 +24,11 @@ runs:
                 sudo apt-get update
                 sudo apt-get install -y npm
                 echo "Setting permissions for directories..."
-                ls -a ~/
-                sudo chown -R `whoami` ~/.npm
+
+                NPM_DIR_PATH=$(find ~ -name ".npm" -type d 2>/dev/null)
+                echo "Path of .npm directory: $NPM_DIR_PATH"
+
+                sudo chown -R `whoami` $NPM_DIR_PATH
                 sudo chown -R `whoami` /usr/local/lib/node_modules
             else
                 echo "npm is installed"
