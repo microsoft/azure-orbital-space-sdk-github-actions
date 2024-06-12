@@ -1,3 +1,4 @@
+name: Test installing Docker
 on: 
     workflow_call:
       inputs:

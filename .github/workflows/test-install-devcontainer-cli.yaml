@@ -1,3 +1,4 @@
+name: Test-installing devcontainer cli
 on: 
     workflow_call:
       inputs:
