@@ -28,10 +28,15 @@ runs:
             else
                 echo "npm is installed"
             fi
+            echo "Runnning 'npm cache clean -f'..."
             sudo npm cache clean -f
+            echo "Runnning 'npm install -g n'..."
             sudo npm install -g n
+            echo "Runnning 'n stable'..."
             sudo n stable
+            echo "Runnning 'npm install -g @devcontainers/cli'..."
             npm install -g @devcontainers/cli
+            echo "Checking the version..."
             devcontainer --version
             printenv
             
