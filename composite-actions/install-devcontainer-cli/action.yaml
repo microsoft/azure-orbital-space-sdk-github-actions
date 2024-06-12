@@ -6,6 +6,7 @@ runs:
         - name: Install Devcontainer cli
           shell: bash
           run: |
+            sudo apt-get update
             sudo apt install npm
             sudo npm cache clean -f
             sudo npm install -g n
