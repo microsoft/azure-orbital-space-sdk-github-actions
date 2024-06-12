@@ -13,14 +13,13 @@ runs:
             if [[ "$ARCH" == "x86_64" ]]; then
               echo "amd64 architecture detected"
               echo "Installing npm.."
-              sudo apt-get install npm
-              echo ""
-              echo "Running npm cache clean -f..."
-              sudo npm cache clean -f
-              echo "Running npm install -g n..."
+              echo "Runnning 'npm install -g n'..."
               sudo npm install -g n
-              echo "Running npm install -g @devcontainers/cli..."
+              echo "Runnning 'npm install -g @devcontainers/cli'..."
               sudo npm install -g @devcontainers/cli
+              echo "Checking the version..."
+              devcontainer --version
+              printenv
             elif [[ "$ARCH" == "aarch64" ]]; then
                 echo "arm64 architecture detected"
                 if ! command -v npm &> /dev/null
@@ -48,8 +47,6 @@ runs:
 
                 echo "Runnning 'npm install -g n'..."
                 sudo npm install -g n
-                # echo "Runnning 'n stable'..."
-                # sudo n stable
                 echo "Runnning 'npm install -g @devcontainers/cli'..."
                 sudo npm install -g @devcontainers/cli
                 echo "Checking the version..."
