@@ -27,11 +27,20 @@ runs:
 
             # sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
+            echo "Running 'apt-get update' and 'apt-get upgrade'..."
             sudo apt-get update
             sudo apt-get upgrade
-            curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh
+
+            # echo "Running curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh"
+            # curl -fsSL test.docker.com -o get-docker.sh && sh get-docker.sh
+            echo "Installing Docker version $VER_DOCKER_MAX"
+            sudo apt-get install docker-ce=$VER_DOCKER_MAX docker-ce-cli=$VER_DOCKER_MAX containerd.io
+            
+            echo "Setup docker group"
             sudo usermod -aG docker $USER 
+            echo "Runnning hello-world"
             docker run hello-world 
+            echo "Get Version"
             docker version
 
             ## Verify it works

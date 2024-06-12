@@ -44,9 +44,9 @@ jobs:
         INSTALLED_VER=$(echo "$VERSION_COMMAND_OUTPUT" | awk '/Version:/{print $2; exit}')
 
         # Compare the installed version with the required version
-        if [ "$INSTALLED_VER" == "$VER_DOCKER_MIN" ]; then
+        if [ "$INSTALLED_VER" == "$VER_DOCKER_MAX" ]; then
             echo "Version matches"
         else
-            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_REGCTL"
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_DOCKER_MAX"
             exit 1
         fi
