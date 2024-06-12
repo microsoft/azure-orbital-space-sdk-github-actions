@@ -25,6 +25,8 @@ runs:
                 sudo apt-get install -y npm
                 echo "Checking the direction..."
                 npm --version
+                sudo npm cache clean -f
+                mkdir -p /usr/local/lib/node_modules
                 sudo chown -R $USER:$USER /usr/local/lib/node_modules
             else
                 echo "npm is installed"
