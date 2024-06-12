@@ -18,6 +18,14 @@ runs:
             # echo "Running npm install -g @devcontainers/cli..."
             # sudo npm install -g @devcontainers/cli
 
+            if ! command -v npm &> /dev/null
+            then
+                echo "npm is not installed, installing..."
+                sudo apt-get update
+                sudo apt-get install -y npm
+            else
+                echo "npm is installed"
+            fi
             sudo npm install -g n
             sudo n stable
             npm install -g @devcontainers/cli
