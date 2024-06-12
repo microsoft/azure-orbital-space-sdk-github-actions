@@ -27,6 +27,17 @@ jobs:
         TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
         echo "Total memory: $TOTAL_MEM MB"
 
+    - name: Check for internet
+      shell: bash
+      run: |
+        if ping -c 1 google.com &> /dev/null
+        then
+            echo "Internet connection is available"
+        else
+            echo "Internet connection is not available"
+            exit 1
+        fi
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
       with:
         env_file: ${{ inputs.env_file }}

@@ -8,6 +8,17 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Check for internet
+      shell: bash
+      run: |
+        if ping -c 1 google.com &> /dev/null
+        then
+          echo "Internet connection is available"
+        else
+          echo "Internet connection is not available"
+          exit 1
+        fi
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
 
     - name: Validate devcontainer cli
