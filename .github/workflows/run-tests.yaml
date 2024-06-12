@@ -27,3 +27,10 @@ jobs:
     uses: ./.github/workflows/test-install-docker.yaml
     with: 
       env_file: ./test-artifacts/test-install-docker/test.env
+
+  test-install-devcontainer-cli:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
