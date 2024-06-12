@@ -34,27 +34,19 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
       with:
         artifact: ${{ inputs.artifact }}
-        env_file: "amd64"
+        architecture: "amd64"
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@main
       with:
         artifact: ${{ inputs.artifact }}
-        env_file: "arm64"
+        architecture: "arm64"
 
 
     - name: Validate Artifact
       shell: bash
       run: |
-        source ${{ inputs.env_file }}
+        oras pull ghcr.io/microsoft/buildartifacts/push-build-artifact-test:0.10.0
+        cat push-build-artifact-test.txt
 
-        VERSION_COMMAND_OUTPUT=$(regctl version)
-        INSTALLED_VER=$(echo $VERSION_COMMAND_OUTPUT | awk '{print $2}')
-
-        # Compare the installed version with the required version
-        if [ "$INSTALLED_VER" == "$VER_REGCTL" ]; then
-            echo "Version matches"
-        else
-            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_REGCTL"
-            exit 1
-        fi
+    
         

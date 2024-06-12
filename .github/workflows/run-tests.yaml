@@ -33,4 +33,4 @@ jobs:
       actions: read
     uses: ./.github/workflows/test-push-build-artifact.yaml
     with: 
-      artifact: ./test-artifacts/test-push-build-artifact/test.txt
+      artifact: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
