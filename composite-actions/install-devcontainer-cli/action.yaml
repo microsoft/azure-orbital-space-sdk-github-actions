@@ -45,6 +45,10 @@ runs:
                   source ~/.bashrc
                 fi
 
+                echo ""
+                echo "Get node version:"
+                node --version
+                echo ""
                 echo "Runnning 'npm install -g n'..."
                 sudo npm install -g n
                 echo "Runnning 'npm install -g @devcontainers/cli'..."
