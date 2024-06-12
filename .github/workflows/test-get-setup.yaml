@@ -9,7 +9,7 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
       with:
-        setup-repo-url: https://github.com/microsoft/azure-orbital-space-sdk-setup.git
+        setup-repo-url:  ${{ secrets.SETUP_REPO_URL }}
 
     - name: Validate setup directory
       shell: bash
