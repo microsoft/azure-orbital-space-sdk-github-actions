@@ -6,9 +6,15 @@ runs:
         - name: Install Devcontainer cli
           shell: bash
           run: |
+            echo "Installing npm.."
             sudo apt install npm
+            echo ""
+            echo "Running npm cache clean -f..."
             sudo npm cache clean -f
+            echo "Running npm install -g n..."
             sudo npm install -g n
+            echo "Running n stable..."
             sudo n stable
+            echo "Running npm install -g @devcontainers/cli..."
             sudo npm install -g @devcontainers/cli
             
