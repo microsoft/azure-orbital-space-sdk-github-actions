@@ -1,0 +1,22 @@
+on: 
+    workflow_call:
+
+jobs:
+  test-install-devcontainer-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+
+    - name: Validate devcontainer cli
+      shell: bash
+      run: |
+        if command -v devcontainer &> /dev/null
+        then
+            echo "devcontainer CLI is installed"
+        else
+            echo "devcontainer CLI is not installed"
+            exit 1
+        fi
