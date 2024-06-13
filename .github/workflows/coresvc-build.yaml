@@ -23,10 +23,11 @@ on:
               description: 'The architecture for the image'
               required: true
               type: string
-            INSTALL_DOCKER:
-              description: 'Install docker'
+            VER_DOCKER_MAX:
+              description: 'Docker version to install'
               required: false
-              type: boolean
+              type: string
+              default: "26.1.3"
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -46,6 +47,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
+      with:
+        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+    
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
       with:
         registry-name: ${{ inputs.REGISTRY}}
@@ -55,10 +60,6 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
       with: 
         setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
-      with:
-        env_file: /var/spacedev/env/spacefx.env
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
       with: 
