@@ -10,6 +10,24 @@ on:
       - '**'
 
 jobs:
+  test-get-agent-details-amd64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-get-agent-details.yaml
+    with: 
+      agent: ubuntu-latest
+
+  test-get-agent-details-arm64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-get-agent-details.yaml
+    with: 
+      agent: spacesdk-ubuntu-2204LTS-arm64
+
   test-install-regctl-amd64:
     permissions:
       contents: read
