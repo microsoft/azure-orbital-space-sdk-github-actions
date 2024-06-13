@@ -34,9 +34,10 @@ runs:
             sudo docker run hello-world
 
             echo "Setup docker group"
-            sudo usermod -aG docker $USER 
+            sudo usermod -aG docker $USER
             echo "running newgrp docker..."
             newgrp docker
+            sudo chmod 666 /var/run/docker.sock
             echo "Runnning hello-world..."
             docker run hello-world 
             echo "Get Version..."
