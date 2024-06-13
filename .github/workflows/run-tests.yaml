@@ -37,7 +37,7 @@ jobs:
     
     uses: ./.github/workflows/test-install-docker.yaml
     with: 
-      env_file: ./test-artifacts/test-install-docker/test.env
+      VER_DOCKER_MAX: 26.1.3
       agent: ubuntu-latest
 
   test-install-docker-arm64:
@@ -47,5 +47,5 @@ jobs:
     
     uses: ./.github/workflows/test-install-docker.yaml
     with: 
-      env_file: ./test-artifacts/test-install-docker/test.env
+      VER_DOCKER_MAX: 26.1.3
       agent: spacesdk-ubuntu-2204LTS-arm64

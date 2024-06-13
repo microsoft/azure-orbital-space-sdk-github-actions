@@ -2,10 +2,10 @@ name: Test installing Docker
 on: 
     workflow_call:
       inputs:
-        env_file:
-          description: 'The path to the environment file'
-          required: true
+        VER_DOCKER_MAX:
+          description: 'The version of docker to install'
           type: string
+          required: true
         agent:
           description: 'The agent to run the job on'
           required: true
@@ -34,20 +34,18 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
       with:
-        env_file: ${{ inputs.env_file }}
+        env_file: ${{ inputs.VER_DOCKER_MAX }}
 
     - name: Validate docker
       shell: bash
       run: |
-        source ${{ inputs.env_file }}
-
         VERSION_COMMAND_OUTPUT=$(docker version)
         INSTALLED_VER=$(echo "$VERSION_COMMAND_OUTPUT" | awk '/Version:/{print $2; exit}')
 
         # Compare the installed version with the required version
-        if [ "$INSTALLED_VER" == "$VER_DOCKER_MAX" ]; then
+        if [ "$INSTALLED_VER" == "${{ inputs.VER_DOCKER_MAX }}" ]; then
             echo "Version matches"
         else
-            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $VER_DOCKER_MAX"
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is ${{ inputs.VER_DOCKER_MAX }}"
             exit 1
         fi
