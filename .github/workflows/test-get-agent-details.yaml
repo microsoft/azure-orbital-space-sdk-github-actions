@@ -1,0 +1,17 @@
+name: test get agent details
+on: 
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+
+jobs:
+  test-install-regctl:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@km/add_docker
