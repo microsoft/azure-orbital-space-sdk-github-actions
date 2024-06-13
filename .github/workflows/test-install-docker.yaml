@@ -1,0 +1,56 @@
+name: Test installing Docker
+on: 
+    workflow_call:
+      inputs:
+        VER_DOCKER_MAX:
+          description: 'The version of docker to install'
+          type: string
+          required: true
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+
+jobs:
+  test-install-docker:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check version
+      shell: bash
+      run: |
+        echo "Docker Version - ${{ inputs.VER_DOCKER_MAX }}"
+
+    - name: Get details
+      shell: bash
+      run: |
+        echo "Running on ${{ runner.os }}"
+        echo "Architecture: ${{ runner.arch }}"
+        echo "Processor: ${{ runner.processor }}"
+        # Get the number of cores
+        NUM_CORES=$(nproc)
+        echo "Number of cores: $NUM_CORES"
+
+        # Get the total memory in MB
+        TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
+        echo "Total memory: $TOTAL_MEM MB"
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+      with:
+        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+
+    - name: Validate docker
+      shell: bash
+      run: |
+        VERSION_COMMAND_OUTPUT=$(docker version)
+        INSTALLED_VER=$(echo "$VERSION_COMMAND_OUTPUT" | awk '/Version:/{print $2; exit}')
+
+        # Compare the installed version with the required version
+        if [ "$INSTALLED_VER" == "${{ inputs.VER_DOCKER_MAX }}" ]; then
+            echo "Version matches"
+        else
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is ${{ inputs.VER_DOCKER_MAX }}"
+            exit 1
+        fi
