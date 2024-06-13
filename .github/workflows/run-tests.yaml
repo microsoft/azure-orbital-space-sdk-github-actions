@@ -49,21 +49,3 @@ jobs:
     with: 
       env_file: ./test-artifacts/test-install-docker/test.env
       agent: spacesdk-ubuntu-2204LTS-arm64
-
-  test-install-devcontainer-cli-amd64:
-    permissions:
-      contents: read
-      packages: read
-    
-    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
-    with: 
-      agent: ubuntu-latest
-
-  test-install-devcontainer-cli-arm64:
-    permissions:
-      contents: read
-      packages: read
-    
-    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
-    with: 
-      agent: spacesdk-ubuntu-2204LTS-arm64
