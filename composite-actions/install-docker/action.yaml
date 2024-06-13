@@ -27,9 +27,8 @@ runs:
               sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
             sudo apt-get update
 
-
             APT_DOCKER_INSTALL_VERSION=$(apt-cache madison docker-ce | awk '{ print $3 }' | grep $VER_DOCKER_MAX)
-            sudo apt-get install docker-ce=$APT_DOCKER_INSTALL_VERSION docker-ce-cli=$APT_DOCKER_INSTALL_VERSION containerd.io docker-buildx-plugin docker-compose-plugin
+            sudo apt-get install docker-ce=$APT_DOCKER_INSTALL_VERSION docker-ce-cli=$APT_DOCKER_INSTALL_VERSION containerd.io docker-buildx-plugin docker-compose-plugin -y
 
             echo "Setup docker group"
             sudo usermod -aG docker $USER 
