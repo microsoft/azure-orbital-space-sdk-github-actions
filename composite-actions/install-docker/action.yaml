@@ -10,8 +10,6 @@ runs:
         - name: Install Docker
           shell: bash
           run: |
-            VER_DOCKER_MAX="${{ inputs.VER_DOCKER_MAX }}"
-            echo "VER_DOCKER_MAX - $VER_DOCKER_MAX"
             if docker --version >/dev/null 2>&1; then
                 echo "Docker is installed, skipping the step."
             else
