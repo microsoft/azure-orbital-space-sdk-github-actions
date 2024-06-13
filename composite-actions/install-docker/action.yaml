@@ -35,8 +35,9 @@ runs:
 
             echo "Setup docker group"
             sudo usermod -aG docker $USER 
+            echo "running newgrp docker..."
             newgrp docker
-            echo "Runnning hello-world"
+            echo "Runnning hello-world..."
             docker run hello-world 
-            echo "Get Version"
+            echo "Get Version..."
             docker version
