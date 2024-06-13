@@ -47,9 +47,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@km/add_docker
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
       with:
         VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
     

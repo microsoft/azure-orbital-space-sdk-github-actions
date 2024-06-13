@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@km/add_docker
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
