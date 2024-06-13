@@ -56,6 +56,10 @@ jobs:
       with: 
         setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
+      with:
+        env_file: /var/spacedev/env/spacefx.env
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
       with: 
         dockerfile: Dockerfiles/Dockerfile
