@@ -18,6 +18,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Check version
+      shell: bash
+      run: |
+        echo "Docker Version - ${{ inputs.VER_DOCKER_MAX }}"
+
     - name: Get details
       shell: bash
       run: |
@@ -34,7 +39,7 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@km/add_docker
       with:
-        env_file: ${{ inputs.VER_DOCKER_MAX }}
+        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
 
     - name: Validate docker
       shell: bash
