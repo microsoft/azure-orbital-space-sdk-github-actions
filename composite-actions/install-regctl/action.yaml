@@ -11,8 +11,24 @@ runs:
           shell: bash
           run: |
             source ${{ inputs.env_file }}
+
+            echo "Detecting architecture..."
+            TARGET_ARCHITECTURE="amd64"
+            ARCH=$(uname -m)
+
+            if [[ "$ARCH" == "x86_64" ]]; then
+                echo "amd64 architecture detected"
+                TARGET_ARCHITECTURE="amd64"
+            elif [[ "$ARCH" == "aarch64" ]]; then
+                echo "arm64 architecture detected"
+                TARGET_ARCHITECTURE="arm64"
+            else
+                echo "Unknown architecture: $ARCH"
+                exit 1
+            fi
+
             echo "Installing regctl - version ${VER_REGCTL}..."
-            curl -L https://github.com/regclient/regclient/releases/download/${VER_REGCTL}/regctl-linux-amd64 >regctl
+            curl -L https://github.com/regclient/regclient/releases/download/${VER_REGCTL}/regctl-linux-$TARGET_ARCHITECTURE >regctl
             sudo mv regctl /usr/local/bin/
             sudo chmod 755 /usr/local/bin/regctl
             rm -rf regctl

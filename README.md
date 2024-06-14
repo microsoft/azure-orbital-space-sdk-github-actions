@@ -1,33 +1,10 @@
-# Project
+# Azure Orbital Space SDK Github Actions
+[![Run tests](https://github.com/microsoft/azure-orbital-space-sdk-github-actions/actions/workflows/run-tests.yaml/badge.svg)](https://github.com/microsoft/azure-orbital-space-sdk-github-actions/actions/workflows/run-tests.yaml)
 
-> This repo has been populated by an initial template to help get you started. Please
-> make sure to update the content to build a great experience for community-building.
+This repo contains the components of what we on the dev team have nicknamed "Kraken", and it is the templates and actions that create a common source for consistency in our github workflows.  These composite actions and shared workflows are re-used across the many Space SDK repos.  
 
-As the maintainer of this project, please make a few updates:
+## Why call it Kraken?
+In ancient mythology, a kraken was a beast that had a single body, but leveraged many tentacles / arms.  The architecture of our deployment system is similar.  In that this repo, we maintains common composite actions and shared workflows that are implemented across the many repos that support and make up the Azure Orbital Space SDK.  The intention being that these templates make it easier to implement consistent qualities and actions to support the Azure Orbital Space SDK.  
 
-- Improving this README.MD file to provide a great experience
-- Updating SUPPORT.MD with content about this project's support experience
-- Understanding the security reporting process in SECURITY.MD
-- Remove this section from the README
-
-## Contributing
-
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
-
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
-
-## Trademarks
-
-This project may contain trademarks or logos for projects, products, or services. Authorized use of Microsoft 
-trademarks or logos is subject to and must follow 
-[Microsoft's Trademark & Brand Guidelines](https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/usage/general).
-Use of Microsoft trademarks or logos in modified versions of this project must not cause confusion or imply Microsoft sponsorship.
-Any use of third-party trademarks or logos are subject to those third-party's policies.
+## Testing Composite Actions
+We have built a framework where we use workflows on this repo to test these actions.  This is done by creating a workflow to test a composite action, and then adding a call to the [run-tests.yaml](./github/workflows/run-tests.yaml).  You will also notice that all of our tests are setup to run on both amd64 and arm64 as we compile all artifacts in the space sdk to support both cpu architectures.  

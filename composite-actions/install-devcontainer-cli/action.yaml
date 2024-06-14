@@ -6,10 +6,65 @@ runs:
         - name: Install Devcontainer cli
           shell: bash
           run: |
-            sudo apt-get update
-            sudo apt install npm
-            sudo npm cache clean -f
-            sudo npm install -g n
-            sudo n stable
-            sudo npm install -g @devcontainers/cli
+            echo "Detecting architecture..."
+            TARGET_ARCHITECTURE="amd64"
+            ARCH=$(uname -m)
+
+            if [[ "$ARCH" == "x86_64" ]]; then
+              echo "amd64 architecture detected"
+              echo "Installing npm.."
+              echo "Runnning 'npm install -g n'..."
+              sudo npm install -g n
+              echo "Runnning 'npm install -g @devcontainers/cli'..."
+              sudo npm install -g @devcontainers/cli
+              echo "Checking the version..."
+              devcontainer --version
+              printenv
+            elif [[ "$ARCH" == "aarch64" ]]; then
+                echo "arm64 architecture detected"
+                if ! command -v npm &> /dev/null
+                then
+                  echo "npm is not installed, installing..."
+                  sudo apt-get update
+                  echo "installing npm..."
+                  sudo apt-get install -y npm
+                  echo ""
+                  echo "Checking the version..."
+                  npm --version
+                  echo "install n package globally..."
+                  sudo npm install -g nf
+                  echo ""
+                  echo "Running 'npm cache clean -f'..."
+                  sudo npm cache clean -f
+                  echo ""
+                  echo "Upgrade nodejs"
+                  sudo n 16.13.0
+                  echo ""
+                  echo "Setup the directory...."
+                  sudo mkdir -p /usr/local/lib/node_modules
+                  sudo chown -R $USER:$USER /usr/local/lib/node_modules
+                  echo ""
+                  echo "Setting up permissions"
+                  mkdir ~/.npm-global
+                  npm config set prefix '~/.npm-global'
+                  echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+                  source ~/.bashrc
+                fi
+
+                echo ""
+                echo "Get node version:"
+                node --version
+                echo ""
+                echo "Runnning 'npm install -g n'..."
+                sudo npm install -g n
+                echo "Runnning 'npm install -g @devcontainers/cli'..."
+                sudo npm install -g @devcontainers/cli
+                echo "Checking the version..."
+                devcontainer --version
+                printenv
+            else
+                echo "Unknown architecture: $ARCH"
+                exit 1
+            fi
+            
             
