@@ -13,10 +13,10 @@ runs:
      - name: Install Cosign
        shell: bash
        run: |
-         VERSION=$(curl --location "https://api.github.com/repos/sigstore/cosign/releases/latest" | jq --raw-output .tag_name)
-         curl --location "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64" --output cosign
-         chmod +x cosign
-         sudo mv cosign /usr/local/bin/
+        VERSION=$(curl --location "https://api.github.com/repos/sigstore/cosign/releases/latest" | jq --raw-output .tag_name)
+        curl --location "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64" --output cosign
+        chmod +x cosign
+        sudo mv cosign /usr/local/bin/
 
     - name: Sign Docker Image
       shell: bash
