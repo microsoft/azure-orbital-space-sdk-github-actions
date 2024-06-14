@@ -35,12 +35,12 @@ jobs:
       with: 
         setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
   
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@al/push_build_artifacts
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
         artifact: ${{ inputs.artifact }}
         architecture: "amd64"
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifacts@al/push_build_artifacts
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
         artifact: ${{ inputs.artifact }}
         architecture: "arm64"
