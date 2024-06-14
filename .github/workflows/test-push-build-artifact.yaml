@@ -17,6 +17,12 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@al/push_build_artifacts
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@al/push_build_artifacts
+      with:
+        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@al/push_build_artifacts
       with:
         env_file: ${{ inputs.env_file }}
