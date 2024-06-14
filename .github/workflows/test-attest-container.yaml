@@ -44,16 +44,16 @@ jobs:
       shell: bash
       run: |
         docker pull hello-world:latest
-        docker tag hello-world:latest microsoft/test/attestation:latest
-        docker push microsoft/test/attestation:latest
+        docker tag hello-world:latest ghcr.io/microsoft/azure-orbital-space-sdk-github-actions/test/attestation:latest
+        docker push ghcr.io/microsoft/azure-orbital-space-sdk-github-actions/test/attestation:latest
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/attest-container-image@km/add_attestation
       with:
         COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
-        CONTAINER_REPOSITORY: microsoft/test/attestation:latest
+        CONTAINER_REPOSITORY: ghcr.io/microsoft/azure-orbital-space-sdk-github-actions/test/attestation:latest
 
     - name: Verify Docker Image
       shell: bash
       run: |
         echo "${{ secrets.COSIGN_PUBLIC_KEY }}" > ./cosign.pub
-        cosign verify -key cosign.pub microsoft/test/attestation:latest
+        cosign verify -key cosign.pub ghcr.io/microsoft/azure-orbital-space-sdk-github-actions/test/attestation:latest
