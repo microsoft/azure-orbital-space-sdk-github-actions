@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
         branches:
-        - main
+        - km/add_attestation
   pull_request:
     branches:
       - '**'
@@ -67,3 +67,33 @@ jobs:
     with: 
       VER_DOCKER_MAX: 26.1.3
       agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-container-attestation-amd64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-attest-container.yaml
+    with: 
+      VER_DOCKER_MAX: 26.1.3
+      agent: ubuntu-latest
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+
+  test-container-attestation-arm64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-attest-container.yaml
+    with: 
+      VER_DOCKER_MAX: 26.1.3
+      agent: spacesdk-ubuntu-2204LTS-arm64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}

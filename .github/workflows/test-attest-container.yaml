@@ -1,0 +1,58 @@
+name: test attestation for container image
+on: 
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+        VER_DOCKER_MAX:
+          description: 'The version of docker to install'
+          type: string
+          default: 26.1.3
+        REGISTRY:
+            description: 'The registry to login to'
+            type: string
+            default: "ghcr.io"
+      secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        COSIGN_PRIVATE_KEY:
+            required: true
+        COSIGN_PUBLIC_KEY:
+            required: true
+jobs:
+  test-install-regctl:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+      with:
+        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
+      with:
+        registry-name: ${{ inputs.REGISTRY}}
+        github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
+        github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
+
+    - name: Get and push image
+      shell: bash
+      run: |
+        docker pull hello-world:latest
+        docker tag hello-world:latest microsoft/test/attestation:latest
+        docker push microsoft/test/attestation:latest
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/attest-container-image@km/add_attestation
+      with:
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        CONTAINER_REPOSITORY: microsoft/test/attestation:latest
+
+    - name: Verify Docker Image
+      run: |
+        echo "${{ secrets.COSIGN_PUBLIC_KEY }}" > ./cosign.pub
+        cosign verify -key cosign.pub microsoft/test/attestation:latest
