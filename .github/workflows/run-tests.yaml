@@ -70,3 +70,19 @@ jobs:
     with: 
       VER_DOCKER_MAX: 26.1.3
       agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-get-setup:
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/test-get-setup.yaml
+
+  test-push-build-artifact:
+    permissions:
+      contents: read
+      packages: write
+      pull-requests: read
+      actions: read
+    uses: ./.github/workflows/test-push-build-artifact.yaml
+    with: 
+      artifact: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
