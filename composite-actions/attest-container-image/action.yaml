@@ -10,20 +10,20 @@ inputs:
 runs:
     using: 'composite'
     steps:
-     - name: Install Cosign
-       shell: bash
-       run: |
-        VERSION=$(curl --location "https://api.github.com/repos/sigstore/cosign/releases/latest" | jq --raw-output .tag_name)
-        curl --location "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64" --output cosign
-        chmod +x cosign
-        sudo mv cosign /usr/local/bin/
+      - name: Install Cosign
+        shell: bash
+        run: |
+          VERSION=$(curl --location "https://api.github.com/repos/sigstore/cosign/releases/latest" | jq --raw-output .tag_name)
+          curl --location "https://github.com/sigstore/cosign/releases/download/${VERSION}/cosign-linux-amd64" --output cosign
+          chmod +x cosign
+          sudo mv cosign /usr/local/bin/
 
-    - name: Sign Docker Image
-      shell: bash
-      run: |
-        echo "${{ inputs.COSIGN_PRIVATE_KEY }}" | cosign sign -key /dev/stdin ${{ inputs.CONTAINER_REPOSITORY }}
+      - name: Sign Docker Image
+        shell: bash
+        run: |
+          echo "${{ inputs.COSIGN_PRIVATE_KEY }}" | cosign sign -key /dev/stdin ${{ inputs.CONTAINER_REPOSITORY }}
 
-    - name: Verify Docker Image
-      shell: bash
-      run: |
-        cosign verify -key cosign.pub ${{ inputs.CONTAINER_REPOSITORY }}
+      - name: Verify Docker Image
+        shell: bash
+        run: |
+          cosign verify -key cosign.pub ${{ inputs.CONTAINER_REPOSITORY }}
