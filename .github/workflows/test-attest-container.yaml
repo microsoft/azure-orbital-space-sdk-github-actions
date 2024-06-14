@@ -24,7 +24,7 @@ on:
         COSIGN_PUBLIC_KEY:
             required: true
 jobs:
-  test-install-regctl:
+  test-container-attestation:
     runs-on: ${{ inputs.agent }}
 
     steps:
