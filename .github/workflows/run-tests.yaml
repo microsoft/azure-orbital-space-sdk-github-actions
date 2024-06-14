@@ -28,6 +28,9 @@ jobs:
     with: 
       agent: spacesdk-ubuntu-2204LTS-arm64
 
+  test-install-devcontainer-cli:
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+
   test-install-regctl-amd64:
     permissions:
       contents: read

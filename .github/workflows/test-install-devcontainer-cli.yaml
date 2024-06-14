@@ -1,0 +1,15 @@
+on: workflow_call
+
+jobs:
+  test-install-devcontainer-cli:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+
+    - name: Validate Devcontainer stool installed correctly
+      shell: bash
+      run: |
+        devcontainer --help

@@ -63,7 +63,7 @@ runs:
 
             kubectl exec -n payload-app deploy/${{ inputs.service_name }} -- bash -c "/usr/bin/dotnet  /workspaces/${{ inputs.service_name }}/src/bin/Debug/net6.0/${{ inputs.service_name }}.dll" &
 
-            kubectl exec -n payload-app deploy/${{ inputs.service_name }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.service_name }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger "junit;LogFileName=/var/spacedev/tmp/test-results.xml"
+            kubectl exec -n payload-app deploy/${{ inputs.service_name }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.service_name }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/var/spacedev/tmp/test-results.xml\""
             echo $?
 
         - name: Publish Test Results
@@ -71,5 +71,3 @@ runs:
           if: always()
           with:
             junit_files:  /var/spacedev/tmp/test-results.xml
-                echo "Integration Tests Failed"
-                echo "Integration Tests Completed"
