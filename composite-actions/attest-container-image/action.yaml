@@ -21,7 +21,7 @@ runs:
       - name: Sign Docker Image
         shell: bash
         run: |
-          echo "${{ inputs.COSIGN_PRIVATE_KEY }}" | cosign sign --key /dev/stdin ${{ inputs.CONTAINER_REPOSITORY }}
+          echo "${{ inputs.COSIGN_PRIVATE_KEY }}" | cosign sign --key /dev/stdin --tlscert /dev/null ${{ inputs.CONTAINER_REPOSITORY }}
 
       - name: Verify Docker Image
         shell: bash
