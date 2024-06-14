@@ -53,6 +53,7 @@ jobs:
         CONTAINER_REPOSITORY: microsoft/test/attestation:latest
 
     - name: Verify Docker Image
+      shell: bash
       run: |
         echo "${{ secrets.COSIGN_PUBLIC_KEY }}" > ./cosign.pub
         cosign verify -key cosign.pub microsoft/test/attestation:latest
