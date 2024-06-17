@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
         branches:
-        - main
+        - km/add_build_app
   pull_request:
     branches:
       - '**'
@@ -70,3 +70,13 @@ jobs:
     with: 
       VER_DOCKER_MAX: 26.1.3
       agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-build-app-nuget-amd64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-build-app-nuget.yaml
+    with: 
+      VER_DOCKER_MAX: 26.1.3
+      agent: ubuntu-latest
