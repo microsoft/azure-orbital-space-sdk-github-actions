@@ -1,5 +1,5 @@
-name: 'install-regctl'
-description:  'Installs regctl'
+name: 'install-oras'
+description:  'Installs oras'
 inputs:
     oras-version:
         description: 'The version of oras to install'
