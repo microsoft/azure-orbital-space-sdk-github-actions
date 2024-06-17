@@ -33,12 +33,6 @@ runs:
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
           with:
             VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
-    
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
-          with:
-            registry-name: ${{ inputs.REGISTRY }}
-            github-user-name: ${{ inputs.GIT_HUB_USER_NAME }}
-            github-user-token: ${{ inputs.GIT_HUB_USER_TOKEN }}
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
           with: 
@@ -52,9 +46,8 @@ runs:
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
 
-        - name: Log in to the Container registry
-          uses: docker/login-action@v3
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
           with:
-            registry: ${{ inputs.registry_name }}
-            username: ${{ github.actor }}
-            password: ${{ inputs.token }}
+            registry-name: ${{ inputs.REGISTRY }}
+            github-user-name: ${{ inputs.GIT_HUB_USER_NAME }}
+            github-user-token: ${{ inputs.GIT_HUB_USER_TOKEN }}
