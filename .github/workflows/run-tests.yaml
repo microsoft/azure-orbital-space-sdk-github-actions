@@ -81,3 +81,7 @@ jobs:
       VER_DOCKER_MAX: 26.1.3
       REGISTRY: ghcr.io/microsoft
       agent: ubuntu-latest
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}

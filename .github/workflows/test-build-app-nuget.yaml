@@ -16,6 +16,13 @@ on:
           required: true
           type: string 
           default: 'ghcr.io'
+      secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        SETUP_REPO_URL:
+            required: true
 jobs:
   test-install-regctl:
     runs-on: ${{ inputs.agent }}
