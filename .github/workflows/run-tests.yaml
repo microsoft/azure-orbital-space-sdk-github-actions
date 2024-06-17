@@ -82,7 +82,7 @@ jobs:
     secrets:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
       GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
-      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}f
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
   test-initialize-arm64:
     permissions:
