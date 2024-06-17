@@ -1,0 +1,51 @@
+name: test get agent details
+on: 
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+        VER_DOCKER_MAX:
+          description: 'Docker version to install'
+          required: false
+          type: string
+          default: "26.1.3"
+        REGISTRY: 
+          description: 'Registry to push the image to'
+          required: true
+          type: string 
+          default: 'ghcr.io'
+jobs:
+  test-install-regctl:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+      with:
+        VER_DOCKER_MAX: 26.1.3
+    
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
+      with:
+        registry-name: ${{ inputs.REGISTRY }}
+        github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
+        github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+      with: 
+        setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
+
+    
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@km/add_build_app@main
+      with:
+        ARCHITECTURE: 'amd64'
+        APP_PROJECT: './test-artifacts/test-build-app/test-nuget-build/test-nuget-build.csproj'
+        APP_VERSION: '1.0.0'
+        OUTPUT_DIR: '/var/spacedev/tmp/test-nuget-build'
+        REPO_DIR: '.'
+        NUGET_PROJECT: './test-artifacts/test-build-app/test-nuget-build/test-nuget-build.csproj'
+        NO_CONTAINER_BUILD: 'true'

@@ -1,5 +1,5 @@
-name: 'build-service'
-description:  'Runs build service script to build artifacts'
+name: 'build-app'
+description:  'Runs build app script to build artifacts'
 inputs:
     ANNOTATION_CONFIG:
         description: 'The annotation configuration file'
