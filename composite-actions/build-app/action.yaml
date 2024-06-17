@@ -47,24 +47,23 @@ runs:
         - name: Run Build Scripts
           shell: bash
           run: |
+            echo "building app command string..."
+            echo "Adding required parameters..."
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${{ inputs.REPO_DIR }}"
+            echo "$CMD_ARGUMENTS"
+            if [ -n "${{ inputs.NUGET_PROJECT }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --nuget-project ${{ inputs.NUGET_PROJECT }}"
+            fi
+            if [ "${{ inputs.NO_CONTAINER_BUILD }}" = "true" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --no-container-build"
+            fi
+            if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
+            fi
+
             echo "Running Build Script..."
-            echo "bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh -- \
-                --app-project ${{ inputs.APP_PROJECT }} \
-                --app-version ${{ inputs.APP_VERSION }} \
-                --output-dir ${{ inputs.OUTPUT_DIR }} \
-                --repo-dir ${{ inputs.REPO_DIR }} \
-                --nuget-project ${{ inputs.NUGET_PROJECT }} \
-                --no-container-build ${{ inputs.NO_CONTAINER_BUILD }} \
-                --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
-                
-            bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh -- \
-                --app-project ${{ inputs.APP_PROJECT }} \
-                --app-version ${{ inputs.APP_VERSION }} \
-                --output-dir ${{ inputs.OUTPUT_DIR }} \
-                --repo-dir ${{ inputs.REPO_DIR }} \
-                --nuget-project ${{ inputs.NUGET_PROJECT }} \
-                --no-container-build ${{ inputs.NO_CONTAINER_BUILD }} \
-                --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
+            echo "bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS"
+            bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS
 
 
 
