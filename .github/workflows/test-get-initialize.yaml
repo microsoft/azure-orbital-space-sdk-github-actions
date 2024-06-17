@@ -25,6 +25,10 @@ jobs:
     - uses: actions/checkout@v2
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@km/add_build_app
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
     - name: Validate Directory
       shell: bash
