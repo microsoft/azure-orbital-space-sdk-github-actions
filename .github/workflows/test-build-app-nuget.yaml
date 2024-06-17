@@ -40,7 +40,7 @@ jobs:
         setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
 
     
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@km/add_build_app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@km/add_build_app
       with:
         ARCHITECTURE: 'amd64'
         APP_PROJECT: './test-artifacts/test-build-app/test-nuget-build/test-nuget-build.csproj'
