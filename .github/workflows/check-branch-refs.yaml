@@ -1,5 +1,4 @@
-name: Run Action tests
-
+name: Check for branch pin references
 on:
   workflow_dispatch:
   push:
