@@ -1,10 +1,6 @@
 name: 'install-helm'
 description:  'Installs helm'
 inputs:
-    ARCHITECTURE:
-        description: 'architecture of the machine'
-        type: string
-        required: true
     VER_HELM:
         description: 'The version of helm to install'
         default: '3.14.4'
@@ -14,7 +10,22 @@ runs:
         - name: Install Helm
           shell: bash
           run: |
-            curl -LO "https://get.helm.sh/helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
+
+            arch="$(uname -m)"
+            case "$arch" in
+              x86_64)
+                architecutre=amd64
+                ;;
+              arm64)
+                architecture=arm64
+                ;;
+              *)
+                echo "Unsupported architecture: $arch"
+                exit 1
+                ;;
+            esac
+
+            curl -LO "https://get.helm.sh/helm-v${{ inputs.VER_HELM }}-linux-${architecture}.tar.gz"
             tar -zxvf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
             sudo mv linux-${{ inputs.ARCHITECTURE }}/helm /usr/local/bin/helm
             rm -rf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz" linux-${{ inputs.ARCHITECTURE }}

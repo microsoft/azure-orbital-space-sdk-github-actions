@@ -46,8 +46,6 @@ jobs:
         mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@al/push_build_artifacts
-      with:
-        ARCHITECTURE: "${{ inputs.architecture }}"  
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
