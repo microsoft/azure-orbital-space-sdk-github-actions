@@ -13,5 +13,5 @@ runs:
             curl -LO https://github.com/oras-project/oras/releases/download/v${{ inputs.oras-version }}/oras_${{ inputs.oras-version }}_linux_amd64.tar.gz
             mkdir -p oras-install/
             tar -zxf oras_${{ inputs.oras-version }}_*.tar.gz -C oras-install/
-            mv oras-install/oras /usr/local/bin/
+            sudo mv oras-install/oras /usr/local/bin/
             rm -rf oras_${{ inputs.oras-version }}_*.tar.gz oras-install/
