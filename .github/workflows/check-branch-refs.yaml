@@ -50,6 +50,9 @@ jobs:
 
         # If any files were found, exit with status 1
         if [ $found -eq 1 ]; then
+            echo "Files with references found - please remove references to push branches other than main, and switch action branch pinning to @main"    
             exit 1
+        else
+            echo "All files clean of pinned references."
         fi
         
