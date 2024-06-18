@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-    - km/add_build_app
+    - main
   pull_request:
     branches:
       - '**'
@@ -30,7 +30,7 @@ jobs:
         # Iterate over all .yaml files in the directory
         for file in $(find $dir -type f -name "*.yaml"); do
             # Use grep to search for "@" not followed by "main"
-            if grep -q "@" "$file" && ! grep -q "@main" "$file"; then
+            if grep -q "^uses:.*@" "$file" && ! grep -q "^uses:.*@main" "$file"; then
                 # Output the file name
                 echo $file
                 # Set the flag to 1

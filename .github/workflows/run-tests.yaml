@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
         branches:
-        - km/add_build_app
+        - main
   pull_request:
     branches:
       - '**'
