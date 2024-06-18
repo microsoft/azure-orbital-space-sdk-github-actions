@@ -9,6 +9,14 @@ on:
             description: 'Path to the env file'
             default: /var/spacedev/env/spacefx.env
             type: string
+        architecture:
+            description: 'Path to the env file'
+            required: true
+            type: string
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
       secrets:
         GIT_HUB_USER_NAME:
             required: true
@@ -19,7 +27,7 @@ on:
 
 jobs:
   test-install-regctl:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     steps:
     - uses: actions/checkout@v2
@@ -35,13 +43,7 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
         artifact: ${{ inputs.artifact }}
-        architecture: "amd64"
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
-      with:
-        artifact: ${{ inputs.artifact }}
-        architecture: "arm64"
-
+        architecture: "${{ inputs.architecture }}"
 
     - name: Validate Artifact
       shell: bash
