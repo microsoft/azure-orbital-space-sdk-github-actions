@@ -9,7 +9,7 @@ on:
       - '**'
 
 jobs:
-  build-core-service:
+  check-references:
     runs-on: ubuntu-latest
 
     permissions:
