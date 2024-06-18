@@ -56,5 +56,6 @@ jobs:
     - name: Validate Artifact
       shell: bash
       run: |
-        oras pull ghcr.io/microsoft/buildartifacts/push-build-artifact-test:0.10.0
+        source ${{ inputs.env-file }}
+        oras pull ghcr.io/microsoft/buildartifacts/push-build-artifact-test:${SPACEFX_VERSION}-nightly
         cat push-build-artifact-test.txt
