@@ -59,5 +59,6 @@ jobs:
       run: |
         source ${{ inputs.env-file }}
         filename=$(basename "${{ inputs.artifact }}" .txt)
+        echo "Executing: oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
         oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
         cat push-build-artifact-test.txt
