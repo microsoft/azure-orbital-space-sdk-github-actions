@@ -44,7 +44,8 @@ jobs:
       shell: bash
       run: |
         source ${{ inputs.env-file }}
-        mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp/
+        mkdir -p $SPACEFX_DIR/tmp
+        mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
