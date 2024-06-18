@@ -107,7 +107,7 @@ jobs:
     
     uses: ./.github/workflows/test-push-build-artifact.yaml
     with: 
-      artifact: ./test-artifacts/test-push-build-artifact/test-artifact.txt
+      artifact: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
       WORKFLOW_AGENT: ubuntu-latest
       architecture: amd64     
     secrets:
@@ -122,7 +122,7 @@ jobs:
     
     uses: ./.github/workflows/test-push-build-artifact.yaml
     with: 
-      artifact: ./test-artifacts/test-push-build-artifact/test-artifact.txt
+      artifact: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
       architecture: amd64
     secrets:
