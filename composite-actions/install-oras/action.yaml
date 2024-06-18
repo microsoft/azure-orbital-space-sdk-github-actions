@@ -14,9 +14,9 @@ runs:
             arch="$(uname -m)"
             case "$arch" in
               x86_64)
-                architecutre=amd64
+                architecture=amd64
                 ;;
-              arm64)
+              aarch64)
                 architecture=arm64
                 ;;
               *)
@@ -25,6 +25,7 @@ runs:
                 ;;
             esac
 
+            echo "Installing oras version ${{ inputs.oras-version }} for $architecture"
 
             curl -LO https://github.com/oras-project/oras/releases/download/v${{ inputs.oras-version }}/oras_${{ inputs.oras-version }}_linux_${architecture}.tar.gz
             mkdir -p oras-install/

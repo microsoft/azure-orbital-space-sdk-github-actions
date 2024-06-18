@@ -44,7 +44,7 @@ runs:
         
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@al/push_build_artifacts
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
           with:

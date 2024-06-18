@@ -14,9 +14,9 @@ runs:
             arch="$(uname -m)"
             case "$arch" in
               x86_64)
-                architecutre=amd64
+                architecture=amd64
                 ;;
-              arm64)
+              aarch64)
                 architecture=arm64
                 ;;
               *)
@@ -24,6 +24,8 @@ runs:
                 exit 1
                 ;;
             esac
+
+            echo "Installing helm version ${{ inputs.VER_HELM }} for $architecture"
 
             curl -LO "https://get.helm.sh/helm-v${{ inputs.VER_HELM }}-linux-${architecture}.tar.gz"
             tar -zxvf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
