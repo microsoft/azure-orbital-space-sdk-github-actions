@@ -15,3 +15,6 @@ runs:
         # Get the total memory in MB
         TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
         echo "Total memory: $TOTAL_MEM MB"
+        # Get the Ubuntu version
+        UBUNTU_VERSION=$(lsb_release -d)
+        echo "Ubuntu version: $UBUNTU_VERSION"
