@@ -79,7 +79,7 @@ jobs:
       contents: read
       packages: read
     
-    uses: ./.github/workflows/test-get-initialize.yaml
+    uses: ./.github/workflows/test-initialize.yaml
     with: 
       WORKFLOW_AGENT: ubuntu-latest
     secrets:
@@ -92,7 +92,7 @@ jobs:
       contents: read
       packages: read
     
-    uses: ./.github/workflows/test-get-initialize.yaml
+    uses: ./.github/workflows/test-initialize.yaml
     with: 
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
     secrets:
