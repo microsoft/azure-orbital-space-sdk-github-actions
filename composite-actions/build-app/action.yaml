@@ -1,0 +1,71 @@
+name: 'build-app'
+description:  'Runs build app script to build artifacts'
+inputs:
+    ANNOTATION_CONFIG:
+        description: 'The annotation configuration file'
+    ARCHITECTURE:
+        description: 'The architecture for the image'
+        required: true
+    APP_PROJECT:
+        description: 'The project to build'
+        required: true
+    APP_VERSION:
+        description: 'The version of the app to build'
+        required: true
+    OUTPUT_DIR:
+        description: 'The output directory for the build'
+        required: true
+    REPO_DIR:
+        description: 'The repository directory'
+        required: true
+    NUGET_PROJECT:
+        description: 'The nuget project to build'
+    NO_CONTAINER_BUILD:
+        description: 'Flag to indicate if the container should be built'
+        type: boolean
+        default: 'false'
+    SPACEDEV_DIR:
+        description: 'The directory where the SpaceDev scripts are located'
+        default: "/var/spacedev"
+runs:
+    using: 'composite'
+    steps:
+        - name: Parameters
+          shell: bash
+          run: |
+            echo "Parameters:"
+            echo "  ANNOTATION_CONFIG: ${{ inputs.ANNOTATION_CONFIG }}"
+            echo "  ARCHITECTURE: ${{ inputs.ARCHITECTURE }}"
+            echo "  APP_PROJECT: ${{ inputs.APP_PROJECT }}"
+            echo "  APP_VERSION: ${{ inputs.APP_VERSION }}"
+            echo "  OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}"
+            echo "  REPO_DIR: ${{ inputs.REPO_DIR }}"
+            echo "  NUGET_PROJECT: ${{ inputs.NUGET_PROJECT }}"
+            echo "  NO_CONTAINER_BUILD: ${{ inputs.NO_CONTAINER_BUILD }}"
+            echo ""
+        
+        - name: Run Build Scripts
+          shell: bash
+          run: |
+            echo "building app command string..."
+            echo "Adding required parameters..."
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output ${{ inputs.OUTPUT_DIR }} --repo-dir ${{ inputs.REPO_DIR }}"
+            echo "$CMD_ARGUMENTS"
+            if [ -n "${{ inputs.NUGET_PROJECT }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --nuget-project ${{ inputs.NUGET_PROJECT }}"
+            fi
+            if [ "${{ inputs.NO_CONTAINER_BUILD }}" = "true" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --no-container-build"
+            fi
+            if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
+            fi
+
+            echo "Running Build Script..."
+            echo "bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS"
+            bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS
+
+
+
+
+            
