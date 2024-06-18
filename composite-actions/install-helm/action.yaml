@@ -5,7 +5,7 @@ inputs:
         description: 'The version of helm to install'
         default: '3.14.4'
     ARCHITECURE:
-      description: 'architecture of the machine'
+        description: 'architecture of the machine'
         required: true
 runs:
     using: 'composite'
