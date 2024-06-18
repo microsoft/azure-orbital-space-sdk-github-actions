@@ -9,6 +9,13 @@ on:
             description: 'Path to the env file'
             default: /var/spacedev/env/spacefx.env
             type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        SETUP_REPO_URL:
+            required: true
 
 jobs:
   test-install-regctl:
@@ -17,29 +24,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@al/push_build_artifacts
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@al/push_build_artifacts
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
       with:
-        VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@al/push_build_artifacts
-      with:
-        env_file: ${{ inputs.env_file }}
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@al/push_build_artifacts
-      with:
-        oras_version: 0.16.0
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@al/push_build_artifacts
-      with:
-        registry-name: ${{ inputs.REGISTRY }}
-        github-user-name: ${{ secrets.GIT_HUB_USER_NAME }}
-        github-user-token: ${{ secrets.GIT_HUB_USER_TOKEN }}
-  
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@al/push_build_artifacts
-      with: 
-        setup-repo-url: ${{ secrets.SETUP_REPO_URL }}
+          env_file: ./env/spacefx.env
+          GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+          GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+          SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+          VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:

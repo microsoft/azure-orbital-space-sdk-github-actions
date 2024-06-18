@@ -16,7 +16,7 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - name: Push build
+        - name: Push Artifact ${{ inputs.artifact }}
           shell: bash
           run: |
             source ${{ inputs.env-file }}
