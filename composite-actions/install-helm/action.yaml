@@ -1,12 +1,13 @@
 name: 'install-helm'
 description:  'Installs helm'
 inputs:
+    ARCHITECTURE:
+        description: 'architecture of the machine'
+        type: string
+        required: true
     VER_HELM:
         description: 'The version of helm to install'
         default: '3.14.4'
-    ARCHITECURE:
-        description: 'architecture of the machine'
-        required: true
 runs:
     using: 'composite'
     steps:
