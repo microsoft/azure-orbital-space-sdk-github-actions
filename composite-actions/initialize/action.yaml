@@ -42,7 +42,7 @@ runs:
           with:
             env_file: ${{ inputs.env_file }}
         
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@km/add_build_app
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
 
