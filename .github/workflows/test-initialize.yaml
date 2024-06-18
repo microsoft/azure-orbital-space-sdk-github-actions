@@ -1,0 +1,68 @@
+name: test initialize
+on: 
+    workflow_call:
+      inputs:
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+          description: 'The github user name'
+          required: true
+        GIT_HUB_USER_TOKEN:
+          description: 'The github user token'
+          required: true
+        SETUP_REPO_URL:
+          description: 'The setup repo url'
+          required: true
+
+jobs:
+  test-initialize:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@km/add_build_app
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - name: Validate Directory
+      shell: bash
+      run: |
+        if [ -d "/var/spacedev" ]; then
+            echo "/var/spacedev exists"
+        else
+            echo "/var/spacedev does not exist"
+        fi
+       
+    - name: Validate Tools
+      shell: bash
+      run: |
+        if which oras >/dev/null; then
+            echo "oras is installed"
+        else
+            echo "oras is not installed"
+        fi
+
+        if which docker >/dev/null; then
+            echo "docker is installed"
+        else
+            echo "docker is not installed"
+        fi
+      
+        if which regctl >/dev/null; then
+            echo "regctl is installed"
+        else
+            echo "regctl is not installed"
+        fi
+    
+        if which devcontainer-cli >/dev/null; then
+            echo "devcontainer-cli is installed"
+        else
+            echo "devcontainer-cli is not installed"
+        fi
+        
