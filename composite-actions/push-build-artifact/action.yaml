@@ -29,4 +29,4 @@ runs:
 
             echo "Running push_build_artifacts.sh script:"
             echo ""
-            bash ${SPACEFX_DIR}/build/push_build_artifacts.sh --artifact ${{ input.artifact}} --architecture ${{ input.artifact-version }} ${artifact_version_command}
+            bash ${SPACEFX_DIR}/build/push_build_artifacts.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} ${artifact_version_command}
