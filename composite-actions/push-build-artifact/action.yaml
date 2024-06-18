@@ -27,6 +27,6 @@ runs:
                 artifact_version_command="--artifact-version ${{ inputs.artifact-version }}"
             fi
 
-            echo "Running push_build_artifacts.sh script:"
+            echo "Running push_build_artifact.sh script:"
             echo ""
-            bash ${SPACEFX_DIR}/build/push_build_artifacts.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} ${artifact_version_command}
+            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} ${artifact_version_command}
