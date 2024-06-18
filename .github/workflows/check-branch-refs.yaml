@@ -2,6 +2,9 @@ name: Run Action tests
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+    - km/add_build_app
   pull_request:
     branches:
       - '**'
