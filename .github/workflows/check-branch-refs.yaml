@@ -26,6 +26,11 @@ jobs:
 
         # Iterate over all .yaml files in the directory
         for file in $(find $dir -type f -name "*.yaml"); do
+            # Skip the file named check-branch-refs.yaml
+            if [[ $file == *"check-branch-refs.yaml"* ]]; then
+                continue
+            fi
+            
             # Use grep to search for "@" not followed by "main"
             if grep -q "^uses:.*@" "$file" && ! grep -q "^uses:.*@main" "$file"; then
                 # Output the file name
