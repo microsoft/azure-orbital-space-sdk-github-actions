@@ -46,11 +46,10 @@ jobs:
         source ${{ inputs.env-file }}
         mkdir -p $SPACEFX_DIR/tmp
         mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
-        echo "::set-output name=ARTIFACT_PATH::$SPACEFX_DIR/tmp/$(basename ${{ inputs.artifact }})"
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
-        artifact: ${{ steps.move_artifact.outputs.ARTIFACT_PATH }}
+        artifact: /var/spacedev/tmp/push-build-artifact-test.txt
         architecture: "${{ inputs.architecture }}"
 
     - name: Validate Artifact
