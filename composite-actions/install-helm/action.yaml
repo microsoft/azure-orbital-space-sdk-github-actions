@@ -25,9 +25,9 @@ runs:
                 ;;
             esac
 
-            echo "Installing helm version ${{ inputs.VER_HELM }} for $architecture"
+            echo "Installing helm version ${{ inputs.VER_HELM }} for ${architecture}"
 
             curl -LO "https://get.helm.sh/helm-v${{ inputs.VER_HELM }}-linux-${architecture}.tar.gz"
-            tar -zxvf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
-            sudo mv linux-${{ inputs.ARCHITECTURE }}/helm /usr/local/bin/helm
-            rm -rf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz" linux-${{ inputs.ARCHITECTURE }}
+            tar -zxvf "helm-v${{ inputs.VER_HELM }}-linux-${architecture}.tar.gz"
+            sudo mv linux-${architecture}/helm /usr/local/bin/helm
+            rm -rf "helm-v${{ inputs.VER_HELM }}-linux-${architecture}.tar.gz" linux-${architecture}
