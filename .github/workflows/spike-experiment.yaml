@@ -1,0 +1,19 @@
+name: Build on Tag
+
+on:
+  push:
+    tags:
+      - 'experiment-*' # replace with your tag pattern
+
+jobs:
+  check-for-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+
+    - name: hello world for tag
+      shell: bash
+      run: |
+        echo "Run for an experimental tag"
