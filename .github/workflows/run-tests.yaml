@@ -10,95 +10,95 @@ on:
       - '**'
 
 jobs:
-  # test-get-agent-details-amd64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-get-agent-details-amd64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-get-agent-details.yaml
-  #   with: 
-  #     agent: ubuntu-latest
+    uses: ./.github/workflows/test-get-agent-details.yaml
+    with: 
+      agent: ubuntu-latest
 
-  # test-get-agent-details-arm64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-get-agent-details-arm64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-get-agent-details.yaml
-  #   with: 
-  #     agent: spacesdk-ubuntu-2204LTS-arm64
+    uses: ./.github/workflows/test-get-agent-details.yaml
+    with: 
+      agent: spacesdk-ubuntu-2204LTS-arm64
 
-  # test-install-devcontainer-cli-amd64:
-  #   uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+  test-install-devcontainer-cli-amd64:
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
   
-  # test-install-devcontainer-cli-arm64:
-  #   uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+  test-install-devcontainer-cli-arm64:
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
 
-  # test-install-regctl-amd64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-install-regctl-amd64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-install-regctl.yaml
-  #   with: 
-  #     env_file: ./test-artifacts/test-install-regctl/test.env
-  #     agent: ubuntu-latest
+    uses: ./.github/workflows/test-install-regctl.yaml
+    with: 
+      env_file: ./test-artifacts/test-install-regctl/test.env
+      agent: ubuntu-latest
 
-  # test-install-regctl-arm64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-install-regctl-arm64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-install-regctl.yaml
-  #   with: 
-  #     env_file: ./test-artifacts/test-install-regctl/test.env
-  #     agent: spacesdk-ubuntu-2204LTS-arm64
+    uses: ./.github/workflows/test-install-regctl.yaml
+    with: 
+      env_file: ./test-artifacts/test-install-regctl/test.env
+      agent: spacesdk-ubuntu-2204LTS-arm64
 
-  # test-install-docker-amd64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-install-docker-amd64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-install-docker.yaml
-  #   with: 
-  #     VER_DOCKER_MAX: 26.1.3
-  #     agent: ubuntu-latest
+    uses: ./.github/workflows/test-install-docker.yaml
+    with: 
+      VER_DOCKER_MAX: 26.1.3
+      agent: ubuntu-latest
 
-  # test-install-docker-arm64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-install-docker-arm64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-install-docker.yaml
-  #   with: 
-  #     VER_DOCKER_MAX: 26.1.3
-  #     agent: spacesdk-ubuntu-2204LTS-arm64
+    uses: ./.github/workflows/test-install-docker.yaml
+    with: 
+      VER_DOCKER_MAX: 26.1.3
+      agent: spacesdk-ubuntu-2204LTS-arm64
 
-  # test-initialize-amd64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-initialize-amd64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-initialize.yaml
-  #   with: 
-  #     WORKFLOW_AGENT: ubuntu-latest
-  #   secrets:
-  #     GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-  #     GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
-  #     SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+    uses: ./.github/workflows/test-initialize.yaml
+    with: 
+      WORKFLOW_AGENT: ubuntu-latest
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-  # test-initialize-arm64:
-  #   permissions:
-  #     contents: read
-  #     packages: read
+  test-initialize-arm64:
+    permissions:
+      contents: read
+      packages: read
     
-  #   uses: ./.github/workflows/test-initialize.yaml
-  #   with: 
-  #     WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
-  #   secrets:
-  #     GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-  #     GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
-  #     SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+    uses: ./.github/workflows/test-initialize.yaml
+    with: 
+      WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
   test-push-build-artifact-amd64:
     permissions:
