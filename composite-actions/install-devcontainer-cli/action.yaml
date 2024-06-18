@@ -25,30 +25,32 @@ runs:
                 if ! command -v npm &> /dev/null
                 then
                   echo "npm is not installed, installing..."
-                  sudo apt-get update
-                  echo "installing npm..."
-                  sudo apt-get install -y npm
-                  echo ""
-                  echo "Checking the version..."
-                  npm --version
-                  echo "install n package globally..."
-                  sudo npm install -g nf
-                  echo ""
-                  echo "Running 'npm cache clean -f'..."
-                  sudo npm cache clean -f
-                  echo ""
-                  echo "Upgrade nodejs"
-                  sudo n 16.13.0
-                  echo ""
-                  echo "Setup the directory...."
-                  sudo mkdir -p /usr/local/lib/node_modules
-                  sudo chown -R $USER:$USER /usr/local/lib/node_modules
-                  echo ""
-                  echo "Setting up permissions"
-                  mkdir ~/.npm-global
-                  npm config set prefix '~/.npm-global'
-                  echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
-                  source ~/.bashrc
+                    sudo apt-get update
+                    echo "installing npm..."
+                    sudo apt-get install -y npm
+                    echo ""
+                    echo "Checking the version..."
+                    npm --version
+                    echo "install n package globally..."
+                    sudo npm install -g n
+                    echo ""
+                    echo "Running 'npm cache clean -f'..."
+                    sudo npm cache clean -f
+                    echo ""
+                    echo "Upgrade nodejs"
+                    sudo n 16.13.0
+                    echo "Run hash command"
+                    hash -r
+                    echo ""
+                    echo "Setup the directory...."
+                    sudo mkdir -p /usr/local/lib/node_modules
+                    sudo chown -R $USER:$USER /usr/local/lib/node_modules
+                    echo ""
+                    echo "Setting up permissions"
+                    mkdir ~/.npm-global
+                    npm config set prefix '~/.npm-global'
+                    echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.bashrc
+                    source ~/.bashrc
                 fi
 
                 echo ""

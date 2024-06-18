@@ -10,8 +10,14 @@ inputs:
     registry_name:
         description: 'The name of the registry'
         default: 'ghcr.io/microsoft/ao-spacesdk'
-    token:
-        description: 'The token to use for the registry'
+    GIT_HUB_USER_NAME:
+        description: 'The github user name'
+        required: true
+    GIT_HUB_USER_TOKEN:
+        description: 'The github user token'
+        required: true
+    SETUP_REPO_URL:
+        description: 'The setup repo url'
         required: true
   
 outputs:
@@ -24,8 +30,10 @@ runs:
         ## Run composite action to intialize SDK environment
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initiliaze@main
             env_file: ${{ inputs.env_file }}
-            registry: ${{ inputs.registry_name }}
-            token: ${{ inputs.token }}
+            REGISTRY: ${{ inputs.registry_name }}
+            GIT_HUB_USER_NAME: ${{ inputs.GIT_HUB_USER_NAME }}
+            GIT_HUB_USER_TOKEN: ${{ inputs.GIT_HUB_USER_TOKEN }}
+            SETUP_REPO_URL: ${{ inputs.SETUP_REPO_URL }}
         
         ## Build the Service's Devcontainer and wait for pods to spin up (unnecessary when devcontainer up composite action is available)
         - name: Build Devcontainer

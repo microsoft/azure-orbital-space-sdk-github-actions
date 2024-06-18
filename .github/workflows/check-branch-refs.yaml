@@ -1,0 +1,59 @@
+name: Check for branch pin references
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - '**'
+
+jobs:
+  check-references:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Check for '@' references
+      shell: bash
+      run: |
+        # Directory to search
+        dir="."
+
+        # Flag to track if any files are found
+        found=0
+
+        # Iterate over all .yaml files in the directory
+        for file in $(find $dir -type f -name "*.yaml"); do
+            # Skip the file named check-branch-refs.yaml
+            if [[ $file == *"check-branch-refs.yaml"* ]]; then
+                continue
+            fi
+            
+            # Use grep to search for "@" not followed by "main"
+            if grep -q "^uses:.*@" "$file" && ! grep -q "^uses:.*@main" "$file"; then
+                # Output the file name
+                echo $file
+                # Set the flag to 1
+                found=1
+            fi
+
+            if grep -q "push:" "$file" && grep -q "branches:" "$file"; then
+                if ! grep -qzP "branches:\n\s*- main" "$file"; then
+                    # Output the file name
+                    echo $file
+                    # Set the flag to 1
+                    found=1
+                fi
+            fi
+        done
+
+        # If any files were found, exit with status 1
+        if [ $found -eq 1 ]; then
+            echo "Files with references found - please remove references to push branches other than main, and switch action branch pinning to @main"    
+            exit 1
+        else
+            echo "All files clean of pinned references."
+        fi
+        

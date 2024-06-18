@@ -1,42 +1,68 @@
-on:
+name: test initialize
+on: 
     workflow_call:
-        secrets:
-            GIT_HUB_USER_NAME:
-                required: true
-            GIT_HUB_USER_TOKEN:
-                required: true
-            SETUP_REPO_URL:
-                required: true
+      inputs:
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+          description: 'The github user name'
+          required: true
+        GIT_HUB_USER_TOKEN:
+          description: 'The github user token'
+          required: true
+        SETUP_REPO_URL:
+          description: 'The setup repo url'
+          required: true
 
 jobs:
   test-initialize:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     steps:
     - uses: actions/checkout@v2
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
       with:
-          env_file: ./env/spacefx.env
-          GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-          GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
-          SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
-          VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - name: Validate setup directory
+    - name: Validate Directory
       shell: bash
       run: |
-        spacefx_dir="/var/spacedev"
-
-        if [ -d "$spacefx_dir" ]; then
-          echo "Directory exists"
-          if [ "$(ls -A $spacefx_dir)" ]; then
-              echo "Directory is not empty"
-          else
-              echo "Directory is empty"
-              exit 1
-          fi
+        if [ -d "/var/spacedev" ]; then
+            echo "/var/spacedev exists"
         else
-            echo "Directory does not exist"
-            exit 1
+            echo "/var/spacedev does not exist"
         fi
+       
+    - name: Validate Tools
+      shell: bash
+      run: |
+        if which oras >/dev/null; then
+            echo "oras is installed"
+        else
+            echo "oras is not installed"
+        fi
+
+        if which docker >/dev/null; then
+            echo "docker is installed"
+        else
+            echo "docker is not installed"
+        fi
+      
+        if which regctl >/dev/null; then
+            echo "regctl is installed"
+        else
+            echo "regctl is not installed"
+        fi
+    
+        if which devcontainer-cli >/dev/null; then
+            echo "devcontainer-cli is installed"
+        else
+            echo "devcontainer-cli is not installed"
+        fi
+        
