@@ -39,6 +39,12 @@ jobs:
           GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
           SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
           VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
+
+    - name: Move artifact to SPACEFX_DIR
+      shell: bash
+      run: |
+        source ${{ inputs.env-file }}
+        mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp/
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/push_build_artifacts
       with:
@@ -50,6 +56,3 @@ jobs:
       run: |
         oras pull ghcr.io/microsoft/buildartifacts/push-build-artifact-test:0.10.0
         cat push-build-artifact-test.txt
-
-    
-        
