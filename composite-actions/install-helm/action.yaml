@@ -1,0 +1,19 @@
+name: 'install-helm'
+description:  'Installs helm'
+inputs:
+    VER_HELM:
+        description: 'The version of helm to install'
+        default: '3.14.4'
+    ARCHITECURE:
+      description: 'architecture of the machine'
+        required: true
+runs:
+    using: 'composite'
+    steps:
+        - name: Install Helm
+          shell: bash
+          run: |
+            curl -LO "https://get.helm.sh/helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
+            tar -zxvf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz"
+            sudo mv linux-${{ inputs.ARCHITECTURE }}/helm /usr/local/bin/helm
+            rm -rf "helm-v${{ inputs.VER_HELM }}-linux-${{ inputs.ARCHITECTURE }}.tar.gz" linux-${{ inputs.ARCHITECTURE }}
