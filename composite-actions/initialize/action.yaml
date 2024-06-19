@@ -51,7 +51,7 @@ runs:
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@km/debug_core
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
           with:
