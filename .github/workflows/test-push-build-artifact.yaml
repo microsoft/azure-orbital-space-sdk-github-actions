@@ -38,18 +38,11 @@ jobs:
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - name: Move artifact to SPACEFX_DIR
-      shell: bash
-      run: |
-        source ${{ inputs.env-file }}
-        mkdir -p $SPACEFX_DIR/tmp
-        mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
-
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@main
   
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
-        artifact: /var/spacedev/tmp/push-build-artifact-test.txt
+        artifact: "${{ inputs.artifact }}"
         architecture: "${{ inputs.architecture }}"
 
     - name: Validate Artifact
