@@ -15,9 +15,6 @@ inputs:
     OUTPUT_DIR:
         description: 'The output directory for the build'
         required: true
-    REPO_DIR:
-        description: 'The repository directory'
-        required: true
     NUGET_PROJECT:
         description: 'The nuget project to build'
     NO_CONTAINER_BUILD:
@@ -49,7 +46,7 @@ runs:
           run: |
             echo "building app command string..."
             echo "Adding required parameters..."
-            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output ${{ inputs.OUTPUT_DIR }} --repo-dir ${{ inputs.REPO_DIR }}"
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${PWD}"
             echo "$CMD_ARGUMENTS"
             if [ -n "${{ inputs.NUGET_PROJECT }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --nuget-project ${{ inputs.NUGET_PROJECT }}"
@@ -64,6 +61,10 @@ runs:
             echo "Running Build Script..."
             echo "bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS"
             bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS
+
+            echo ""
+            echo "Output Directory Contents:"
+            tree ${{ inputs.OUTPUT_DIR }}
 
 
 

@@ -23,6 +23,10 @@ inputs:
     SETUP_REPO_URL:
         description: 'The setup repo url'
         required: true
+    SKIP_SETUP:
+        description: 'Flag to skip the setup'
+        type: boolean
+        default: 'false'
 runs:
     using: 'composite'
     steps:
@@ -37,6 +41,7 @@ runs:
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
           with: 
             setup-repo-url: ${{ inputs.SETUP_REPO_URL }}
+          if: ${{ inputs.SKIP_SETUP == 'false' }}
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
           with:
@@ -45,6 +50,8 @@ runs:
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
+
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
           with:
