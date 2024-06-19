@@ -1,0 +1,11 @@
+name: 'install-tree'
+description:  'Installs tree'
+runs:
+    using: 'composite'
+    steps:
+        - name: Install Tree
+          shell: bash
+          run: |
+            sudo apt-get update
+            sudo apt-get install -y tree
+            

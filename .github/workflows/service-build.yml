@@ -1,0 +1,64 @@
+name: Shared- service-build workflow
+on: 
+    workflow_call:
+        inputs:
+            APP_PROJECT:
+              description: 'The project to build'
+              required: true
+              type: string
+            NUGET_PROJECT:
+              description: 'The nuget project to build'
+              type: string
+            OUTPUT_DIR:
+              description: 'The output directory for the build'
+              required: true
+              type: string
+            ANNOTATION:
+              description: 'Annotation file'
+              required: true
+              type: string
+            WORKFLOW_AGENT:
+              description: 'The name of the workflow agent'
+              type: string
+              default: 'ubuntu-latest'
+            ARCHITECTURE:
+              description: 'The architecture for the image'
+              required: true
+              type: string
+            SPACESDK_VERSION:
+              description: 'The version of the space sdk'
+              type: string
+              default: "0.11.0"
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  build-core-service:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@main
+      with:
+        ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
+        APP_PROJECT: ${{ inputs.APP_PROJECT}}
+        NUGET_PROJECT: ${{ inputs.NUGET_PROJECT}}
+        APP_VERSION: ${{ inputs.SPACESDK_VERSION }}
+        OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
+        ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
+        NO_CONTAINER_BUILD: 'false'
+  
