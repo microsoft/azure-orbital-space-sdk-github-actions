@@ -18,7 +18,8 @@ runs:
           run: |
             source ${{ inputs.env-file }}
             mkdir -p $SPACEFX_DIR/tmp
-            mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
+            sudo mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
+            tree $SPACEFX_DIR/tmp
 
 
         - name: Push Artifact ${{ inputs.artifact }}
