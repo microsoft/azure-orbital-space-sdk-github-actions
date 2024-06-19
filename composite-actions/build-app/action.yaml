@@ -49,7 +49,7 @@ runs:
           run: |
             echo "building app command string..."
             echo "Adding required parameters..."
-            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output ${{ inputs.OUTPUT_DIR }} --repo-dir ${{ inputs.REPO_DIR }}"
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${{ inputs.REPO_DIR }}"
             echo "$CMD_ARGUMENTS"
             if [ -n "${{ inputs.NUGET_PROJECT }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --nuget-project ${{ inputs.NUGET_PROJECT }}"
