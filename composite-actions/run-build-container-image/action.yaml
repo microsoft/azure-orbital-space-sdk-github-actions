@@ -28,4 +28,4 @@ runs:
             source ${{ inputs.env-file }} 
             echo "Running build_containerImage.sh script:"
             echo ""
-            bash /var/spacedev/build/build_containerImage.sh --dockerfile Dockerfiles/Dockerfile --image-tag $SPACEFX_VERSION --architecture ${{ inputs.architecture }} --repo-dir ${{ inputs.repo-dir }} --app-name ${{ inputs.app-name }} --annotation-config ${{ inputs.annotation-config }}
+            bash /var/spacedev/build/build_containerImage.sh --dockerfile ${{ inputs.docker-file }} --image-tag $SPACEFX_VERSION --architecture ${{ inputs.architecture }} --repo-dir ${{ inputs.repo-dir }} --app-name ${{ inputs.app-name }} --annotation-config ${{ inputs.annotation-config }}
