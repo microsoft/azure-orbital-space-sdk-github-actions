@@ -13,6 +13,14 @@ on:
               description: 'The output directory for the build'
               required: true
               type: string
+            NUGET_STAGING_DIRECTORY:
+              description: 'The staging directory for the nuget packages'
+              required: true
+              type: string
+            NUGET_FILE_PREFIX:
+              description: 'The prefix for the nuget file'
+              required: true
+              type: string
             ANNOTATION:
               description: 'Annotation file'
               required: true
@@ -61,4 +69,16 @@ jobs:
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
         ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
         NO_CONTAINER_BUILD: 'false'
-  
+
+    - name: Move file to staging directory
+      shell: bash
+      run: |
+        sudo mkdir -p ${{ inputs.NUGET_STAGING_DIRECTORY }}
+
+        sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/nuget/${{ inputs.NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg ${{ inputs.NUGET_STAGING_DIRECTORY }}
+        tree ${{ inputs.NUGET_STAGING_DIRECTORY }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      with:
+        artifact: ${{ inputs.NUGET_STAGING_DIRECTORY }}/${{ inputs.NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg
+        architecture: ${{ inputs.ARCHITECTURE }}
