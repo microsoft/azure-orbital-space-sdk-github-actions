@@ -64,7 +64,7 @@ runs:
 
             echo ""
             echo "Output Directory Contents:"
-            ls ${{ inputs.OUTPUT_DIR }}
+            tree ${{ inputs.OUTPUT_DIR }}
 
 
 
