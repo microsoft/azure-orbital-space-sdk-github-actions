@@ -8,7 +8,7 @@ on:
           type: string
 
 jobs:
-  test-install-regctl:
+  test-get-agent-details:
     runs-on: ${{ inputs.agent }}
 
     steps:

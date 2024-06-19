@@ -1,0 +1,62 @@
+on: 
+    workflow_call:
+      inputs:
+        artifact:
+          description: 'The path to the artifact that will be pushed'
+          required: true
+          type: string
+        env-file:
+            description: 'Path to the env file'
+            default: /var/spacedev/env/spacefx.env
+            type: string
+        architecture:
+            description: 'Path to the env file'
+            required: true
+            type: string
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        SETUP_REPO_URL:
+            required: true
+
+jobs:
+  test-push-build-artifact:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - name: Move artifact to SPACEFX_DIR
+      shell: bash
+      run: |
+        source ${{ inputs.env-file }}
+        mkdir -p $SPACEFX_DIR/tmp
+        mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@main
+  
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      with:
+        artifact: /var/spacedev/tmp/push-build-artifact-test.txt
+        architecture: "${{ inputs.architecture }}"
+
+    - name: Validate Artifact
+      shell: bash
+      run: |
+        source ${{ inputs.env-file }}
+        filename=$(basename "${{ inputs.artifact }}" .txt)
+        echo "Executing: oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
+        oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
+        cat push-build-artifact-test.txt

@@ -1,0 +1,23 @@
+name: 'run-push-build-artifact'
+description:  'Runs the push_build)artifacts.sh for a single artifact'
+inputs:
+    env-file:
+        description: 'Path to the env file'
+        default: /var/spacedev/env/spacefx.env
+    artifact:
+        description: 'Path to the artifact to push.  Must reside within SPACEFX_DIR'
+        required: true
+    architecture:
+        description: 'The architecture for the image'
+        required: true
+runs:
+    using: 'composite'
+    steps:
+        - name: Push Artifact ${{ inputs.artifact }}
+          shell: bash
+          run: |
+            source ${{ inputs.env-file }}
+
+            echo "Running  bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}"
+            
+            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}

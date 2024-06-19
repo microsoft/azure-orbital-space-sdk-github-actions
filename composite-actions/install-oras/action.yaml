@@ -10,7 +10,24 @@ runs:
         - name: Install oras
           shell: bash
           run: |
-            curl -LO https://github.com/oras-project/oras/releases/download/v${{ inputs.oras-version }}/oras_${{ inputs.oras-version }}_linux_amd64.tar.gz
+
+            arch="$(uname -m)"
+            case "$arch" in
+              x86_64)
+                architecture=amd64
+                ;;
+              aarch64)
+                architecture=arm64
+                ;;
+              *)
+                echo "Unsupported architecture: $arch"
+                exit 1
+                ;;
+            esac
+
+            echo "Installing oras version ${{ inputs.oras-version }} for $architecture"
+
+            curl -LO https://github.com/oras-project/oras/releases/download/v${{ inputs.oras-version }}/oras_${{ inputs.oras-version }}_linux_${architecture}.tar.gz
             mkdir -p oras-install/
             tar -zxf oras_${{ inputs.oras-version }}_*.tar.gz -C oras-install/
             sudo mv oras-install/oras /usr/local/bin/
