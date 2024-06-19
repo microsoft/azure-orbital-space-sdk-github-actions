@@ -41,7 +41,7 @@ runs:
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
           with: 
             setup-repo-url: ${{ inputs.SETUP_REPO_URL }}
-          if: ${{ inputs.SKIP_SETUP == 'true' }}
+          if: ${{ inputs.SKIP_SETUP == 'false' }}
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
           with:
