@@ -62,6 +62,10 @@ runs:
             echo "bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS"
             bash ${{ inputs.SPACEDEV_DIR }}/build/dotnet/build_app.sh $CMD_ARGUMENTS
 
+            echo ""
+            echo "Output Directory Contents:"
+            ls ${{ inputs.OUTPUT_DIR }}
+
 
 
 
