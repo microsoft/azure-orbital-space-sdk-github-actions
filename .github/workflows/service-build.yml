@@ -69,7 +69,6 @@ jobs:
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
         ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
         NO_CONTAINER_BUILD: 'false'
-
     - name: Move file to staging directory
       shell: bash
       run: |
