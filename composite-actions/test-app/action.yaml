@@ -10,10 +10,6 @@ inputs:
     app_name:
         description: 'The name of the service to test'
         required: true
-    WORKFLOW_AGENT:
-        description: 'The agent to run the job on'
-        required: true
-        type: string
 secrets:
     GIT_HUB_USER_NAME:
         required: true
@@ -29,8 +25,6 @@ outputs:
         value: '/var/spacedev/tmp/test-results.xml'
 runs:
     using: 'composite'
-
-   
 
     steps:
         ## Run composite action to intialize SDK environment
