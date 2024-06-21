@@ -10,14 +10,15 @@ inputs:
     app_name:
         description: 'The name of the service to test'
         required: true
-secrets:
     GIT_HUB_USER_NAME:
+        description: 'The github user name'
         required: true
     GIT_HUB_USER_TOKEN:
+        description: 'The github user token'
         required: true
     SETUP_REPO_URL:
+        description: 'The setup repo url'
         required: true
-
   
 outputs:
     test_results:
@@ -30,9 +31,9 @@ runs:
         ## Run composite action to intialize SDK environment
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
           with:
-            GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-            GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
-            SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+            GIT_HUB_USER_NAME: ${{ inputs.GIT_HUB_USER_NAME }}
+            GIT_HUB_USER_TOKEN: ${{ inputs.GIT_HUB_USER_TOKEN }}
+            SETUP_REPO_URL: ${{ inputs.SETUP_REPO_URL }}
         
         ## Build the Service's Devcontainer and wait for pods to spin up (unnecessary when devcontainer up composite action is available)
         - name: Build Devcontainer
