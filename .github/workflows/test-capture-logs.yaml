@@ -38,21 +38,3 @@ jobs:
         sudo echo "Hello World" > /var/spacedev/logs/hello.txt
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@km/get_error_handling
-
-    - name: Check for var-spacedev-logs artifact
-      id: check_artifact
-      run: |
-        ARTIFACTS=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-        "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
-        echo "ARTIFACTS_RESPONSE=$ARTIFACTS" >> $GITHUB_ENV
-        if [[ "$ARTIFACTS" == *"var-spacedev-logs"* ]]; then
-            echo "::set-output name=exists::true"
-        else
-            echo "::set-output name=exists::false"
-            exit 1
-        fi
-      shell: bash
-
-    - name: Conditional step based on artifact existence
-      if: steps.check_artifact.outputs.exists == 'true'
-      run: echo "Artifact var-spacedev-logs exists"
