@@ -41,4 +41,4 @@ jobs:
       with:
         ARCHITECTURE: amd64
         ARTIFACT_NAME: 'var-spacedev-logs'
-        DIRECTORY: '/var/spacedev/logs/**'
+        DIRECTORY_PATH: '/var/spacedev/logs/**'

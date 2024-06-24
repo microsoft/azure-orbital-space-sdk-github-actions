@@ -180,3 +180,10 @@ runs:
           if: always()
           with:
             junit_files:  .git/test-results.xml
+
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@km/get_error_handling
+          if: failure()
+          with:
+            ARCHITECTURE: amd64
+            ARTIFACT_NAME: 'var-spacedev-logs'
+            DIRECTORY: '/var/spacedev/logs/**'
