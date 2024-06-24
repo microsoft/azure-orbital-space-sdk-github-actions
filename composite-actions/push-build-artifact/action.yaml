@@ -13,22 +13,11 @@ inputs:
 runs:
     using: 'composite'
     steps:
-        - name: Move artifact to SPACEFX_DIR
-          shell: bash
-          run: |
-            source ${{ inputs.env-file }}
-            mkdir -p $SPACEFX_DIR/tmp
-            sudo mv ${{ inputs.artifact }} $SPACEFX_DIR/tmp
-            tree $SPACEFX_DIR/tmp
-
-
         - name: Push Artifact ${{ inputs.artifact }}
           shell: bash
           run: |
             source ${{ inputs.env-file }}
 
-            artifact_path=$SPACEFX_DIR/tmp/$(basename ${{ inputs.artifact }})
-
-            echo "Running  bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${artifact_path} --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}"
+            echo "Running  bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }}) --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}"
             
-            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${artifact_path} --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}
+            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }}) --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}
