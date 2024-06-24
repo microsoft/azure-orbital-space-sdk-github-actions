@@ -175,11 +175,8 @@ runs:
                 exit 1
             fi
 
-            # moving test-results.xml to the root of the workspace
-            mv .git/test-results.xml ${PWD}
-
         - name: Publish Test Results
           uses: EnricoMi/publish-unit-test-result-action/linux@v2
           if: always()
           with:
-            junit_files:  test-results.xml
+            junit_files:  .git/test-results.xml
