@@ -36,6 +36,6 @@ jobs:
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@al/test-app
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@main
       with:
         APP_NAME: ${{ inputs.APP_NAME }}
