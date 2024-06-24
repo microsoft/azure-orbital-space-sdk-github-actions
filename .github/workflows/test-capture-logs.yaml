@@ -33,6 +33,7 @@ jobs:
     - name: Create file
       shell: bash
       run: |
+        sudo mkdir -p /var/spacedev/logs  
         sudo echo "Hello World" > /var/spacedev/logs/hello.txt
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@km/get_error_handling
