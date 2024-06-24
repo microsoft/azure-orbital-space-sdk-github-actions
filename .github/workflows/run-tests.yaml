@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
         branches:
-        - main
+        - km/debug_artifact_test
   pull_request:
     branches:
       - '**'
