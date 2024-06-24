@@ -18,7 +18,7 @@ on:
           required: true
 
 jobs:
-  test-initialize:
+  test-capture-logs:
     runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     steps:
