@@ -1,0 +1,41 @@
+name: Test Application
+on: 
+    workflow_call:
+        inputs:
+            APP_NAME:
+              description: 'The name of the hostsvc or platformsvc to test'
+              required: true
+              type: string
+            WORKFLOW_AGENT:
+              description: 'The name of the workflow agent'
+              type: string
+              default: 'ubuntu-latest'
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  test-application:
+    name: "Test ${{ inputs.APP_NAME }} - ${{ inputs.WORKFLOW_AGENT}}"
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      issues: read
+      checks: write
+      pull-requests: write
+
+    steps:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@main
+      with:
+        APP_NAME: ${{ inputs.APP_NAME }}
