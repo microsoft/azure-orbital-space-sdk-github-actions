@@ -19,5 +19,5 @@ runs:
             source ${{ inputs.env-file }}
 
             echo "Running  bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }}) --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}"
-            
-            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }}) --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}
+
+            bash ${SPACEFX_DIR}/build/push_build_artifact.sh --artifact ${{ inputs.artifact }} --architecture ${{ inputs.architecture }} --artifact-version ${SPACEFX_VERSION}
