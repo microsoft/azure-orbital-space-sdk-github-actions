@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
         branches:
-        - km/get_error_handling
+        - main
   pull_request:
     branches:
       - '**'

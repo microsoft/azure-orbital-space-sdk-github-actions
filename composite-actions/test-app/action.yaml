@@ -181,7 +181,7 @@ runs:
           with:
             junit_files:  .git/test-results.xml
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@km/get_error_handling
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@main
           if: failure()
           with:
             ARTIFACT_NAME: 'var-spacedev-logs-test-app'
