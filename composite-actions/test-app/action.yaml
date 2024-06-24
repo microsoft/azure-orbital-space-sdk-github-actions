@@ -156,11 +156,11 @@ runs:
             echo "--------------------"
             echo ""
 
-            echo "Outputting logs from the integration test client..."
-            cat ${PWD}/.git/logs/${{ inputs.APP_NAME }}-client.log.stdout
-            echo ""
-            echo "--------------------"
-            echo ""
+            # echo "Outputting logs from the integration test client..."
+            # cat ${PWD}/.git/logs/${{ inputs.APP_NAME }}-client.log.stdout
+            # echo ""
+            # echo "--------------------"
+            # echo ""
 
             echo "Outputting contents of .git directory"
             tree ${PWD}/.git
