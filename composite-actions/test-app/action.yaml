@@ -110,7 +110,7 @@ runs:
                 exec 1> "${PWD}/.git/logs/${{ inputs.APP_NAME }}.log.stdout"
                 exec 2>&1
 
-                k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c "/usr/bin/dotnet  /workspaces/${{ inputs.APP_NAME }}/test/integrationTestHost/bin/Debug/net6.0/integrationTestHost.dll"
+                k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c "/usr/bin/dotnet workspaces/${{ inputs.APP_NAME }}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll"
             ) &
 
             host_pid=$!
