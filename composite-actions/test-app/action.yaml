@@ -125,16 +125,18 @@ runs:
 
             # Executge the integration tests
 
-            echo "k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c \"/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\"\" &"
-            (
-                # Reroute the stdout to a file so we can uniquely identify this run
-                trap "" HUP
-                exec 0< /dev/null
-                exec 1> "${PWD}/.git/logs/${{ inputs.APP_NAME }}-client.log.stdout"
-                exec 2>&1
+            # echo "k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c \"/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\"\" &"
+            # (
+            #     # Reroute the stdout to a file so we can uniquely identify this run
+            #     trap "" HUP
+            #     exec 0< /dev/null
+            #     exec 1> "${PWD}/.git/logs/${{ inputs.APP_NAME }}-client.log.stdout"
+            #     exec 2>&1
 
-                k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\""
-            ) &
+            #     k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\""
+            # ) &
+
+            k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\"" &
 
             client_pid=$!
 
