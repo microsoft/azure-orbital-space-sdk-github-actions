@@ -40,9 +40,16 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@main
   
+    - name: Move file to staging directory
+      shell: bash
+      run: |
+        mkdir -p /var/spacedev/test
+        sudo mv ${{ inputs.artifact }} /var/spacedev/test
+        tree /var/spacedev/test
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
-        artifact: "${{ inputs.artifact }}"
+        artifact: "/var/spacedev/test/push-build-artifact-test.txt"
         architecture: "${{ inputs.architecture }}"
 
     - name: Validate Artifact
