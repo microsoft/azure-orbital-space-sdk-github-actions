@@ -16,5 +16,5 @@ runs:
     - name: Upload logs on failure ${{ inputs.ARTIFACT_NAME }} (${{ inputs.ARCHITECTURE }}) - ${{ inputs.DIRECTORY_PATH }}
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ inputs.ARTIFACT_NAME }}
+        name: ${{ inputs.ARTIFACT_NAME }}-${{inputs.ARCHITECTURE }}
         path: ${{ inputs.DIRECTORY_PATH }}
