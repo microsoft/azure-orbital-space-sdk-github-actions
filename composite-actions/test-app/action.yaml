@@ -184,6 +184,5 @@ runs:
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@km/get_error_handling
           if: failure()
           with:
-            ARCHITECTURE: amd64
-            ARTIFACT_NAME: 'var-spacedev-logs'
+            ARTIFACT_NAME: 'var-spacedev-logs-test-app'
             DIRECTORY: '/var/spacedev/logs/**'

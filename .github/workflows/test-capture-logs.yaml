@@ -39,6 +39,5 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@km/get_error_handling
       with:
-        ARCHITECTURE: amd64
         ARTIFACT_NAME: 'var-spacedev-logs'
         DIRECTORY_PATH: '/var/spacedev/logs/**'
