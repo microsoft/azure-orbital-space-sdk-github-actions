@@ -102,7 +102,7 @@ runs:
 
             # Execute the app
 
-            echo "Running: k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c \"/usr/bin/dotnet  /workspaces/${{ inputs.service_name }}/src/bin/Debug/net6.0/${{ inputs.service_name }}.dll\" &"
+            echo "Running: k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c \"/usr/bin/dotnet  /workspaces/${{ inputs.APP_NAME }}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll\" &"
             (
                 # Reroute the stdout to a file so we can uniquely identify this run
                 trap "" HUP
