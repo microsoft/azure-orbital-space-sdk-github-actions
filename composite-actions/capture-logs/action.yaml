@@ -1,10 +1,20 @@
 name: 'Capture /var/spacedev/logs'
 description:  'Uploads all logs as artifacts'
+inputs:
+    ARCHITECTURE:
+        description: 'The architecture of the job being run.'
+        required: true
+    ARTIFACT_NAME:
+        description: 'The name of the artifact to be uploaded.'
+        required: true
+    DIRECTORY_PATH:
+        description: 'The path to the directory containing the logs.'
+        required: true
 runs:
     using: 'composite'
     steps:
-    - name: Upload logs on failure
+    - name: Upload logs on failure ${{ inputs.ARTIFACT_NAME }} (${{ inputs.ARCHITECTURE }}) - ${{ inputs.DIRECTORY_PATH }}
       uses: actions/upload-artifact@v2
       with:
-        name: var-spacedev-logs
-        path: /var/spacedev/logs/
+        name: ${{ inputs.ARTIFACT_NAME }}
+        path: ${{ inputs.DIRECTORY_PATH }}
