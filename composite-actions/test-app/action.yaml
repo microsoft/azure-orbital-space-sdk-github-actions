@@ -180,10 +180,3 @@ runs:
           if: always()
           with:
             junit_files:  .git/test-results.xml
-
-        - name: Upload logs on failure
-          if: failure()
-          uses: actions/upload-artifact@v2
-          with:
-            name: logs
-            path: /var/spacedev/logs/

@@ -1,0 +1,10 @@
+name: 'Capture /var/spacedev/logs'
+description:  'Uploads all logs as artifacts'
+runs:
+    using: 'composite'
+    steps:
+    - name: Upload logs on failure
+      uses: actions/upload-artifact@v2
+      with:
+        name: var-spacedev-logs
+        path: /var/spacedev/logs/

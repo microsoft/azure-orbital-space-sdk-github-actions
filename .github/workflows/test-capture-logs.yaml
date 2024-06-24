@@ -1,0 +1,56 @@
+name: test initialize
+on: 
+    workflow_call:
+      inputs:
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+          description: 'The github user name'
+          required: true
+        GIT_HUB_USER_TOKEN:
+          description: 'The github user token'
+          required: true
+        SETUP_REPO_URL:
+          description: 'The setup repo url'
+          required: true
+
+jobs:
+  test-initialize:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - name: Create file
+      shell: bash
+      run: |
+        sudo echo "Hello World" > /var/spacedev/logs/hello.txt
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@km/get_error_handling
+
+    - name: Check for var-spacedev-logs artifact
+      id: check_artifact
+      run: |
+        ARTIFACTS=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+        "https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts")
+        echo "ARTIFACTS_RESPONSE=$ARTIFACTS" >> $GITHUB_ENV
+        if [[ "$ARTIFACTS" == *"var-spacedev-logs"* ]]; then
+            echo "::set-output name=exists::true"
+        else
+            echo "::set-output name=exists::false"
+            exit 1
+        fi
+      shell: bash
+
+    - name: Conditional step based on artifact existence
+      if: steps.check_artifact.outputs.exists == 'true'
+      run: echo "Artifact var-spacedev-logs exists"
