@@ -36,17 +36,9 @@ jobs:
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - name: Install Extra Dependencies
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@main
       if: inputs.WORKFLOW_AGENT == 'spacesdk-ubuntu-2204LTS-arm64'
-      shell: bash
-      run: |
-        echo "Installing extra dependencies for spacesdk-ubuntu-2204LTS-arm64"
-        sudo apt install -y python3.10-venv
-        sudo apt install -y python3-pip-whl
-        sudo apt install -y python3-setuptools-whl
-        sudo apt-get install -y gcc python3-dev
 
-        
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@main
       with:
         APP_NAME: ${{ inputs.APP_NAME }}
