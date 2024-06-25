@@ -36,6 +36,9 @@ jobs:
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@main
+      if: inputs.WORKFLOW_AGENT == 'spacesdk-ubuntu-2204LTS-arm64'
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@main
       with:
         APP_NAME: ${{ inputs.APP_NAME }}
