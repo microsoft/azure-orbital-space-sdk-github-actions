@@ -3,7 +3,7 @@ description:  'Return the details on the agent.'
 runs:
     using: 'composite'
     steps:
-    - name: Get details
+    - name: Get agent details
       shell: bash
       run: |
         echo "Running on ${{ runner.os }}"
@@ -18,3 +18,12 @@ runs:
         # Get the Ubuntu version
         UBUNTU_VERSION=$(lsb_release -d)
         echo "Ubuntu version: $UBUNTU_VERSION"
+    
+    - name: Get disk details
+      shell: bash
+      run: |
+        echo "running 'sudo lshw -class disk -class storage' to get details on the disk and storage devices..."
+        sudo lshw -class disk -class storage
+        echo ""
+        echo "Running 'lsblk -d -o NAME,TYPE,ROTA' to get details on the disk and storage devices..."
+        lsblk -d -o NAME,TYPE,ROTA
