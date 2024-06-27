@@ -185,4 +185,4 @@ runs:
           if: failure()
           with:
             ARTIFACT_NAME: 'var-spacedev-logs-test-app'
-            DIRECTORY: '/var/spacedev/logs/**'
+            DIRECTORY_PATH: '/var/spacedev/logs/**'
