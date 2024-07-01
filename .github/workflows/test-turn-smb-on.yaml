@@ -1,0 +1,31 @@
+on: 
+    workflow_call:
+      inputs:
+        artifact_dir:
+          description: 'The path to the directory where .devcontainer lies'
+          required: true
+          type: string
+        WORKFLOW_AGENT:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+
+jobs:
+  test-push-build-artifact:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+    
+    - name: install jq
+      run: |
+        sudo apt-get update
+        sudo apt-get install jq -y
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/turn-smb-on@al/smb
+      with:
+        REPO_DIR: "${{ inputs.artifact}}"
+
+    

@@ -1,0 +1,21 @@
+name: 'Turn SMB On'
+description:  'Modifies the devcontainer.json of the current repo dir to turn on SMB'
+inputs:
+  REPO_DIR:
+    description: 'The path to the repo directory'
+    required: true
+    type: string
+  
+runs:
+    using: 'composite'
+
+    steps:
+        
+        ## Build the Service's Devcontainer and wait for pods to spin up (unnecessary when devcontainer up composite action is available)
+        - name: Update devcontainer.json
+          shell: bash
+          run: |
+            jq '.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = true' ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json > ${{ inputs.REPO_DIR }}/.devcontainer/modified_devcontainer.json
+            mv ${{ inputs.REPO_DIR }}/modified_devcontainer.json /home/azureuser/GitHub/azure-orbital-space-sdk-platform-deployment/.devcontainer/devcontainer.json
+            rm -rf ${{ inputs.REPO_DIR }}/modified_devcontainer.json
+            cat ${{ inputs.REPO_DIR }}.devcontainer/devcontainer.json
