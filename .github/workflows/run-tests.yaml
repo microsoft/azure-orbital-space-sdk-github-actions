@@ -164,7 +164,7 @@ jobs:
     
     uses: ./.github/workflows/test-turn-smb-on.yaml
     with: 
-      artifact_dir: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
+      artifact_dir: ./test-artifacts/test-turn-smb-on
       WORKFLOW_AGENT: ubuntu-latest
 
   test-turn-smb-on-arm64:
@@ -173,5 +173,5 @@ jobs:
       packages: read
     uses: ./.github/workflows/test-turn-smb-on.yaml
     with:
-      artifact_dir: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
+      artifact_dir: ./test-artifacts/test-turn-smb-on
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
