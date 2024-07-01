@@ -24,3 +24,5 @@ runs:
 
             # extract only the configuration
             echo "$DEVCONTAINER_JSON" | jq '.configuration' > ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
+
+            cat ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
