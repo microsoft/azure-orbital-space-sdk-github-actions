@@ -21,7 +21,6 @@ jobs:
     
     - name: install jq
       run: |
-        sudo apt-get update
         sudo apt-get install jq -y
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/turn-smb-on@al/smb
