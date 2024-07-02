@@ -16,14 +16,22 @@ runs:
           shell: bash
           run: |
             echo "Current Working directory: ${PWD}"
+
+            echo "Reading confugration - DEBUG"
             devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }}
+
+            echo "Reading confugration"
             DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }})
+
+            echo "set the smb_enabled_in_cluster to true"
             # set the smb_enabled_in_cluster to true
             DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = true')
 
+            echo "Remove the extra configFilePath"
             # Remove the extra configFilePath
             DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq 'del(.configuration.configFilePath)')
 
+            echo "Extract only the configuration"
             # extract only the configuration
             echo "$DEVCONTAINER_JSON" | jq '.configuration' > ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
 
