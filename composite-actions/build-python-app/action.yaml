@@ -16,7 +16,7 @@ inputs:
         description: 'The output directory for the build'
         required: true
     DEVCONTAINER_JSON:
-        description: 'The nuget project to build'
+        description: 'alternative path to the devcontainer.json file'
     NO_CONTAINER_BUILD:
         description: 'Flag to indicate if the container should be built'
         type: boolean
