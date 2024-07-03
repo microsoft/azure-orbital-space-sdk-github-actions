@@ -1,0 +1,72 @@
+name: 'build-python-app'
+description:  'Runs build python app script to build python artifacts'
+inputs:
+    ANNOTATION_CONFIG:
+        description: 'The annotation configuration file'
+    ARCHITECTURE:
+        description: 'The architecture for the image'
+        required: true
+    APP_PROJECT:
+        description: 'The python project folder for the app'
+        required: true
+    APP_VERSION:
+        description: 'The version of the app to build'
+        required: true
+    OUTPUT_DIR:
+        description: 'The output directory for the build'
+        required: true
+    DEVCONTAINER_JSON:
+        description: 'The nuget project to build'
+    NO_CONTAINER_BUILD:
+        description: 'Flag to indicate if the container should be built'
+        type: boolean
+        default: 'false'
+    SPACEDEV_DIR:
+        description: 'The directory where the SpaceDev scripts are located'
+        default: "/var/spacedev"
+runs:
+    using: 'composite'
+    steps:
+        - name: Parameters
+          shell: bash
+          run: |
+            echo "Parameters:"
+            echo "  ANNOTATION_CONFIG: ${{ inputs.ANNOTATION_CONFIG }}"
+            echo "  ARCHITECTURE: ${{ inputs.ARCHITECTURE }}"
+            echo "  APP_PROJECT: ${{ inputs.APP_PROJECT }}"
+            echo "  APP_VERSION: ${{ inputs.APP_VERSION }}"
+            echo "  OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}"
+            echo "  REPO_DIR: ${{ inputs.REPO_DIR }}"
+            echo "  DEVCONTAINER_JSON: ${{ inputs.DEVCONTAINER_JSON }}"
+            echo "  NO_CONTAINER_BUILD: ${{ inputs.NO_CONTAINER_BUILD }}"
+            echo ""
+        
+        - name: Run Build Scripts
+          shell: bash
+          run: |
+            echo "building app UMENTS"
+            if [ -n "${{ inputs.DEVCONTAINER_JSON }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --devcontainer-json ${{ inputs.DEVCONTAINER_JSON }}"
+            fi
+            if [ "${{ inputs.NO_CONTAINER_BUILD }}" = "true" ]; thencommand string..."
+            echo "Adding required parameters..."
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${PWD}"
+            echo "$CMD_ARG
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --no-container-build"
+            fi
+            if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
+            fi
+
+            echo "Running Build Script..."
+            echo "bash ${{ inputs.SPACEDEV_DIR }}/build/python/build_app.sh $CMD_ARGUMENTS"
+            bash ${{ inputs.SPACEDEV_DIR }}/build/python/build_app.sh $CMD_ARGUMENTS
+
+            echo ""
+            echo "Output Directory Contents:"
+            tree ${{ inputs.OUTPUT_DIR }}
+
+
+
+
+            
