@@ -44,16 +44,20 @@ runs:
         - name: Run Build Scripts
           shell: bash
           run: |
-            echo "building app UMENTS"
+            echo "building app command string..."
+            echo "Adding required parameters..."
+
+            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${PWD}"
+            echo "$CMD_ARGUMENTS
+
             if [ -n "${{ inputs.DEVCONTAINER_JSON }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --devcontainer-json ${{ inputs.DEVCONTAINER_JSON }}"
             fi
-            if [ "${{ inputs.NO_CONTAINER_BUILD }}" = "true" ]; thencommand string..."
-            echo "Adding required parameters..."
-            CMD_ARGUMENTS="--architecture ${{ inputs.ARCHITECTURE }} --app-project ${{ inputs.APP_PROJECT }} --app-version ${{ inputs.APP_VERSION }} --output-dir ${{ inputs.OUTPUT_DIR }} --repo-dir ${PWD}"
-            echo "$CMD_ARG
+
+            if [ "${{ inputs.NO_CONTAINER_BUILD }}" = "true" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --no-container-build"
             fi
+
             if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
             fi
