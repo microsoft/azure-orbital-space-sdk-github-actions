@@ -1,0 +1,90 @@
+name: Shared- python-app build workflow
+on: 
+    workflow_call:
+        inputs:
+            APP_PROJECT:
+              description: 'The project to build'
+              required: true
+              type: string
+            DEVCONTAINER_JSON:
+              description: 'alternative path to the .devcontainer.json file'
+              type: string
+            OUTPUT_DIR:
+              description: 'The output directory for the build'
+              required: true
+              type: string
+            WHEEL_STAGING_DIRECTORY:
+              description: 'The staging directory for the python artifacts'
+              required: true
+              type: string
+            WHEEL_FILE_PREFIX:
+              description: 'The prefix for the python whl file'
+              required: true
+              type: string
+            ANNOTATION:
+              description: 'Annotation file'
+              required: true
+              type: string
+            WORKFLOW_AGENT:
+              description: 'The name of the workflow agent'
+              type: string
+              default: 'ubuntu-latest'
+            ARCHITECTURE:
+              description: 'The architecture for the image'
+              required: true
+              type: string
+            SPACESDK_VERSION:
+              description: 'The version of the space sdk'
+              type: string
+              default: "0.11.0"
+            BUILD_PYTHON_WHEEL:
+                description: 'Flag to indicate if the python wheel should be built'
+                type: boolean
+                default: false
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  build-python-app:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@main
+      with:
+        ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
+        APP_PROJECT: ${{ inputs.APP_PROJECT}}
+        DEVCONTAINER_JSON: ${{ inputs.DEVCONTAINER_JSON}}
+        APP_VERSION: ${{ inputs.SPACESDK_VERSION }}
+        OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
+        ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
+        NO_CONTAINER_BUILD: 'false'
+    
+    - name: Move file to staging directory
+      if: inputs.BUILD_PYTHON_WHEEL == true
+      shell: bash
+      run: |
+        sudo mkdir -p ${{ inputs.WHEEL_STAGING_DIRECTORY }}
+
+        sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/dist/${{ inputs.WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl ${{ inputs.WHEEL_STAGING_DIRECTORY }}
+        tree ${{ inputs.WHEEL_STAGING_DIRECTORY }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      if: inputs.BUILD_PYTHON_WHEEL == true
+      with:
+        artifact: ${{ inputs.WHEEL_STAGING_DIRECTORY }}/${{ inputs.WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl
+        architecture: ${{ inputs.ARCHITECTURE }}
