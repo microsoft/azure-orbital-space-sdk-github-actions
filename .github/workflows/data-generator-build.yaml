@@ -37,7 +37,7 @@ on:
                 required: true
 
 jobs:
-  build-core-service:
+  build-data-generator:
     runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     permissions:
