@@ -28,6 +28,14 @@ on:
               required: false
               type: string
               default: "26.1.3"
+            DOCKER_FILE:
+              description: 'Path to the docker file'
+              type: string
+              default: Dockerfiles/Dockerfile
+            REPO_DIR:
+              description: 'The directory of the repo'
+              type: string
+              default: ${{ github.workspace }}
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -53,8 +61,8 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
       with: 
-        dockerfile: Dockerfiles/Dockerfile
+        dockerfile: ${{ inputs.DOCKER_FILE}}
         architecture: ${{ inputs.ARCHITECTURE }}
-        repo-dir: ${{ github.workspace }}
+        repo-dir: ${{ inputs.REPO_DIR}}
         app-name: ${{ inputs.APP_NAME }}
         annotation-config: ${{ inputs.ANNOTATION }}
