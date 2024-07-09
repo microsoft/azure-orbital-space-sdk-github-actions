@@ -67,7 +67,7 @@ jobs:
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@km/add_data_generator
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@main
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.APP_PROJECT}}
@@ -86,13 +86,13 @@ jobs:
         sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/app/${{ inputs.PLUGIN_CONFIG_FILE_NAME }} ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
         tree ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@km/add_data_generator
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
         annotation-config: ${{ inputs.ANNOTATION }}
     
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@km/add_data_generator
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_CONFIG_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
