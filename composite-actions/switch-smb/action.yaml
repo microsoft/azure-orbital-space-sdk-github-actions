@@ -1,8 +1,12 @@
-name: 'Turn SMB On'
-description:  'Modifies the devcontainer.json of the current repo dir to turn on SMB'
+name: 'Switch SMB'
+description:  'Modifies the devcontainer.json of the current repo dir to turn on/off SMB'
 inputs:
   REPO_DIR:
     description: 'The path to the repo directory'
+    required: true
+    type: string
+  VALUE:
+    description: 'The value to set the smb_enabled_in_cluster to'
     required: true
     type: string
   
@@ -18,9 +22,9 @@ runs:
             echo "Reading confugration"
             DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }})
 
-            echo "set the smb_enabled_in_cluster to true"
-            # set the smb_enabled_in_cluster to true
-            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = true')
+            echo "set the smb_enabled_in_cluster to ${{ inputs.REPO_DIR }}"
+            # set the smb_enabled_in_cluster to  new value
+            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = ${{ inputs.REPO_DIR }}')
 
             echo "Remove the extra configFilePath"
             # Remove the extra configFilePath

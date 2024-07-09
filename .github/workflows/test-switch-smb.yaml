@@ -21,14 +21,15 @@ jobs:
       with:
         VER_DOCKER_MAX: 26.1.3
     
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@al/smb
 
     - name: install jq
       run: |
         sudo apt-get install jq -y
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/turn-smb-on@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@al/smb
       with:
         REPO_DIR: "${{ inputs.artifact_dir }}"
+        VALUE: "true"
 
     
