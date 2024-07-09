@@ -36,6 +36,15 @@ on:
               description: 'The directory of the repo'
               type: string
               default: ${{ github.workspace }}
+            YAML_STAGING_DIRECTORY:
+              description: 'Path to the yaml file'
+              type: string
+            YAML_FILE_PATH:
+              description: 'Path to the yaml file'
+              type: string
+            YAML_FILE_NAME:
+              description: 'Name of the yaml file'
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -66,3 +75,16 @@ jobs:
         repo-dir: ${{ inputs.REPO_DIR}}
         app-name: ${{ inputs.APP_NAME }}
         annotation-config: ${{ inputs.ANNOTATION }}
+
+    - name: Move file to staging directory
+      shell: bash
+      run: |
+        sudo mkdir -p ${{ inputs.YAML_STAGING_DIRECTORY }}
+  
+        sudo cp ${{ inputs.YAML_FILE_PATH }}/${{ inputs.YAML_FILE_NAME }} ${{ inputs.NUGET_STAGING_DIRECTORY }}
+        tree ${{ inputs.YAML_STAGING_DIRECTORY }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      with:
+        artifact: ${{ inputs.YAML_STAGING_DIRECTORY }}/${{ inputs.YAML_FILE_NAME }}
+        architecture: ${{ inputs.ARCHITECTURE }}
