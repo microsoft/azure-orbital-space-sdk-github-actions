@@ -39,7 +39,7 @@ on:
             YAML_STAGING_DIRECTORY:
               description: 'Path to the yaml file'
               type: string
-            YAML_FILE_PATH:
+            YAML_FOLDER_PATH:
               description: 'Path to the yaml file'
               type: string
             YAML_FILE_NAME:
@@ -81,7 +81,7 @@ jobs:
       run: |
         sudo mkdir -p ${{ inputs.YAML_STAGING_DIRECTORY }}
   
-        sudo cp ${{ inputs.YAML_FILE_PATH }}/${{ inputs.YAML_FILE_NAME }} ${{ inputs.NUGET_STAGING_DIRECTORY }}
+        sudo cp ${{ inputs.YAML_FOLDER_PATH }}/${{ inputs.YAML_FILE_NAME }} ${{ inputs.NUGET_STAGING_DIRECTORY }}
         tree ${{ inputs.YAML_STAGING_DIRECTORY }}
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
