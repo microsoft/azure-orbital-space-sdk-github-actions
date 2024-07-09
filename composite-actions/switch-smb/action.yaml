@@ -28,7 +28,7 @@ runs:
 
             echo "set the smb_enabled_in_cluster to ${{ inputs.REPO_DIR }}"
             # set the smb_enabled_in_cluster to  new value
-            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = ${{ inputs.REPO_DIR }}')
+            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = ${{ inputs.VALUE }}')
 
             echo "Remove the extra configFilePath"
             # Remove the extra configFilePath
