@@ -11,7 +11,7 @@ on:
           type: string
 
 jobs:
-  test-push-build-artifact:
+  test-switch-smb:
     runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     steps:
