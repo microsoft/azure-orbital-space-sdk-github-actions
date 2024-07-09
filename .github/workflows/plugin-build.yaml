@@ -53,7 +53,7 @@ on:
                 required: true
 
 jobs:
-  build-core-service:
+  build-plugin:
     runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     permissions:
