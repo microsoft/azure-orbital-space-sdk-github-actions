@@ -59,6 +59,12 @@ jobs:
         else
             echo "regctl is not installed"
         fi
+
+        if which jq >/dev/null; then
+            echo "jq is installed"
+        else
+            echo "jq is not installed"
+        fi
     
         if which devcontainer-cli >/dev/null; then
             echo "devcontainer-cli is installed"

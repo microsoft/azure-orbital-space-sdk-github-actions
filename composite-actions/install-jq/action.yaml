@@ -1,0 +1,10 @@
+name: 'install-jq'
+description:  'Installs jq'
+
+runs:
+    using: 'composite'
+    steps:
+        - name: Install jq
+          shell: bash
+          run: |
+            sudo apt-get install jq -y
