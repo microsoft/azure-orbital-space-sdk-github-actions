@@ -60,7 +60,7 @@ runs:
             if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
             fi
-            if [ -n "${{ inputs.DEV_CONTAINER_JSON }}"]; then
+            if [ -n "${{ inputs.DEV_CONTAINER_JSON }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --dev-container-json ${{ inputs.DEV_CONTAINER_JSON }}"
             fi
 
