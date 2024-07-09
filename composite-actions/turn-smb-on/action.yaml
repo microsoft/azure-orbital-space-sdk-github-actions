@@ -18,7 +18,7 @@ runs:
             echo "Current Working directory: ${PWD}"
 
             echo "Reading confugration - DEBUG"
-            devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --verbose
+            devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level trace
 
             echo "Reading confugration"
             DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }})
