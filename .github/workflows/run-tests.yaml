@@ -156,3 +156,22 @@ jobs:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
       GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
       SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+  test-switch-smb-amd64:
+    permissions:
+      contents: read
+      packages: read
+    
+    uses: ./.github/workflows/test-switch-smb.yaml
+    with: 
+      artifact_dir: ${PWD}/test-artifacts/test-switch-smb
+      WORKFLOW_AGENT: ubuntu-latest
+
+  test-switch-smb-arm64:
+    permissions:
+      contents: read
+      packages: read
+    uses: ./.github/workflows/test-switch-smb.yaml
+    with:
+      artifact_dir: ${PWD}/test-artifacts/test-switch-smb
+      WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64

@@ -1,0 +1,22 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.245.2/containers/dotnet
+{
+    "name": "test-app",
+    "image": "mcr.microsoft.com/devcontainers/dotnet:0-6.0",
+    "runArgs": [
+        "--name=test-app"
+    ],
+    "workspaceFolder": "/workspaces/test-app",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces/test-app,type=bind,consistency=cached",
+    "hostRequirements": {
+        "cpus": 8,
+        "memory": "8gb"
+    },
+    "features": {
+        "ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0": {
+            "app_name": "test-app",
+            "app_type": "payload-app"
+        }
+    },
+    "remoteUser": "root"
+}

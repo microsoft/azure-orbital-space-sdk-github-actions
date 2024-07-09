@@ -38,7 +38,7 @@ runs:
                     sudo npm cache clean -f
                     echo ""
                     echo "Upgrade nodejs"
-                    sudo n 16.13.0
+                    sudo n 18.20.3
                     echo "Run hash command"
                     hash -r
                     echo ""
