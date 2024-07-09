@@ -1,4 +1,4 @@
-name: Shared- service-build workflow
+name: Shared- plugin-build workflow
 on: 
     workflow_call:
         inputs:
@@ -13,12 +13,16 @@ on:
               description: 'The output directory for the build'
               required: true
               type: string
-            NUGET_STAGING_DIRECTORY:
+            PLUGIN_STAGING_DIRECTORY:
               description: 'The staging directory for the nuget packages'
               required: true
               type: string
-            NUGET_FILE_PREFIX:
+            PLUGIN_FILE_NAME:
               description: 'The prefix for the nuget file'
+              required: true
+              type: string
+            PLUGIN_CONFIG_FILE_NAME:
+              description: 'The config file for the plugin'
               required: true
               type: string
             ANNOTATION:
@@ -37,6 +41,9 @@ on:
               description: 'The version of the space sdk'
               type: string
               default: "0.11.0"
+            DEV_CONTAINER_JSON:
+              description: 'The dev container json file'
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -46,7 +53,7 @@ on:
                 required: true
 
 jobs:
-  build-core-service:
+  build-plugin:
     runs-on: ${{ inputs.WORKFLOW_AGENT }}
 
     permissions:
@@ -64,21 +71,29 @@ jobs:
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.APP_PROJECT}}
-        NUGET_PROJECT: ${{ inputs.NUGET_PROJECT}}
         APP_VERSION: ${{ inputs.SPACESDK_VERSION }}
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
         ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
         NO_CONTAINER_BUILD: 'false'
+        DEV_CONTAINER_JSON: ${{ inputs.DEV_CONTAINER_JSON }}
         
     - name: Move file to staging directory
       shell: bash
       run: |
-        sudo mkdir -p ${{ inputs.NUGET_STAGING_DIRECTORY }}
+        sudo mkdir -p ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
 
-        sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/nuget/${{ inputs.NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg ${{ inputs.NUGET_STAGING_DIRECTORY }}
-        tree ${{ inputs.NUGET_STAGING_DIRECTORY }}
+        sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/app/${{ inputs.PLUGIN_FILE_NAME }} ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
+        sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/app/${{ inputs.PLUGIN_CONFIG_FILE_NAME }} ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
+        tree ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
-        artifact: ${{ inputs.NUGET_STAGING_DIRECTORY }}/${{ inputs.NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg
+        artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
+        annotation-config: ${{ inputs.ANNOTATION }}
+    
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      with:
+        artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_CONFIG_FILE_NAME }}
+        architecture: ${{ inputs.ARCHITECTURE }}
+        annotation-config: ${{ inputs.ANNOTATION }}

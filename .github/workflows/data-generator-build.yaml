@@ -1,0 +1,90 @@
+name: Shared-data-generator
+on: 
+    workflow_call:
+        inputs:
+            REGISTRY: 
+              description: 'Registry to push the image to'
+              required: true
+              type: string 
+              default: 'ghcr.io'
+            APP_NAME:
+              description: 'Name of the application'
+              required: true
+              type: string
+            ANNOTATION:
+              description: 'Annotation file'
+              required: true
+              type: string
+            WORKFLOW_AGENT:
+              description: 'The name of the workflow agent'
+              type: string
+              default: 'ubuntu-latest'
+            ARCHITECTURE:
+              description: 'The architecture for the image'
+              required: true
+              type: string
+            VER_DOCKER_MAX:
+              description: 'Docker version to install'
+              required: false
+              type: string
+              default: "26.1.3"
+            DOCKER_FILE:
+              description: 'Path to the docker file'
+              type: string
+              default: Dockerfiles/Dockerfile
+            REPO_DIR:
+              description: 'The directory of the repo'
+              type: string
+              default: ${{ github.workspace }}
+            YAML_STAGING_DIRECTORY:
+              description: 'Path to the yaml file'
+              type: string
+            YAML_FOLDER_PATH:
+              description: 'Path to the yaml file'
+              type: string
+            YAML_FILE_NAME:
+              description: 'Name of the yaml file'
+              type: string
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  build-data-generator:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
+      with: 
+        dockerfile: ${{ inputs.DOCKER_FILE}}
+        architecture: ${{ inputs.ARCHITECTURE }}
+        repo-dir: ${{ inputs.REPO_DIR}}
+        app-name: ${{ inputs.APP_NAME }}
+        annotation-config: ${{ inputs.ANNOTATION }}
+
+    - name: Move file to staging directory
+      shell: bash
+      run: |
+        sudo mkdir -p ${{ inputs.YAML_STAGING_DIRECTORY }}
+  
+        sudo cp ${{ inputs.YAML_FOLDER_PATH }}/${{ inputs.YAML_FILE_NAME }} ${{ inputs.YAML_STAGING_DIRECTORY }}
+        tree ${{ inputs.YAML_STAGING_DIRECTORY }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      with:
+        artifact: ${{ inputs.YAML_STAGING_DIRECTORY }}/${{ inputs.YAML_FILE_NAME }}
+        architecture: ${{ inputs.ARCHITECTURE }}
