@@ -15,8 +15,6 @@ runs:
         - name: Update devcontainer.json
           shell: bash
           run: |
-            echo "Current Working directory: ${PWD}"
-
             echo "Reading confugration - DEBUG"
             devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level trace
 
