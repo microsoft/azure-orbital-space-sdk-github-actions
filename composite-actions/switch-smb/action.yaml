@@ -19,12 +19,9 @@ runs:
         - name: Update devcontainer.json
           shell: bash
           run: |
-            echo "Reading confugration - DEBUG"
-            devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level trace
-
             echo "Reading confugration"
             
-            DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }})
+            DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level debug)
 
             echo "set the smb_enabled_in_cluster to ${{ inputs.REPO_DIR }}"
             # set the smb_enabled_in_cluster to  new value
