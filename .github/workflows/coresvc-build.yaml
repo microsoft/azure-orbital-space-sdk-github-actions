@@ -53,7 +53,7 @@ jobs:
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/run-build-container-image@main
       with: 
-        dockerfile: Dockerfiles/Dockerfile
+        docker-file: Dockerfiles/Dockerfile
         architecture: ${{ inputs.ARCHITECTURE }}
         repo-dir: ${{ github.workspace }}
         app-name: ${{ inputs.APP_NAME }}
