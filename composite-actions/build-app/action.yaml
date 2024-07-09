@@ -24,6 +24,8 @@ inputs:
     SPACEDEV_DIR:
         description: 'The directory where the SpaceDev scripts are located'
         default: "/var/spacedev"
+    DEV_CONTAINER_JSON:
+        description: 'The dev container json file'
 runs:
     using: 'composite'
     steps:
@@ -39,6 +41,7 @@ runs:
             echo "  REPO_DIR: ${{ inputs.REPO_DIR }}"
             echo "  NUGET_PROJECT: ${{ inputs.NUGET_PROJECT }}"
             echo "  NO_CONTAINER_BUILD: ${{ inputs.NO_CONTAINER_BUILD }}"
+            echo "  DEV_CONTAINER_JSON: ${{ inputs.DEV_CONTAINER_JSON }}"
             echo ""
         
         - name: Run Build Scripts
@@ -56,6 +59,9 @@ runs:
             fi
             if [ -n "${{ inputs.ANNOTATION_CONFIG }}" ]; then
                 CMD_ARGUMENTS="$CMD_ARGUMENTS --annotation-config ${{ inputs.ANNOTATION_CONFIG }}"
+            fi
+            if [ -n "${{ inputs.DEV_CONTAINER_JSON }}"]; then
+                CMD_ARGUMENTS="$CMD_ARGUMENTS --dev-container-json ${{ inputs.DEV_CONTAINER_JSON }}"
             fi
 
             echo "Running Build Script..."
