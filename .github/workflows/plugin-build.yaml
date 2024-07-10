@@ -1,5 +1,5 @@
 name: Shared- plugin-build workflow
-on: 
+on:
     workflow_call:
         inputs:
             APP_PROJECT:
@@ -44,6 +44,21 @@ on:
             DEV_CONTAINER_JSON:
               description: 'The dev container json file'
               type: string
+            PROTO_STAGING_DIRECTORY:
+              required: false
+              default: ''
+              description: 'Destination directory for the proto file'
+              type: string
+            PROTO_FOLDER_PATH:
+              required: false
+              default: ''
+              description: 'Source directory with the proto file'
+              type: string
+            PROTO_FILE_NAME:
+              required: false
+              default: ''
+              description: 'Name of the proto file'
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -76,7 +91,7 @@ jobs:
         ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
         NO_CONTAINER_BUILD: 'false'
         DEV_CONTAINER_JSON: ${{ inputs.DEV_CONTAINER_JSON }}
-        
+
     - name: Move file to staging directory
       shell: bash
       run: |
@@ -91,9 +106,24 @@ jobs:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
         annotation-config: ${{ inputs.ANNOTATION }}
-    
+
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
       with:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_CONFIG_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
         annotation-config: ${{ inputs.ANNOTATION }}
+
+    - name: Move protos to staging directory
+      if: inputs.PROTO_STAGING_DIRECTORY != ''
+      shell: bash
+      run: |
+        sudo mkdir -p ${{ inputs.PROTO_STAGING_DIRECTORY }}
+        sudo cp ${{ inputs.PROTO_FOLDER_PATH }}/${{ inputs.PROTO_FILE_NAME }} ${{ inputs.PROTO_STAGING_DIRECTORY }} || echo "No proto files to move"
+
+        tree ${{ inputs.PROTO_STAGING_DIRECTORY }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+      if: inputs.PROTO_STAGING_DIRECTORY != ''
+      with:
+        artifact: ${{ inputs.PROTO_STAGING_DIRECTORY }}/${{ inputs.PROTO_FILE_NAME }}
+        architecture: ${{ inputs.ARCHITECTURE }}
