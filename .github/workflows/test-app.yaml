@@ -10,6 +10,10 @@ on:
               description: 'The name of the workflow agent'
               type: string
               default: 'ubuntu-latest'
+            SMB_ON:
+              description: 'Whether to switch on SMB or not'
+              type: string
+              default: 'false'
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -35,6 +39,12 @@ jobs:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@main
+      if: inputs.SMB_ON == 'true'
+      with:
+        REPO_DIR: "${PWD}"
+        VALUE: "true"
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@main
       if: inputs.WORKFLOW_AGENT == 'spacesdk-ubuntu-2204LTS-arm64'
