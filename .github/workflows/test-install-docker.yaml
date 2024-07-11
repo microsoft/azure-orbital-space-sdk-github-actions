@@ -54,3 +54,8 @@ jobs:
             echo "Version does not match. Installed version is $INSTALLED_VER but required version is ${{ inputs.VER_DOCKER_MAX }}"
             exit 1
         fi
+
+        echo "Runnning hello-world..."
+        docker run hello-world 
+        echo "Get Version..."
+        docker version
