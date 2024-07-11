@@ -1,28 +1,22 @@
 name: 'stand-up-dev-container'
 description:  'This stands up the devcontainer'
 inputs:
-    registry_name:
-        description: 'The name of the registry'
-        default: 'ghcr.io/microsoft'
-    github-user-name:
-        description: 'The name of the github user'
-        required: true
-    github-user-token:
-        description: 'The token to use for the registry'
-        required: true
+    workspace-folder:
+        description: 'The workspace folder'
+        default: "${PWD}"
 runs:
     using: 'composite'
     steps:
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
-          with:
-            registry-name: ${{ inputs.registry_name }}
-            github-user-name: ${{ inputs.github-user-name }}
-            github-user-token: ${{ inputs.github-user-token }}
-
         - name: Stand up the devcontainer
           shell: bash
           run: |
-            devcontainer up --workspace-folder ${PWD}
-            echo ""
-            echo "Directory structure"
-            ls ${PWD}
+            devcontainer up --workspace-folder ${{ inputs.workspace-folder }} \
+                --workspace-mount-consistency cached \
+                --id-label devcontainer.local_folder=${{ inputs.workspace-folder }} \
+                --default-user-env-probe loginInteractiveShell \
+                --build-no-cache \
+                --remove-existing-container \
+                --mount type=volume,source=vscode,target=/vscode,external=true \
+                --update-remote-user-uid-default on \
+                --mount-workspace-git-root true
+            echo $?

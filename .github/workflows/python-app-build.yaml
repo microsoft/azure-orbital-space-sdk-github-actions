@@ -38,9 +38,9 @@ on:
               type: string
               default: "0.11.0"
             BUILD_PYTHON_WHEEL:
-                description: 'Flag to indicate if the python wheel should be built'
-                type: boolean
-                default: false
+              description: 'Flag to indicate if the python wheel should be built'
+              type: boolean
+              default: false
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
