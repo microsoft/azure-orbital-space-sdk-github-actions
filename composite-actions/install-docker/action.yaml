@@ -31,17 +31,4 @@ runs:
 
                 APT_DOCKER_INSTALL_VERSION=$(apt-cache madison docker-ce | awk '{ print $3 }' | grep ${{ inputs.VER_DOCKER_MAX }})
                 sudo apt-get install docker-ce=$APT_DOCKER_INSTALL_VERSION docker-ce-cli=$APT_DOCKER_INSTALL_VERSION containerd.io docker-buildx-plugin docker-compose-plugin -y
-
-                echo "Performing hello-world test..."
-                sudo docker run hello-world
-
-                echo "Setup docker group"
-                sudo usermod -aG docker $USER
-                echo "running newgrp docker..."
-                newgrp docker
-                sudo chmod 666 /var/run/docker.sock
-                echo "Runnning hello-world..."
-                docker run hello-world 
-                echo "Get Version..."
-                docker version
             fi
