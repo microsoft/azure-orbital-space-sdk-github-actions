@@ -17,6 +17,7 @@ inputs:
         required: true
     DEVCONTAINER_JSON:
         description: 'alternative path to the devcontainer.json file'
+        default: './.devcontainer/devcontainer.json'
     NO_CONTAINER_BUILD:
         description: 'Flag to indicate if the container should be built'
         type: boolean
