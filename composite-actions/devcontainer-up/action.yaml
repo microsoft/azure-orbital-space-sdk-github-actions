@@ -3,7 +3,7 @@ description:  'This stands up the devcontainer'
 inputs:
     workspace-folder:
         description: 'The workspace folder'
-        default: '.'
+        default: "${PWD}"
 runs:
     using: 'composite'
     steps:
