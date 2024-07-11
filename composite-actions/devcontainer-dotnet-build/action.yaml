@@ -1,0 +1,23 @@
+name: 'devcontainer-dotnet-build'
+description:  'Run a build of the dotnet project in a dev container'
+inputs:
+    project-file-path:
+        description: 'The workspace folder'
+        default: '.'
+runs:
+    using: 'composite'
+    steps:
+        - name: Run dotnet clean
+          shell: bash
+          run: |
+            docker exec $container_name bash -c "dotnet clean ${{ inputs.project-file-path }}"
+
+        - name: Run dotnet restore
+          shell: bash
+          run: |
+            docker exec $container_name bash -c "dotnet restore ${{ inputs.project-file-path }}"
+
+        - name: Run dotnet build
+          shell: bash
+          run: |
+            docker exec $container_name bash -c "dotnet build ${{ inputs.project-file-path }}"
