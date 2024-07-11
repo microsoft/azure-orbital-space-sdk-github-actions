@@ -37,17 +37,10 @@ on:
               description: 'The version of the space sdk'
               type: string
               default: "0.11.0"
-            CONTAINER_NAME:
-              description: 'The name of dev container '
-              type: string
             BUILD_PYTHON_WHEEL:
               description: 'Flag to indicate if the python wheel should be built'
               type: boolean
               default: false
-            DOT_NET_PROJECT:
-              description: 'The dotnet project to build'
-              type: string
-              default: ''
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -70,15 +63,6 @@ jobs:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
-
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/devcontainer-up@km/add_build_steps
-      if: inputs.DOT_NET_PROJECT != ''
-      
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/devcontainer-dotnet-build@km/add_build_steps
-      if: inputs.DOT_NET_PROJECT != '' && inputs.CONTAINER_NAME != ''
-      with:
-        project-file-path: ${{ inputs.DOT_NET_PROJECT }}
-        container-name: ${{ inputs.CONTAINER_NAME }}
 
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@main
       with:
