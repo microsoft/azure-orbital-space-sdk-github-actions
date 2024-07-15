@@ -34,12 +34,14 @@ runs:
             echo ""
 
             echo "Download qlpacks..."
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-queries@1.0.2"
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download codeql/threat-models@1.0.2"
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-solorigate-queries@1.0.1"
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-solorigate-all@1.0.1"
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-upgrades@0.0.7"
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql pack download githubsecuritylab/codeql-csharp-queries"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-queries@1.0.2"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download codeql/threat-models@1.0.2"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-solorigate-queries@1.0.1"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-solorigate-all@1.0.1"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download codeql/csharp-upgrades@0.0.7"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download githubsecuritylab/codeql-csharp-queries"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download githubsecuritylab/codeql-csharp-extensions"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql pack download githubsecuritylab/codeql-csharp-library-sources"
 
             echo ""
 
@@ -55,10 +57,6 @@ runs:
             docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql database trace-command ${{ inputs.database-name }} dotnet build ${{ inputs.dotnet-project-path }}"
             echo ""
 
-            echo "Database finalize..."
-            docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql database finalize ${{ inputs.database-name }}"
-            echo ""
-
             echo "Resolve qlpacks..."
             docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql resolve qlpacks"
             echo ""
@@ -68,10 +66,16 @@ runs:
             echo ""
 
             #echo "Database Query..."
-            #docker exec ${{ inputs.container-name }} bash -c "bash /root/codeql/codeql/codeql database analyze ${{ inputs.database-name }} codeql/csharp-queries codeql/csharp-solorigate-queries githubsecuritylab/codeql-csharp-queries --format=sarif-latest --output=${{ inputs.results-file-path }}"
+            docker exec $container_name bash -c "bash /root/codeql/codeql/codeql database analyze $database_name codeql/csharp-queries codeql/csharp-solorigate-queries githubsecuritylab/codeql-csharp-queries --format=sarif-latest --output=/var/spacedev/tmp/analysis-results.sarif --sarif-add-snippets --sarif-add-query-help --sarif-group-rules-by-pack --no-sarif-minify"
 
         - name: Upload analysis results
           uses: actions/upload-artifact@v2
           with:
             name: ${{ inputs.artifact-name }}
             path: ${{ inputs.results-file-path }}
+
+        - name: Upload SARIF file
+          uses: github/codeql-action/upload-sarif@v3
+          with:
+            # Path to the SARIF file
+            sarif_file: ${{ inputs.results-file-path }}
