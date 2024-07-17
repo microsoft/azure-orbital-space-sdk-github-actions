@@ -1,17 +1,16 @@
 name: 'sign-container'
 description:  'Sign a container image'
 inputs:
-  container-registry-name:
-    description: 'The name of the container registry'
-    required: true
-    type: string
   container-repository-name:
     description: 'The name of the container repository'
     required: true
     type: string
+  container-registry-name:
+    description: 'The name of the container registry'
+    type: string
+    default: ghcr.io/microsoft/azure-orbital-space-sdk
   container-repository-tag:
     description: 'The tag of the container repository'
-    required: true
     type: string
   cosign-public-key:
     description: 'The public key to sign the container image'
@@ -34,9 +33,22 @@ runs:
             COSIGN_PASSWORD: ${{ inputs.cosign-passphrase }}
             COSIGN_KEY: ${{ inputs.cosign-private-key }}
           run: |
+            if [[ -z "${{ inputs.container-repository-tag }}" ]]; then
+              echo "Container repository tag set, using ${{ inputs.container-repository-tag }}"
+              CONTAINER_TAG="${{ inputs.container-repository-tag }}"
+            else
+              echo "Container repository tag not set, checking env file"
+              if [ -f "/var/spacedev/env/spacefx.env" ]; then
+                echo "Source File found, loading environment variables"
+                source /var/spacedev/env/spacefx.env
+                CONTAINER_TAG="$SPACEFX_VERSION_$SPACEFX_CHANNEL"
+                echo "Container tag is $CONTAINER_TAG"
+              else
+                echo "No source file found, exiting..."
+                exit 1
+              fi
+            fi
+            
             cosign sign ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
-
-        - name: Verify image signature
-          shell: bash
-          run: |
-            echo "$COSIGN_PUBLIC_KEY" | cosign verify --key /dev/stdin ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            echo "${{ inputs.cosign-public-key }}" | cosign verify --key /dev/stdin ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
+            

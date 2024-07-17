@@ -2,7 +2,11 @@ name: Shared- service-build workflow
 on: 
     workflow_call:
         inputs:
-            APP_PROJECT:
+          CONTAINER_REPOSITORY_NAME: 
+            description: 'The name of the container repository'
+            required: true
+            type: string  
+          APP_PROJECT:
               description: 'The project to build'
               required: true
               type: string
@@ -82,3 +86,17 @@ jobs:
       with:
         artifact: ${{ inputs.NUGET_STAGING_DIRECTORY }}/${{ inputs.NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg
         architecture: ${{ inputs.ARCHITECTURE }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-cosign@km/adding_container_signing
+      with:
+        architecture: ${{ inputs.ARCHITECTURE }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-syft@km/adding_container_signing
+      
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/image-generate-sbom@km/adding_container_signing
+      with:
+        container-repository-name: '${{ inputs.CONTAINER_REPOSITORY_NAME }}'
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/image-sign-container@km/adding_container_signing
+      with:
+        container-repository-name: '${{ inputs.CONTAINER_REPOSITORY_NAME }}'

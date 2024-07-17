@@ -1,17 +1,17 @@
 name: 'generate-sbom'
 description:  'Generate and attach sbom'
 inputs:
-  container-registry-name:
-    description: 'The name of the container registry'
-    required: true
-    type: string
+  # Required Parameters
   container-repository-name:
     description: 'The name of the container repository'
     required: true
     type: string
+  # Optional parameter with defaults.
+  container-registry-name:
+    description: 'The name of the container registry'
+    default: ghcr.io/microsoft/azure-orbital-space-sdk
   container-repository-tag:
     description: 'The tag of the container repository'
-    required: true
     type: string
   sbom-path:
     description: 'The path to the sbom'
@@ -27,10 +27,24 @@ runs:
         - name: Generate SBOM
           shell: bash
           run: |
+            if [[ -z "${{ inputs.container-repository-tag }}" ]]; then
+              echo "Container repository tag set, using ${{ inputs.container-repository-tag }}"
+              CONTAINER_TAG="${{ inputs.container-repository-tag }}"
+            else
+              echo "Container repository tag not set, checking env file"
+              if [ -f "/var/spacedev/env/spacefx.env" ]; then
+                echo "Source File found, loading environment variables"
+                source /var/spacedev/env/spacefx.env
+                CONTAINER_TAG="$SPACEFX_VERSION_$SPACEFX_CHANNEL"
+                echo "Container tag is $CONTAINER_TAG"
+              else
+                echo "No source file found, exiting..."
+                exit 1
+              fi
+            fi
+            
             mkdir -p ${{ inputs.sbom-path }}
-            syft --scope all-layers -o json=${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            syft --scope all-layers -o json=${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
 
-        - name: Attach SBOM
-          shell: bash
-          run: |
-            cosign attach sbom --sbom ${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            cosign attach sbom --sbom ${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
+            
