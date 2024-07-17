@@ -41,6 +41,18 @@ on:
               description: 'The version of the space sdk'
               type: string
               default: "0.11.0"
+            cosign-public-key:
+              description: 'The public key to sign the container image'
+              required: true
+              type: string
+            cosign-private-key:
+              description: 'The private key to sign the container image'
+              required: true
+              type: string
+            cosign-passphrase:
+              description: 'The passphrase to sign the container image'
+              required: true
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -100,3 +112,6 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/image-sign-container@km/adding_container_signing
       with:
         container-repository-name: '${{ inputs.CONTAINER_REPOSITORY_NAME }}'
+        cosign-public-key: ${{ inputs.cosign-public-key }}
+        cosign-private-key: ${{ inputs.cosign-private-key }}
+        cosign-passphrase:  ${{ inputs.cosign-passphrase }}
