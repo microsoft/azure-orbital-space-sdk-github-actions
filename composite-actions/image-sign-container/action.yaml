@@ -1,0 +1,42 @@
+name: 'sign-container'
+description:  'Sign a container image'
+inputs:
+  container-registry-name:
+    description: 'The name of the container registry'
+    required: true
+    type: string
+  container-repository-name:
+    description: 'The name of the container repository'
+    required: true
+    type: string
+  container-repository-tag:
+    description: 'The tag of the container repository'
+    required: true
+    type: string
+  cosign-public-key:
+    description: 'The public key to sign the container image'
+    required: true
+    type: string
+  cosign-private-key:
+    description: 'The private key to sign the container image'
+    required: true
+    type: string
+  cosign-passphrase:
+    description: 'The passphrase to sign the container image'
+    required: true
+    type: string
+runs:
+    using: 'composite'
+    steps:
+        - name: Sign container image
+          shell: bash
+          env:
+            COSIGN_PASSWORD: ${{ inputs.cosign-passphrase }}
+            COSIGN_KEY: ${{ inputs.cosign-private-key }}
+          run: |
+            cosign sign ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+
+        - name: Verify image signature
+          shell: bash
+          run: |
+            echo "$COSIGN_PUBLIC_KEY" | cosign verify --key /dev/stdin ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
