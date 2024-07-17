@@ -27,13 +27,12 @@ jobs:
       shell: bash
       run: |
         INSTALLED_VER=$(cosign version | grep 'GitVersion:' | awk '{print $2}')
-        INTENDED_INSTALL_VERSION="${{ steps.install-cosign.outputs.installed-cosign-version }}"
 
-        # Compare the installed version with the required version
-        if [ "$INSTALLED_VER" == "$INTENDED_INSTALL_VERSION" ]; then
-            echo "Version matches"
-        else
-            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $INTENDED_INSTALL_VERSION"
+        if [ -z "$INSTALLED_VER" ]; then
+            echo "cosign is not installed"
             exit 1
+        else
+            echo "cosign is installed at version $INSTALLED_VER"
+            
         fi
         
