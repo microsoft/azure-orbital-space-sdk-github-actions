@@ -39,4 +39,7 @@ jobs:
       with:
         container-repository-name: 'testing-signing'
         container-repository-tag: 'latest'
+        cosign-public-key: ${{ secrets.COSIGN_PUBLIC_KEY }}
+        cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        cosign-passphrase:  ${{ secrets.COSIGN_PASSPHRASE }}
         
