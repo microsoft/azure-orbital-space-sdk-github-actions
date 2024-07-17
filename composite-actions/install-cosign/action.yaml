@@ -1,0 +1,34 @@
+name: 'install-cosign'
+description:  'Installs cosign'
+inputs:
+  cosign-version:
+    description: 'The version of oras to install'
+    default: '2.2.4'
+outputs:
+  installed-cosign-version:
+    description: 'The version of cosign that was installed'
+runs:
+    using: 'composite'
+    steps:
+        - name: Install cosign
+          shell: bash
+          run: |
+            echo "Download the latest release of cosign"
+            wget https://github.com/sigstore/cosign/releases/download/v${{ inputs.cosign-version }}/cosign-linux-amd64 -O cosign
+
+            echo "Make the binary executable"
+            chmod +x cosign
+
+            echo "Move the binary to a directory in your PATH (e.g., /usr/local/bin/)""
+            sudo mv cosign /usr/local/bin/
+
+            echo "Verify the installation"
+            cosign version
+
+        - name: Set output
+          shell: bash
+          run: echo "installed-cosign-version=$(cosign version | grep 'GitVersion:' | awk '{print $2}')" >> $GITHUB_OUTPUT
+    
+                
+        
+        

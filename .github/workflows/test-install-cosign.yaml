@@ -1,0 +1,33 @@
+name: Test Installing cosign
+on: 
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+
+jobs:
+  test-install-cosign:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - id: install-cosign
+      uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-cosign@km/adding_container_signing
+
+    - name: Validate cosign
+      shell: bash
+      run: |
+        INSTALLED_VER=$(cosign version | grep 'GitVersion:' | awk '{print $2}')
+        INTENDED_INSTALL_VERSION="${{ steps.cosign-install.outputs.installed-cosign-version }}"
+
+        # Compare the installed version with the required version
+        if [ "$INSTALLED_VER" == "$INTENDED_INSTALL_VERSION" ]; then
+            echo "Version matches"
+        else
+            echo "Version does not match. Installed version is $INSTALLED_VER but required version is $INTENDED_INSTALL_VERSION"
+            exit 1
+        fi
+        
