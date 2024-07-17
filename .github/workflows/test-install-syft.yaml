@@ -1,0 +1,32 @@
+name: Test Installing syft
+on: 
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+
+jobs:
+  test-install-cosign:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - id: install-cosign
+      uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-syft@km/adding_container_signing
+
+    - name: Validate syft
+      shell: bash
+      run: |
+        INSTALLED_VER=$(syft version)
+
+        if [ -z "$INSTALLED_VER" ]; then
+            echo "syft is not installed"
+            exit 1
+        else
+            echo "syft is installed at version $INSTALLED_VER"
+            
+        fi
+        

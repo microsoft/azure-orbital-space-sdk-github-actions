@@ -1,0 +1,15 @@
+name: 'install-syft'
+description:  'Installs syft'
+runs:
+    using: 'composite'
+    steps:
+        - name: Install syft
+          shell: bash
+          run: |
+            curl -sSfL https://raw.githubusercontent.com/anchore/syft/main/install.sh | sudo sh -s -- -b /usr/local/bin
+            # Validate:
+            syft version
+    
+                
+        
+        

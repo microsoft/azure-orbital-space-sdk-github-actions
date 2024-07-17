@@ -50,6 +50,18 @@ jobs:
       agent: spacesdk-ubuntu-2204LTS-arm64
       architecture: arm64
 
+  test-install-syft-amd64:
+    uses: ./.github/workflows/test-install-syft.yaml
+    with:
+      agent: ubuntu-latest
+      architecture: amd64
+
+  test-install-syft-arm64:
+    uses: ./.github/workflows/test-install-syft.yaml
+    with:
+      agent: spacesdk-ubuntu-2204LTS-arm64
+      architecture: arm64
+
   test-install-regctl-amd64:
     permissions:
       contents: read
