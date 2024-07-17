@@ -17,6 +17,12 @@ on:
             required: true
         SETUP_REPO_URL:
             required: true
+        COSIGN_PUBLIC_KEY:
+            required: true
+        COSIGN_PRIVATE_KEY:
+            required: true
+        COSIGN_PASSPHRASE:
+            required: true
 
 jobs:
   test-container-signing:

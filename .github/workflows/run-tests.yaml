@@ -243,6 +243,10 @@ jobs:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
       GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
       SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PASSPHRASE: ${{ secrets.COSIGN_PASSPHRASE }}
+
 
   test-container-signing-arm64:
     permissions:
@@ -257,3 +261,6 @@ jobs:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
       GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
       SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+      COSIGN_PUBLIC_KEY: ${{ secrets.COSIGN_PUBLIC_KEY }}
+      COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+      COSIGN_PASSPHRASE: ${{ secrets.COSIGN_PASSPHRASE }}
