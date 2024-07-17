@@ -1,0 +1,36 @@
+name: 'generate-sbom'
+description:  'Generate and attach sbom'
+inputs:
+  container-registry-name:
+    description: 'The name of the container registry'
+    required: true
+    type: string
+  container-repository-name:
+    description: 'The name of the container repository'
+    required: true
+    type: string
+  container-repository-tag:
+    description: 'The tag of the container repository'
+    required: true
+    type: string
+  sbom-path:
+    description: 'The path to the sbom'
+    type: string
+    default: /var/spacedev/sbom
+  sbom-file-name:
+    description: 'The name of the sbom file'
+    type: string
+    default: sbom.json
+runs:
+    using: 'composite'
+    steps:
+        - name: Generate SBOM
+          shell: bash
+          run: |
+            mkdir -p ${{ inputs.sbom-path }}
+            syft --scope all-layers -o json=${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+
+        - name: Attach SBOM
+          shell: bash
+          run: |
+            cosign attach sbom --sbom ${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
