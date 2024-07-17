@@ -42,11 +42,13 @@ jobs:
     uses: ./.github/workflows/test-install-cosign.yaml
     with:
       agent: ubuntu-latest
+      architecture: amd64
 
   test-install-cosign-arm64:
     uses: ./.github/workflows/test-install-cosign.yaml
     with:
       agent: spacesdk-ubuntu-2204LTS-arm64
+      architecture: arm64
 
   test-install-regctl-amd64:
     permissions:

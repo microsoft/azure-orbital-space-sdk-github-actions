@@ -4,6 +4,9 @@ inputs:
   cosign-version:
     description: 'The version of oras to install'
     default: '2.2.4'
+  architecture:
+    description: 'The architecture of the agent'
+    default: 'amd64'
 outputs:
   installed-cosign-version:
     description: 'The version of cosign that was installed'
@@ -14,7 +17,7 @@ runs:
           shell: bash
           run: |
             echo "Download the latest release of cosign"
-            wget https://github.com/sigstore/cosign/releases/download/v${{ inputs.cosign-version }}/cosign-linux-amd64 -O cosign
+            wget https://github.com/sigstore/cosign/releases/download/v${{ inputs.cosign-version }}/cosign-linux-${{ inputs.architecture }} -O cosign
 
             echo "Make the binary executable"
             chmod +x cosign

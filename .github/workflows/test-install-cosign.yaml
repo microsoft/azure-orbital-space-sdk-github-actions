@@ -6,6 +6,10 @@ on:
           description: 'The agent to run the job on'
           required: true
           type: string
+        architecture:
+          description: 'The architecture of the agent'
+          required: true
+          type: string
 
 jobs:
   test-install-cosign:
@@ -16,6 +20,8 @@ jobs:
 
     - id: install-cosign
       uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-cosign@km/adding_container_signing
+      with:
+        architecture: ${{ inputs.architecture }}
 
     - name: Validate cosign
       shell: bash
