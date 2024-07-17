@@ -11,6 +11,13 @@ on:
           description: 'The architecture of the agent'
           required: true
           type: string
+      secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        SETUP_REPO_URL:
+            required: true
 
 jobs:
   test-install-cosign:

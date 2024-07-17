@@ -201,3 +201,59 @@ jobs:
     with:
       artifact_dir: ${PWD}/test-artifacts/test-switch-smb
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
+
+  test-container-sbom-amd64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-container-sbom.yaml
+    with: 
+      agent: ubuntu-latest
+      architecture: amd64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+  test-container-sbom-arm64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-container-sbom.yaml
+    with: 
+      agent: spacesdk-ubuntu-2204LTS-arm64
+      architecture: arm64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+  test-container-signing-amd64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-container-signing.yaml
+    with: 
+      agent: ubuntu-latest
+      architecture: amd64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+  test-container-signing-arm64:
+    permissions:
+      contents: read
+      packages: write
+    
+    uses: ./.github/workflows/test-container-signing.yaml
+    with: 
+      agent: spacesdk-ubuntu-2204LTS-arm64
+      architecture: arm64
+    secrets:
+      GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
