@@ -19,7 +19,7 @@ runs:
             echo "Make the binary executable"
             chmod +x cosign
 
-            echo "Move the binary to a directory in your PATH (e.g., /usr/local/bin/)"
+            echo "Move the binary to a directory"
             sudo mv cosign /usr/local/bin/
 
             echo "Verify the installation"
