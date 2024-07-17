@@ -27,7 +27,7 @@ jobs:
       shell: bash
       run: |
         INSTALLED_VER=$(cosign version | grep 'GitVersion:' | awk '{print $2}')
-        INTENDED_INSTALL_VERSION="${{ steps.cosign-install.outputs.installed-cosign-version }}"
+        INTENDED_INSTALL_VERSION="${{ steps.install-cosign.outputs.installed-cosign-version }}"
 
         # Compare the installed version with the required version
         if [ "$INSTALLED_VER" == "$INTENDED_INSTALL_VERSION" ]; then
