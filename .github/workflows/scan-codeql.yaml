@@ -1,0 +1,31 @@
+name: Shared - scan-codeql
+on: 
+    workflow_call:
+        inputs:
+            REGISTRY: 
+              description: 'Registry to push the image to'
+              required: true
+              type: string 
+              default: 'ghcr.io'
+        secrets:
+            GIT_HUB_USER_NAME:
+                required: true
+            GIT_HUB_USER_TOKEN:
+                required: true
+            SETUP_REPO_URL:
+                required: true
+
+jobs:
+  build-core-service:
+    runs-on: ${{ inputs.WORKFLOW_AGENT }}
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}

@@ -37,6 +37,10 @@ on:
               description: 'The version of the space sdk'
               type: string
               default: "0.11.0"
+            CONTAINER_IMAGE_NAME:
+              description: 'The name of the container image'
+              required: true
+              type: string
         secrets:
             GIT_HUB_USER_NAME:
                 required: true
@@ -69,6 +73,31 @@ jobs:
         OUTPUT_DIR: ${{ inputs.OUTPUT_DIR }}
         ANNOTATION_CONFIG: ${{ inputs.ANNOTATION}}
         NO_CONTAINER_BUILD: 'false'
+
+    - id: docker_meta
+      uses: docker/metadata-action@v4.4.0
+      with:
+        images: ${{ inputs.CONTAINER_IMAGE_NAME }}:${{ inputs.SPACESDK_VERSION }}
+        tags: type=sha,format=long
+
+    - name: cosign-installer
+      uses: sigstore/cosign-installer@v3.5.0
+
+    - name: cosign-install
+      run: cosign version
+
+    - name: Sign image with a key
+      run: |
+        images=""
+        for tag in ${TAGS}; do
+          images+="${tag}@${DIGEST} "
+        done
+        cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${images}
+      env:
+        TAGS: ${{ steps.docker_meta.outputs.tags }}
+        COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+        COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}
+        DIGEST: ${{ steps.build-and-push.outputs.digest }}
         
     - name: Move file to staging directory
       shell: bash
