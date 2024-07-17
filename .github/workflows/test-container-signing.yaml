@@ -44,7 +44,7 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/image-sign-container@km/adding_container_signing
       with:
         container-repository-name: 'testing-signing'
-        container-repository-tag: 'latest'
+        container-repository-tag: '0.0.1'
         cosign-public-key: ${{ secrets.COSIGN_PUBLIC_KEY }}
         cosign-private-key: ${{ secrets.COSIGN_PRIVATE_KEY }}
         cosign-passphrase:  ${{ secrets.COSIGN_PASSPHRASE }}
