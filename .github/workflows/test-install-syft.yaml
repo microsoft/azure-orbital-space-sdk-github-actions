@@ -8,7 +8,7 @@ on:
           type: string
 
 jobs:
-  test-install-cosign:
+  test-install-syft:
     runs-on: ${{ inputs.agent }}
 
     steps:

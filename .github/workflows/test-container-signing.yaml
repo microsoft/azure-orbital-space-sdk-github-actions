@@ -20,7 +20,7 @@ on:
             required: true
 
 jobs:
-  test-install-cosign:
+  test-container-signing:
     runs-on: ${{ inputs.agent }}
 
     steps:
