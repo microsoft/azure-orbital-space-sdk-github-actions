@@ -33,7 +33,7 @@ runs:
             COSIGN_PASSWORD: ${{ inputs.cosign-passphrase }}
             COSIGN_KEY: ${{ inputs.cosign-private-key }}
           run: |
-            if [[ -z "${{ inputs.container-repository-tag }}" ]]; then
+            if [[ -n "${{ inputs.container-repository-tag }}" ]]; then
               echo "Container repository tag set, using ${{ inputs.container-repository-tag }}"
               CONTAINER_TAG="${{ inputs.container-repository-tag }}"
             else
@@ -41,7 +41,7 @@ runs:
               if [ -f "/var/spacedev/env/spacefx.env" ]; then
                 echo "Source File found, loading environment variables"
                 source /var/spacedev/env/spacefx.env
-                CONTAINER_TAG="$SPACEFX_VERSION_$SPACEFX_CHANNEL"
+                CONTAINER_TAG="$SPACEFX_VERSION-$SPACEFX_CHANNEL"
                 echo "Container tag is $CONTAINER_TAG"
               else
                 echo "No source file found, exiting..."
