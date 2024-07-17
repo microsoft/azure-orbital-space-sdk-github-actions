@@ -49,8 +49,15 @@ runs:
               fi
             fi
             
+            echo "Creating temp key...""
+            mkdir -p ./tmp
+            echo "${{ inputs.cosign-private-key }}" > ./tmp/cosign.key
+            chmod 600 ./tmp/cosign.key
+            echo "${{ inputs.cosign-public-key }}" > ./tmp/cosign.pub
+            chmod 600 ./tmp/cosign.pub
+
             echo "Performing signing"
-            cosign sign ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            cosign sign --key ./tmp/cosign.key ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
             echo "Perform Verification Test"
-            echo "${{ inputs.cosign-public-key }}" | cosign verify --key /dev/stdin ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
+            cosign verify --key ./tmp/cosign.pub ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
             
