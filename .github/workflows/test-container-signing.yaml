@@ -1,6 +1,5 @@
 name: Test container signing
 on: 
-    workflow_dispatch:
     workflow_call:
       inputs:
         agent:
