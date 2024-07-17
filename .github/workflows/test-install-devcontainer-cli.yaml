@@ -1,8 +1,14 @@
-on: workflow_call
+on:
+  workflow_call:
+    inputs:
+      agent:
+        description: 'The agent to run the job on'
+        required: true
+        type: string
 
 jobs:
   test-install-devcontainer-cli:
-    runs-on: ubuntu-latest
+    runs-on: ${{ inputs.agent }}
 
     steps:
     - uses: actions/checkout@v2

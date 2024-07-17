@@ -30,9 +30,23 @@ jobs:
 
   test-install-devcontainer-cli-amd64:
     uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with: 
+      agent: ubuntu-latest
   
   test-install-devcontainer-cli-arm64:
     uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with:
+      agent: spacesdk-ubuntu-2204LTS-arm64
+
+  test-install-cosign-amd64:
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with:
+      agent: ubuntu-latest
+
+  test-install-cosign-arm64:
+    uses: ./.github/workflows/test-install-devcontainer-cli.yaml
+    with:
+      agent: spacesdk-ubuntu-2204LTS-arm64
 
   test-install-regctl-amd64:
     permissions:
