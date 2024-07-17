@@ -1,7 +1,6 @@
 name: Run Action tests
 
 on:
-  workflow_dispatch:
   push:
         branches:
         - main
