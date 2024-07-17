@@ -1,0 +1,36 @@
+name: Test container signing
+on: 
+    workflow_dispatch:
+    workflow_call:
+      inputs:
+        agent:
+          description: 'The agent to run the job on'
+          required: true
+          type: string
+        architecture:
+          description: 'The architecture of the agent'
+          required: true
+          type: string
+
+jobs:
+  test-install-cosign:
+    runs-on: ${{ inputs.agent }}
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+      with:
+        GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+        GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+        SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-cosign@km/adding_container_signing
+      with:
+        architecture: ${{ inputs.ARCHITECTURE }}
+
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/image-sign-container@km/adding_container_signing
+      with:
+        container-repository-name: 'testing-signing'
+        container-repository-tag: 'latest'
+        

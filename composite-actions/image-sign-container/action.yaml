@@ -49,6 +49,8 @@ runs:
               fi
             fi
             
+            echo "Performing signing"
             cosign sign ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            echo "Perform Verification Test"
             echo "${{ inputs.cosign-public-key }}" | cosign verify --key /dev/stdin ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
             

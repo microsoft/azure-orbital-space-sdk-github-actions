@@ -43,8 +43,22 @@ runs:
               fi
             fi
             
+            echo "Creating sbom directory..."
             mkdir -p ${{ inputs.sbom-path }}
+            echo "Generating SBOM..."
             syft --scope all-layers -o json=${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
 
+            echo "Attaching SBOM..."
             cosign attach sbom --sbom ${{ inputs.sbom-path }}/${{ inputs.sbom-file-name }} ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
+
+            echo "Downloading SBOM..."
+            cosign download sbom ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG > ${{ inputs.sbom-path }}/${{ inputs.container-repository-name }}.sbom.tmp.json
+
+            if [[ -f "${{ inputs.sbom-path }}/${{ inputs.container-repository-name }}.sbom.tmp.json" ]]; then
+              echo "SBOM downloaded successfully"
+            else
+              echo "SBOM download failed"
+              exit 1
+            fi
+
             
