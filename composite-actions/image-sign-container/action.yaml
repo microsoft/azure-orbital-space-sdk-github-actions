@@ -57,7 +57,7 @@ runs:
             chmod 600 ./tmp/cosign.pub
 
             echo "Performing signing"
-            cosign sign --tlog-upload=false --key ./tmp/cosign.key ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:${{ inputs.container-repository-tag }}
+            cosign sign --tlog-upload=false --key ./tmp/cosign.key --recursive ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
             echo "Perform Verification Test"
             cosign verify --key ./tmp/cosign.pub ${{ inputs.container-registry-name }}/${{ inputs.container-repository-name }}:$CONTAINER_TAG
             
