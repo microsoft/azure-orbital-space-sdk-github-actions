@@ -167,7 +167,7 @@ runs:
             # echo ""
 
             echo "Outputting contents of .git directory"
-            tree ${PWD}/.git
+            ls ${PWD}/.git
 
             if [[ ! -f "${PWD}/.git/test-results.xml" ]]; then
             echo "Test results file not found."
