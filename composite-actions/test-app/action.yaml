@@ -88,11 +88,13 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json '.[0].Name')
+            WORKSPACE_DIR=$(jq -r </var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json '.[0].WorkspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
 
             echo "Container Name: $DEV_CONTAINER_NAME"
+            echo "Workspace Directory: $WORKSPACE_DIR"
 
             echo "Starting the integration test host..."
             echo "Running: docker exec ${DEV_CONTAINER_NAME} bash -c \"/spacefx-dev/debugShim-deploy.sh --debug_shim ${{ inputs.APP_NAME }}\""
