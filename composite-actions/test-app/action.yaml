@@ -10,7 +10,7 @@ inputs:
     APP_NAME:
         description: 'The name of the hostsvc or platformsvc to test'
         required: true
-  
+
 outputs:
     TEST_RESULTS:
         description: 'The path to the spacesdk directory'
@@ -58,24 +58,26 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json '.[0].Name')
+            WORKSPACE_DIR=$(jq -r </var/spacedev/tmp/${{ inputs.APP_NAME }}/container_info.json '.[0].WorkspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
 
             echo "Container Name: $DEV_CONTAINER_NAME"
+            echo "Workspace Directory: $WORKSPACE_DIR"
 
             # Build the app
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build /workspaces/${{ inputs.APP_NAME }}/src\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build /workspaces/${{ inputs.APP_NAME }}/src"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/src\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/src"
 
             # Build integrationTestPlugin
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build /workspaces/${{ inputs.APP_NAME }}/test/integrationTestPlugin\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build /workspaces/${{ inputs.APP_NAME }}/test/integrationTestPlugin"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/test/integrationTestPlugin\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/test/integrationTestPlugin"
             echo $?
 
             # Build integrationTests
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build /workspaces/${{ inputs.APP_NAME }}/test/integrationTests\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build /workspaces/${{ inputs.APP_NAME }}/test/integrationTests"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/test/integrationTests\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/test/integrationTests"
             echo $?
 
 
@@ -102,7 +104,7 @@ runs:
 
             # Execute the app
 
-            echo "Running: k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c \"/usr/bin/dotnet  /workspaces/${{ inputs.APP_NAME }}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll\" &"
+            echo "Running: k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c \"/usr/bin/dotnet  ${WORKSPACE_DIR}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll\" &"
             (
                 # Reroute the stdout to a file so we can uniquely identify this run
                 trap "" HUP
@@ -110,7 +112,7 @@ runs:
                 exec 1> "${PWD}/.git/logs/${{ inputs.APP_NAME }}.log.stdout"
                 exec 2>&1
 
-                k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c "/usr/bin/dotnet workspaces/${{ inputs.APP_NAME }}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll"
+                k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }} -- bash -c "/usr/bin/dotnet  ${WORKSPACE_DIR}/src/bin/Debug/net6.0/${{ inputs.APP_NAME }}.dll"
             ) &
 
             host_pid=$!
@@ -125,7 +127,7 @@ runs:
 
             # Executge the integration tests
 
-            # echo "k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c \"/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\"\" &"
+            # echo "k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c \"/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\"\" &"
             # (
             #     # Reroute the stdout to a file so we can uniquely identify this run
             #     trap "" HUP
@@ -133,10 +135,10 @@ runs:
             #     exec 1> "${PWD}/.git/logs/${{ inputs.APP_NAME }}-client.log.stdout"
             #     exec 2>&1
 
-            #     k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\""
+            #     k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\""
             # ) &
 
-            k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed /workspaces/${{ inputs.APP_NAME }}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=/workspaces/${{ inputs.APP_NAME }}/.git/test-results.xml\"" &
+            k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\"" &
 
             client_pid=$!
 
