@@ -5,9 +5,9 @@ inputs:
         description: 'The path to the environment file'
         required: false
         default: "/var/spacedev/env/spacefx.env"
-    REGISTRY: 
+    REGISTRY:
         description: 'Registry to push the image to'
-        type: string 
+        type: string
         default: 'ghcr.io/microsoft'
     VER_DOCKER_MAX:
         description: 'Docker version to install'
@@ -39,19 +39,21 @@ runs:
             VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
-          with: 
+          with:
             setup-repo-url: ${{ inputs.SETUP_REPO_URL }}
           if: ${{ inputs.SKIP_SETUP == 'false' }}
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
           with:
             env_file: ${{ inputs.env_file }}
-        
+
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-jq@main
+
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-yq@main
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@main
 
