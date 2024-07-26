@@ -26,8 +26,8 @@ runs:
             esac
 
             echo "Installing yq version ${{ inputs.VER_HELM }} for ${architecture:?}"
-            echo "...downloading yq (https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_${architecture:?})..."
-            curl --silent --fail --create-dirs --output "yq" -L "https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_${architecture:?}"
+            echo "...downloading yq (https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_$architecture)..."
+            curl --silent --fail --create-dirs --output "yq" -L "https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_$architecture"
             echo "...yq downloaded..."
             yq --version
 
