@@ -31,4 +31,4 @@ runs:
             sudo chmod 755 /usr/local/bin/yq
             rm -rf regctl
             echo "Getting Version Information"
-            yq version
+            yq --version
