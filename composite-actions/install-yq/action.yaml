@@ -25,8 +25,15 @@ runs:
                 ;;
             esac
 
-            echo "Installing yq version ${{ inputs.VER_HELM }} for ${architecture:?}"
+            echo "Installing yq version ${{ inputs.VER_HELM }} for $architecture"
+            echo "...downloading yq (https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_$architecture)..."
+            curl --silent --fail --create-dirs --output "/usr/local/bin/yq" -L "https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_$architecture"
+            echo "...yq downloaded..."
 
-            curl --silent --fail --create-dirs --output "/usr/local/bin/yq" -L "https://github.com/mikefarah/yq/releases/download/v${{ inputs.VER_HELM }}/yq_linux_${architecture:?}"
+
+            echo "Adding execute permissions to yq"
             chmod +x /usr/local/bin/yq
             chmod 755 /usr/local/bin/yq
+
+            echo "Checking yq version"
+            yq --version
