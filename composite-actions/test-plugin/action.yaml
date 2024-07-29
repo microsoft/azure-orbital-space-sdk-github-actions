@@ -15,7 +15,8 @@ inputs:
         required: true
     TEST_PROJECT:
         description: 'Relative path to the test project to run'
-        required: true
+        type: string
+        default: "test/integrationTests/integrationTests.csproj"
 
 outputs:
     TEST_RESULTS:
