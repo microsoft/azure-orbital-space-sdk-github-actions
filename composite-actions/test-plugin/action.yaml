@@ -77,12 +77,12 @@ runs:
             docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/src"
 
             # Build integrationTests
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/test/integrationTests\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/test/integrationTests"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}"
             echo $?
 
 
-        - name: Run Integration Tests
+        - name: Run Test Suite
           shell: bash
           run: |
 
@@ -126,7 +126,12 @@ runs:
             echo "Starting the integration test"
             echo "Running: docker exec ${DEV_CONTAINER_NAME} bash -c \"/spacefx-dev/debugShim-deploy.sh --debug_shim ${{ inputs.APP_NAME }}-client --disable_plugin_configs\""
             docker exec ${DEV_CONTAINER_NAME} bash -c "/spacefx-dev/debugShim-deploy.sh --debug_shim ${{ inputs.APP_NAME }}-client --disable_plugin_configs"
+            
+            # Extract the relative directory path
+            test_dir=$(dirname "${{ inputs.TEST_PROJECT }}")
 
+            # Extract the file name without the file type
+            file_name=$(basename "${{ inputs.TEST_PROJECT }}" .csproj)
 
             # Executge the integration tests
 
@@ -141,7 +146,7 @@ runs:
             #     k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\""
             # ) &
 
-            k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/test/integrationTests/bin/Debug/net6.0/integrationTests.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\"" &
+            k3s kubectl exec -n payload-app deploy/${{ inputs.APP_NAME }}-client -- bash -c "/usr/bin/dotnet test --verbosity detailed ${WORKSPACE_DIR}/${test_dir}/bin/Debug/net6.0/${file_name}.dll --logger \"junit;LogFileName=${WORKSPACE_DIR}/.git/test-results.xml\"" &
 
             client_pid=$!
 
