@@ -19,7 +19,7 @@ inputs:
     image-tag:
         description: 'The image tag'
         type: string
-        default: "$SPACEFX_VERSION"
+        required: false
     annotation-config:
         description: 'The annotation config'
         required: false
@@ -29,7 +29,14 @@ runs:
         - name: Perform login steps
           shell: bash
           run: |
-            source ${{ inputs.env-file }} 
+            source ${{ inputs.env-file }}
+
+            if [ -z "${{ inputs.image-tag }}" ]; then
+              image_tag=$SPACEFX_VERSION
+            else
+              image_tag=${{ inputs.image-tag }}
+            fi
+
             echo "Running build_containerImage.sh script:"
             echo ""
-            bash /var/spacedev/build/build_containerImage.sh --dockerfile ${{ inputs.docker-file }} --image-tag ${{ inputs.image_tag }} --architecture ${{ inputs.architecture }} --repo-dir ${{ inputs.repo-dir }} --app-name ${{ inputs.app-name }} --annotation-config ${{ inputs.annotation-config }}
+            bash /var/spacedev/build/build_containerImage.sh --dockerfile ${{ inputs.docker-file }} --image-tag $image_tag --architecture ${{ inputs.architecture }} --repo-dir ${{ inputs.repo-dir }} --app-name ${{ inputs.app-name }} --annotation-config ${{ inputs.annotation-config }}
