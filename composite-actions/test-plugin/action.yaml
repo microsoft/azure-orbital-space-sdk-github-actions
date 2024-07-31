@@ -81,8 +81,8 @@ runs:
             docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/src"
 
             # Build integrationTests
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/${{ inputs.TEST_PROJECT }}\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/${{ inputs.TEST_PROJECT }}"
             echo $?
 
 
