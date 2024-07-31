@@ -37,7 +37,7 @@ runs:
         - name: Build Devcontainer
           shell: bash
           run: |
-            devcontainer up --workspace-folder ${{ inputs.REPO_DIR } \
+            devcontainer up --workspace-folder ${{ inputs.REPO_DIR }} \
                 --config ${{ inputs.DEVCONTAINER_JSON }} \
                 --workspace-mount-consistency cached \
                 --id-label devcontainer.local_folder=${{ inputs.REPO_DIR }} \
