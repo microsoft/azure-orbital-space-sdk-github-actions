@@ -65,7 +65,7 @@ jobs:
     - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@main
       if: inputs.WORKFLOW_AGENT == 'spacesdk-ubuntu-2204LTS-arm64'
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-plugin@al/test-plugin-workflow
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-plugin@main
       with:
         APP_NAME: ${{ inputs.APP_NAME }}
         PLUGIN_NAME: ${{ inputs.PLUGIN_NAME }}
