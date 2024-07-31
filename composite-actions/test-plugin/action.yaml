@@ -1,5 +1,5 @@
-name: 'Test App'
-description:  'Runs and publishes the integration tests for Hostsvc/Platformsvc application in the space sdk environment'
+name: 'Test Plugin'
+description:  'Runs and publishes the integration tests for Hostsvc/Platformsvc Plugins in the space sdk environment'
 # Note that the publish-unit-test-result-action requires the following permissions:
         #  permissions:
         #     contents: read
@@ -12,6 +12,12 @@ inputs:
         required: true
     PLUGIN_NAME:
         description: 'The name of the plugin to test'
+        required: true
+    DEVCONTAINER_JSON:
+        description: 'Path to the devcontainer json'
+        required: true
+    REPO_DIR:
+        description: 'The directory of the plugin repo'
         required: true
     TEST_PROJECT:
         description: 'Relative path to the test project to run'
@@ -31,8 +37,8 @@ runs:
         - name: Build Devcontainer
           shell: bash
           run: |
-
             devcontainer up --workspace-folder ${PWD} \
+                --config ${{ inputs.DEVCONTAINER_JSON }} \
                 --workspace-mount-consistency cached \
                 --id-label devcontainer.local_folder=${PWD} \
                 --default-user-env-probe loginInteractiveShell \
@@ -65,7 +71,7 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json '.[0].Name')
-            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} | jq '.workspace.workspaceFolder')
+            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
@@ -78,8 +84,8 @@ runs:
             docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/src"
 
             # Build integrationTests
-            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}\""
-            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/{{ inputs.TEST_PROJECT }}"
+            echo "Running:  docker exec ${DEV_CONTAINER_NAME} bash -c \"dotnet build ${WORKSPACE_DIR}/${{ inputs.TEST_PROJECT }}\""
+            docker exec ${DEV_CONTAINER_NAME} bash -c "dotnet build ${WORKSPACE_DIR}/${{ inputs.TEST_PROJECT }}"
             echo $?
 
 
@@ -90,7 +96,7 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json '.[0].Name')
-            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} | jq '.workspace.workspaceFolder')
+            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
@@ -173,12 +179,12 @@ runs:
             # echo "--------------------"
             # echo ""
 
-            echo "Outputting contents of .git directory"
-            ls ${PWD}/.git
+            echo "Outputting contents of plugin .git directory"
+            ls ${{ inputs.REPO_DIR }}/.git
 
-            if [[ ! -f "${PWD}/.git/test-results.xml" ]]; then
-            echo "Test results file not found."
-            exit 1
+            if [[ ! -f "${{ inputs.REPO_DIR }}/.git/test-results.xml" ]]; then
+                echo "Test results file not found."
+                exit 1
             fi
 
             if [[ $client_pid_return_code -gt 0 ]]; then
@@ -190,7 +196,7 @@ runs:
           uses: EnricoMi/publish-unit-test-result-action/linux@v2
           if: always()
           with:
-            junit_files:  .git/test-results.xml
+            junit_files:  ${{ inputs.REPO_DIR }}/.git/test-results.xml
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@main
           if: failure()
