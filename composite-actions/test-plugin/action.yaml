@@ -16,9 +16,6 @@ inputs:
     DEVCONTAINER_JSON:
         description: 'The folder where the devcontainer json is contained'
         required: true
-    REPO_DIR:
-        description: 'The root directory of the plugin'
-        required: true
     TEST_PROJECT:
         description: 'Relative path to the test project to run'
         type: string
@@ -37,10 +34,10 @@ runs:
         - name: Build Devcontainer
           shell: bash
           run: |
-            devcontainer up --workspace-folder ${{ inputs.REPO_DIR }} \
+            devcontainer up --workspace-folder ${PWD} \
                 --config ${{ inputs.DEVCONTAINER_JSON }} \
                 --workspace-mount-consistency cached \
-                --id-label devcontainer.local_folder=${{ inputs.REPO_DIR }} \
+                --id-label devcontainer.local_folder=${PWD} \
                 --default-user-env-probe loginInteractiveShell \
                 --build-no-cache \
                 --remove-existing-container \
@@ -71,7 +68,7 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json '.[0].Name')
-            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${{ inputs.REPO_DIR }} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
+            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
@@ -96,7 +93,7 @@ runs:
             [[ ! -f /var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json ]] && echo "container_info.json not found.  Dev container start up failed" && exit 1
             echo "Calculating container name from container_info.json..."
             DEV_CONTAINER_NAME=$(jq -r </var/spacedev/tmp/${{ inputs.PLUGIN_NAME }}/container_info.json '.[0].Name')
-            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${{ inputs.REPO_DIR }} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
+            WORKSPACE_DIR=$(devcontainer read-configuration --workspaceFolder ${PWD} --config ${{ inputs.DEVCONTAINER_JSON }} | jq '.workspace.workspaceFolder')
 
             # Remove the first character if it is a slash
             [[ ${DEV_CONTAINER_NAME:0:1} == "/" ]] && DEV_CONTAINER_NAME="${DEV_CONTAINER_NAME:1}"
