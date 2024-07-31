@@ -31,7 +31,7 @@ runs:
         - name: Build Devcontainer
           shell: bash
           run: |
-
+            echo ${PWD}
             devcontainer up --workspace-folder ${PWD} \
                 --workspace-mount-consistency cached \
                 --id-label devcontainer.local_folder=${PWD} \
