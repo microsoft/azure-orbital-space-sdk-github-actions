@@ -14,6 +14,10 @@ on:
               description: 'The dev container json file'
               type: string
               required: true
+            REPO_DIR:
+              description: 'The directory of the plugin repo'
+              type: string
+              required: true
             TEST_PROJECT:
               description: 'Relative path to the test project to run'
               type: string
@@ -67,3 +71,4 @@ jobs:
         PLUGIN_NAME: ${{ inputs.PLUGIN_NAME }}
         TEST_PROJECT: ${{ inputs.TEST_PROJECT }}
         DEVCONTAINER_JSON: ${{ inputs.DEVCONTAINER_JSON }}
+        REPO_DIR: ${{ inputs.REPO_DIR }}

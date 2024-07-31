@@ -16,6 +16,9 @@ inputs:
     DEVCONTAINER_JSON:
         description: 'The folder where the devcontainer json is contained'
         required: true
+    REPO_DIR:
+        description: 'The directory of the plugin repo'
+        required: true
     TEST_PROJECT:
         description: 'Relative path to the test project to run'
         type: string
@@ -176,12 +179,12 @@ runs:
             # echo "--------------------"
             # echo ""
 
-            echo "Outputting contents of .git directory"
-            ls ${PWD}/.git
+            echo "Outputting contents of plugin .git directory"
+            ls ${{ inputs.REPO_DIR }}/.git
 
-            if [[ ! -f "${PWD}/.git/test-results.xml" ]]; then
-            echo "Test results file not found."
-            exit 1
+            if [[ ! -f "${{ inputs.REPO_DIR }}/.git/test-results.xml" ]]; then
+                echo "Test results file not found."
+                exit 1
             fi
 
             if [[ $client_pid_return_code -gt 0 ]]; then
@@ -193,7 +196,7 @@ runs:
           uses: EnricoMi/publish-unit-test-result-action/linux@v2
           if: always()
           with:
-            junit_files:  .git/test-results.xml
+            junit_files:  ${{ inputs.REPO_DIR }}/.git/test-results.xml
 
         - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@main
           if: failure()
