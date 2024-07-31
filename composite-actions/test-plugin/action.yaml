@@ -1,5 +1,5 @@
-name: 'Test App'
-description:  'Runs and publishes the integration tests for Hostsvc/Platformsvc application in the space sdk environment'
+name: 'Test Plugin'
+description:  'Runs and publishes the integration tests for Hostsvc/Platformsvc Plugins in the space sdk environment'
 # Note that the publish-unit-test-result-action requires the following permissions:
         #  permissions:
         #     contents: read
@@ -14,7 +14,7 @@ inputs:
         description: 'The name of the plugin to test'
         required: true
     DEVCONTAINER_JSON:
-        description: 'The folder where the devcontainer json is contained'
+        description: 'Path to the devcontainer json'
         required: true
     REPO_DIR:
         description: 'The directory of the plugin repo'

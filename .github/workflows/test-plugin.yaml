@@ -11,7 +11,7 @@ on:
               type: string
               required: true
             DEVCONTAINER_JSON:
-              description: 'The dev container json file'
+              description: 'Path to the devcontainer json file'
               type: string
               required: true
             REPO_DIR:
