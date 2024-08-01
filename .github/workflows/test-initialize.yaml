@@ -65,6 +65,13 @@ jobs:
         else
             echo "jq is not installed"
         fi
+
+        if which socat >/dev/null; then
+            echo "socat is installed"
+        else
+            echo "socat is not installed"
+        fi
+    
     
         if which devcontainer-cli >/dev/null; then
             echo "devcontainer-cli is installed"
