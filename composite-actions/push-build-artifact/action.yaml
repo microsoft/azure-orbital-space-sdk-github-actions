@@ -12,13 +12,14 @@ inputs:
         required: true
     annotation-config:
         description: "The config file for the annotation"
+    
 runs:
     using: 'composite'
     steps:
         - name: Check if actor is approved
           shell: bash
           run: |
-            approved_users="${{ secrets.write_users }}"
+            approved_users="${{ secrets.WRITE_USERS }}"
             actor="${{ github.actor }}"
             if [[ ! " $approved_users " =~ " $actor " ]]; then
               echo "Error: $actor is not authorized to push artifacts. Please contact Azure Space SDK team for approval to push artifacts."
