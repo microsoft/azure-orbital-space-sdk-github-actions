@@ -59,5 +59,9 @@ jobs:
         filename=$(basename "${{ inputs.artifact }}" .txt)
         echo "Executing: oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
         oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
+        
+        echo "Outputing contents of ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
         cat push-build-artifact-test.txt
-        sudo --preserve-env --set-home regctl image delete ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
+        
+        echo "Executing: sudo --preserve-env --set-home regctl tag delete ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
+        sudo --preserve-env --set-home regctl tag delete ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
