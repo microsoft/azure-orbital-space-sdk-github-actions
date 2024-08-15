@@ -62,6 +62,21 @@ jobs:
         
         echo "Outputing contents of ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
         cat push-build-artifact-test.txt
-        
-        echo "Executing: sudo --preserve-env --set-home regctl tag delete ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
-        sudo --preserve-env --set-home regctl tag delete ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
+
+        echo ""
+        echo ""
+        echo "Deleting artifact using GitHub API"
+        PACKAGE_NAME="buildartifacts/txt"
+        VERSION="${SPACEFX_VERSION}-nightly"
+        TOKEN="${{ secrets.GIT_HUB_USER_TOKEN }}"
+        OWNER="microsoft"
+        REPO="azure-orbital-space-sdk"
+
+        # Get the package version ID
+        VERSION_ID=$(curl -s -H "Authorization: token $TOKEN" \
+          "https://api.github.com/orgs/$OWNER/packages/container/$PACKAGE_NAME/versions" | \
+          jq -r ".[] | select(.metadata.container.tags[] == \"$VERSION\") | .id")
+
+        # Delete the package version
+        curl -X DELETE -H "Authorization: token $TOKEN" \
+          "https://api.github.com/orgs/$OWNER/packages/container/$PACKAGE_NAME/versions/$VERSION_ID"
