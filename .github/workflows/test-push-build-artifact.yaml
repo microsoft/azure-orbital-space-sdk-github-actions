@@ -47,7 +47,7 @@ jobs:
         sudo mv ${{ inputs.artifact }} /var/spacedev/test
         tree /var/spacedev/test
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@al/actor
       with:
         artifact: "/var/spacedev/test/push-build-artifact-test.txt"
         architecture: "${{ inputs.architecture }}"
