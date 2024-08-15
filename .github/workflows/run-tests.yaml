@@ -139,7 +139,7 @@ jobs:
       architecture: amd64     
     secrets:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
   test-push-build-artifact-arm64:
@@ -154,7 +154,7 @@ jobs:
       architecture: amd64
     secrets:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
-      GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+      GIT_HUB_USER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
   test-switch-smb-amd64:
