@@ -15,6 +15,16 @@ inputs:
 runs:
     using: 'composite'
     steps:
+        - name: Check if actor is approved
+          shell: bash
+          run: |
+            approved_users="${{ secrets.write_users }}"
+            actor="${{ github.actor }}"
+            if [[ ! " $approved_users " =~ " $actor " ]]; then
+              echo "Error: $actor is not authorized to push artifacts. Please contact Azure Space SDK team for approval to push artifacts."
+              exit 1
+            fi
+
         - name: Push Artifact ${{ inputs.artifact }}
           shell: bash
           run: |
