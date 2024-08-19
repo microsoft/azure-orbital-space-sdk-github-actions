@@ -12,6 +12,7 @@ inputs:
         required: true
     annotation-config:
         description: "The config file for the annotation"
+    
 runs:
     using: 'composite'
     steps:
