@@ -1,0 +1,48 @@
+name: Create Nightly Branchs
+
+on:
+  workflow_call:
+    inputs:
+      SPACEFX_VERSION:
+        description: 'version of the Space SDK to label the nightly branch with'
+        required: true
+        type: string
+        default: '0.11.0'
+    secrets:
+        GIT_HUB_USER_NAME:
+            required: true
+        GIT_HUB_USER_TOKEN:
+            required: true
+        REPO_URLS:
+            required: true
+
+jobs:
+
+  create-nightly-branch:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        repo: ${{ fromJSON(secrets.REPO_URLS) }}
+
+    steps:
+      - name: Checkout repository
+        run: |
+          git clone ${{ matrix.repo }} repo
+          cd repo
+        shell: bash
+
+      - name: Create new branch
+        run: |
+          cd repo
+          git checkout main
+          git checkout -b "${{ inputs.SPACEFX_VERSION }}-nightly"
+        shell: bash
+
+      - name: Push new branch to GitHub
+        run: |
+          cd repo
+          git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
+        shell: bash
+        env:
+          GITHUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
