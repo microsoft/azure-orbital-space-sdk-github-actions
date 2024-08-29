@@ -1,7 +1,6 @@
 name: Create Nightly Branchs
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       SPACEFX_VERSION:
@@ -29,12 +28,12 @@ jobs:
 
             # Create new branch
             git checkout main
-            echo "Creating new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
-            git checkout -b "${{ inputs.SPACEFX_VERSION }}-nightly"
+            echo "Creating new branch ${{ github.event.inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git checkout -b "${{ github.event.inputs.SPACEFX_VERSION }}-nightly"
 
             # Push new branch to GitHub
-            echo "Pushing new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
-            git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
+            echo "Pushing new branch ${{ github.event.inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git push origin "${{ github.event.inputs.SPACEFX_VERSION }}-nightly"
             cd /var/tmp
           done
         env:
