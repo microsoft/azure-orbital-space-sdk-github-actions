@@ -26,23 +26,26 @@ jobs:
 
     steps:
       - name: Checkout repository
+        shell: bash
         run: |
+          mkdir -p /var/tmp
+          cd /var/tmp
           git clone ${{ matrix.repo }} repo
           cd repo
-        shell: bash
+
 
       - name: Create new branch
+        shell: bash
         run: |
-          cd repo
+          cd /var/tmp/repo
           git checkout main
           git checkout -b "${{ inputs.SPACEFX_VERSION }}-nightly"
-        shell: bash
 
       - name: Push new branch to GitHub
-        run: |
-          cd repo
-          git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
         shell: bash
+        run: |
+          cd /var/tmp/repo
+          git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
         env:
           GITHUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
           GITHUB_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
