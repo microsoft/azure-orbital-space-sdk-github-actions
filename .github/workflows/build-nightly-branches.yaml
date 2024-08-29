@@ -1,6 +1,7 @@
 name: Create Nightly Branchs
 
 on:
+  push:
   workflow_call:
     inputs:
       SPACEFX_VERSION:
