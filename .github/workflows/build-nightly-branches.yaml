@@ -10,10 +10,15 @@ on:
         default: "0.11.0"
 
 jobs:
-
   create-nightly-branch:
+    permissions:
+      contents: write
+      packages: read
     runs-on: ubuntu-latest
     steps:
+
+      - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+
       - name: Loop through REPO_URLS and clone
         shell: bash
         run: |
