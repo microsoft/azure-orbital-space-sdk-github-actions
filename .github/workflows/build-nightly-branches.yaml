@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        repo: ${{ fromJSON(secrets.REPO_URLS) }}
+        repo: ${{ secrets.REPO_URLS }}
 
     steps:
       - name: Checkout repository
