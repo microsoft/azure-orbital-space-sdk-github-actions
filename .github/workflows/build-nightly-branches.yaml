@@ -1,14 +1,13 @@
 name: Create Nightly Branchs
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       SPACEFX_VERSION:
         description: 'version of the Space SDK to label the nightly branch with'
-        required: true
+        required: false
         type: string
-        default: '0.11.0'
+        default: "0.11.0"
 
 jobs:
 
