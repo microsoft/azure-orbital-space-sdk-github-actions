@@ -33,7 +33,6 @@ jobs:
           git clone ${{ matrix.repo }} repo
           cd repo
 
-
       - name: Create new branch
         shell: bash
         run: |
