@@ -13,4 +13,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Echo the user input
-        run: echo "User input: ${{ github.event.inputs.user_input }}"
+        shell: bash
+        run: |
+            echo "User input: ${{ github.event.inputs.user_input }}"
