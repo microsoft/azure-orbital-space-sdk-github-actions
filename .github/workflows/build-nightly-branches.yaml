@@ -5,9 +5,9 @@ on:
     inputs:
       SPACEFX_VERSION:
         description: 'version of the Space SDK to label the nightly branch with'
-        required: false
+        required: true
         type: string
-        default: "0.11.0"
+
 
 jobs:
   create-nightly-branch:
@@ -27,18 +27,18 @@ jobs:
             REPO_NAME=$(basename -s .git "$REPO_URL")
             mkdir -p /var/tmp/$REPO_NAME
 
-            echo "Cloning $REPO_URL to /var/tmp/$REPO_NAME"
+            echo "Cloning $REPO_NAME to /var/tmp/$REPO_NAME"
             git clone "$REPO_URL" /var/tmp/$REPO_NAME
             cd /var/tmp/$REPO_NAME
 
             # Create new branch
             git checkout main
-            echo "Creating new branch ${{ github.event.inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
-            git checkout -b "${{ github.event.inputs.SPACEFX_VERSION }}-nightly"
+            echo "Creating new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git checkout -b "${{ inputs.SPACEFX_VERSION }}-nightly"
 
             # Push new branch to GitHub
-            echo "Pushing new branch ${{ github.event.inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
-            git push origin "${{ github.event.inputs.SPACEFX_VERSION }}-nightly"
+            echo "Pushing new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
             cd /var/tmp
           done
         env:
