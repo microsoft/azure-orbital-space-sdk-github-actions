@@ -1,0 +1,47 @@
+name: Create Nightly Branchs
+
+on:
+  workflow_dispatch:
+    inputs:
+      SPACEFX_VERSION:
+        description: 'version of the Space SDK to label the nightly branch with'
+        required: true
+        type: string
+
+
+jobs:
+  create-nightly-branch:
+    permissions:
+      contents: read
+      packages: read
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+
+      - name: Loop through REPO_URLS and clone
+        shell: bash
+        run: |
+          REPO_URLS=$(echo $REPO_URLS | jq -r '.[]')
+          for REPO_URL in $REPO_URLS; do
+            REPO_NAME=$(basename -s .git "$REPO_URL")
+            mkdir -p /var/tmp/$REPO_NAME
+
+            echo "Cloning $REPO_NAME to /var/tmp/$REPO_NAME"
+            git clone "$REPO_URL" /var/tmp/$REPO_NAME
+            cd /var/tmp/$REPO_NAME
+
+            # Create new branch
+            git checkout main
+            echo "Creating new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git checkout -b "${{ inputs.SPACEFX_VERSION }}-nightly"
+
+            # Push new branch to GitHub
+            echo "Pushing new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
+            git push origin "${{ inputs.SPACEFX_VERSION }}-nightly"
+            cd /var/tmp
+          done
+        env:
+          GITHUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
+          GITHUB_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
+          REPO_URLS: ${{ secrets.REPO_URLS }}
