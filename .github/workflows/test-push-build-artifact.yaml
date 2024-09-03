@@ -32,13 +32,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@0.11.0-nightly
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-helm@0.11.0-nightly
   
     - name: Move file to staging directory
       shell: bash
@@ -47,7 +47,7 @@ jobs:
         sudo mv ${{ inputs.artifact }} /var/spacedev/test
         tree /var/spacedev/test
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       with:
         artifact: "/var/spacedev/test/push-build-artifact-test.txt"
         architecture: "${{ inputs.architecture }}"

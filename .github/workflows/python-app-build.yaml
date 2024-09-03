@@ -58,13 +58,13 @@ jobs:
       packages: write
 
     steps:
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@0.11.0-nightly
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@0.11.0-nightly
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.APP_PROJECT}}
@@ -83,7 +83,7 @@ jobs:
         sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/dist/${{ inputs.WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl ${{ inputs.WHEEL_STAGING_DIRECTORY }}
         tree ${{ inputs.WHEEL_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       if: inputs.BUILD_PYTHON_WHEEL == true
       with:
         artifact: ${{ inputs.WHEEL_STAGING_DIRECTORY }}/${{ inputs.WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl

@@ -77,13 +77,13 @@ jobs:
       packages: write
 
     steps:
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@0.11.0-nightly
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@0.11.0-nightly
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.DOTNET_APP_PROJECT}}
@@ -101,12 +101,12 @@ jobs:
         sudo cp ${{ inputs.DOTNET_OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/nuget/${{ inputs.DOTNET_NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg ${{ inputs.DOTNET_NUGET_STAGING_DIRECTORY }}
         tree ${{ inputs.DOTNET_NUGET_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       with:
         artifact: ${{ inputs.DOTNET_NUGET_STAGING_DIRECTORY }}/${{ inputs.DOTNET_NUGET_FILE_PREFIX }}.${{ inputs.SPACESDK_VERSION }}.nupkg
         architecture: ${{ inputs.ARCHITECTURE }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-python-app@0.11.0-nightly
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.PYTHON_APP_PROJECT}}
@@ -125,7 +125,7 @@ jobs:
         sudo cp ${{ inputs.PYTHON_OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/dist/${{ inputs.PYTHON_WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl ${{ inputs.PYTHON_WHEEL_STAGING_DIRECTORY }}
         tree ${{ inputs.PYTHON_WHEEL_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       if: inputs.BUILD_PYTHON_WHEEL == true
       with:
         artifact: ${{ inputs.PYTHON_WHEEL_STAGING_DIRECTORY }}/${{ inputs.PYTHON_WHEEL_FILE_PREFIX }}-${{ inputs.SPACESDK_VERSION }}-py3-none-any.whl

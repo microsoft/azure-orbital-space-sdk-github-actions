@@ -198,7 +198,7 @@ runs:
           with:
             junit_files:  ${{ inputs.REPO_DIR }}/.git/test-results.xml
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@0.11.0-nightly
           if: failure()
           with:
             ARTIFACT_NAME: 'var-spacedev-logs-test-app'

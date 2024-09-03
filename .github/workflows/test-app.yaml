@@ -34,21 +34,21 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@0.11.0-nightly
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@0.11.0-nightly
       if: inputs.SMB_ON == 'true'
       with:
         REPO_DIR: "${PWD}"
         VALUE: "true"
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-publish-dependencies@0.11.0-nightly
       if: inputs.WORKFLOW_AGENT == 'spacesdk-ubuntu-2204LTS-arm64'
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/test-app@0.11.0-nightly
       with:
         APP_NAME: ${{ inputs.APP_NAME }}

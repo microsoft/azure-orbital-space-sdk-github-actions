@@ -76,13 +76,13 @@ jobs:
       packages: write
 
     steps:
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@0.11.0-nightly
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
         SETUP_REPO_URL: ${{ secrets.SETUP_REPO_URL }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/build-app@0.11.0-nightly
       with:
         ARCHITECTURE: ${{ inputs.ARCHITECTURE }}
         APP_PROJECT: ${{ inputs.APP_PROJECT}}
@@ -101,13 +101,13 @@ jobs:
         sudo cp ${{ inputs.OUTPUT_DIR }}/${{ inputs.ARCHITECTURE }}/app/${{ inputs.PLUGIN_CONFIG_FILE_NAME }} ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
         tree ${{ inputs.PLUGIN_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       with:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
         annotation-config: ${{ inputs.ANNOTATION }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       with:
         artifact: ${{ inputs.PLUGIN_STAGING_DIRECTORY }}/${{ inputs.PLUGIN_CONFIG_FILE_NAME }}
         architecture: ${{ inputs.ARCHITECTURE }}
@@ -122,7 +122,7 @@ jobs:
 
         tree ${{ inputs.PROTO_STAGING_DIRECTORY }}
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/push-build-artifact@0.11.0-nightly
       if: inputs.PROTO_STAGING_DIRECTORY != ''
       with:
         artifact: ${{ inputs.PROTO_STAGING_DIRECTORY }}/${{ inputs.PROTO_FILE_NAME }}

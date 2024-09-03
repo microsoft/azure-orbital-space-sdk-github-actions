@@ -37,7 +37,7 @@ jobs:
         TOTAL_MEM=$(free -m | awk '/^Mem:/{print $2}')
         echo "Total memory: $TOTAL_MEM MB"
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@0.11.0-nightly
       with:
         VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
 

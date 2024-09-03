@@ -32,34 +32,34 @@ runs:
     steps:
         - uses: actions/checkout@v2
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@0.11.0-nightly
           with:
             VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@0.11.0-nightly
           with:
             setup-repo-url: ${{ inputs.SETUP_REPO_URL }}
           if: ${{ inputs.SKIP_SETUP == 'false' }}
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-regctl@0.11.0-nightly
           with:
             env_file: ${{ inputs.env_file }}
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-oras@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-jq@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-jq@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-yq@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-yq@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-tree@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-socat@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-socat@0.11.0-nightly
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@main
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/registry-login@0.11.0-nightly
           with:
             registry-name: ${{ inputs.REGISTRY }}
             github-user-name: ${{ inputs.GIT_HUB_USER_NAME }}
