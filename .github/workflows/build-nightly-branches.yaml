@@ -31,6 +31,9 @@ jobs:
             git clone "$REPO_URL" /var/tmp/$REPO_NAME
             cd /var/tmp/$REPO_NAME
 
+            # Set remote URL with token for authentication
+            git remote set-url origin https://${{ secrets.GIT_HUB_USER_NAME }}:${{ secrets.GIT_HUB_USER_TOKEN }}@github.com/${{ github.repository }}
+
             # Create new branch
             git checkout main
             echo "Creating new branch ${{ inputs.SPACEFX_VERSION }}-nightly for $REPO_NAME"
