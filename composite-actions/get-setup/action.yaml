@@ -14,4 +14,17 @@ runs:
             cd /var/tmp
             git clone ${{ inputs.setup-repo-url }}
             cd azure-orbital-space-sdk-setup
+
+        - name: Checkout branch and Copy to /var/spacedev
+          shell: bash
+          run: |
+            cd /var/tmp/azure-orbital-space-sdk-setup
+
+            # Extract the branch name from GITHUB_REF
+            BRANCH_REF=$(echo "${GITHUB_REF}" | sed 's|refs/heads/||')
+
+            echo "Detected Branch reference: ${BRANCH_REF}"
+            echo "Checking out azure-orbital-space-sdk-setup under branch ${BRANCH_REF}"
+            git checkout ${BRANCH_REF}
+             
             bash ./.vscode/copy_to_spacedev.sh
