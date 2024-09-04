@@ -7,8 +7,6 @@ on:
         - main
         - 0.11.0-nightly
   pull_request:
-    branches:
-      - '**'
 
 jobs:
   test-get-agent-details-amd64:
