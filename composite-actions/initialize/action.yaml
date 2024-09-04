@@ -38,7 +38,7 @@ runs:
           with:
             VER_DOCKER_MAX: ${{ inputs.VER_DOCKER_MAX }}
 
-        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@0.11.0-nightly
+        - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-setup@al/nightly-setup
           with:
             setup-repo-url: ${{ inputs.SETUP_REPO_URL }}
           if: ${{ inputs.SKIP_SETUP == 'false' }}
