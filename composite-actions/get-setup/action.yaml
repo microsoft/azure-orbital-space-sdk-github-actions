@@ -20,7 +20,7 @@ runs:
           run: |
             cd /var/tmp/azure-orbital-space-sdk-setup
 
-             # Extract the branch name from ACTION_REF
+            # Extract the branch name from ACTION_REF
             echo "${ACTION_REF}" 
             BRANCH_REF=$(echo "${ACTION_REF}" | sed 's|refs/heads/||; s|refs/tags/||')
 
