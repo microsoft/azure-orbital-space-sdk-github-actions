@@ -15,9 +15,8 @@ runs:
             git clone ${{ inputs.setup-repo-url }}
             cd azure-orbital-space-sdk-setup
 
-
         - name: environment variables
-          shell | bash
+          shell: bash
           run: |
             printenv
           
