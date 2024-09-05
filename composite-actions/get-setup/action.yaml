@@ -25,11 +25,8 @@ runs:
           run: |
             cd /var/tmp/azure-orbital-space-sdk-setup
 
-            # Extract the branch name from GITHUB_ACTION_REF
-            BRANCH_REF=$(echo "${GITHUB_REF}" | sed 's|refs/heads/||; s|refs/tags/||')
-
-            echo "Detected Branch reference: ${BRANCH_REF}"
-            echo "Checking out azure-orbital-space-sdk-setup under branch ${BRANCH_REF}"
-            git checkout ${BRANCH_REF}
+            echo "Detected Branch reference: ${GITHUB_HEAD_REF}"
+            echo "Checking out azure-orbital-space-sdk-setup under branch ${GITHUB_HEAD_REF}"
+            git checkout ${GITHUB_HEAD_REF}
              
             bash ./.vscode/copy_to_spacedev.sh
