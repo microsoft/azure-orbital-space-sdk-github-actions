@@ -26,6 +26,7 @@ runs:
             cd /var/tmp/azure-orbital-space-sdk-setup
 
             # Extract composite action branch using parameter expansion
+            echo "GITHUB_ACTION_PATH: ${GITHUB_ACTION_PATH}"
             EXTRACTED_PART=${GITHUB_ACTION_PATH#*/home/runner/work/_actions/microsoft/azure-orbital-space-sdk-github-actions/}
             BRANCH_REF=${EXTRACTED_PART%/composite-actions/get-setup}
 
