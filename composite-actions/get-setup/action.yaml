@@ -14,11 +14,6 @@ runs:
             cd /var/tmp
             git clone ${{ inputs.setup-repo-url }}
             cd azure-orbital-space-sdk-setup
-
-        - name: environment variables
-          shell: bash
-          run: |
-            printenv
           
         - name: Checkout branch and Copy to /var/spacedev
           shell: bash
