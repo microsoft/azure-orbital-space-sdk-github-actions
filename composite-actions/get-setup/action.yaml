@@ -14,14 +14,16 @@ runs:
             cd /var/tmp
             git clone ${{ inputs.setup-repo-url }}
             cd azure-orbital-space-sdk-setup
-
+          
         - name: Checkout branch and Copy to /var/spacedev
           shell: bash
           run: |
             cd /var/tmp/azure-orbital-space-sdk-setup
 
-            # Extract the branch name from GITHUB_REF
-            BRANCH_REF=$(echo "${GITHUB_REF}" | sed 's|refs/heads/||')
+            # Extract composite action branch using parameter expansion
+            echo "GITHUB_ACTION_PATH: ${GITHUB_ACTION_PATH}"
+            EXTRACTED_PART=${GITHUB_ACTION_PATH#*/home/runner/work/_actions/microsoft/azure-orbital-space-sdk-github-actions/}
+            BRANCH_REF=${EXTRACTED_PART%/composite-actions/get-setup}
 
             echo "Detected Branch reference: ${BRANCH_REF}"
             echo "Checking out azure-orbital-space-sdk-setup under branch ${BRANCH_REF}"
