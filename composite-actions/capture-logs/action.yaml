@@ -11,7 +11,7 @@ runs:
     using: 'composite'
     steps:
     - name: Upload logs on failure ${{ inputs.ARTIFACT_NAME }} - ${{ inputs.DIRECTORY_PATH }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ inputs.ARTIFACT_NAME }}
         path: ${{ inputs.DIRECTORY_PATH }}
