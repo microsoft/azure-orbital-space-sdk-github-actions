@@ -27,7 +27,7 @@ jobs:
       run: |
         sudo apt-get install jq -y
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@al/update-upload-artifact
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@0.11.0-nightly
       with:
         REPO_DIR: "${{ inputs.artifact_dir }}"
         VALUE: "true"
