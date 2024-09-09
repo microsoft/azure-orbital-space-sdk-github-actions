@@ -26,7 +26,7 @@ runs:
             
             DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level debug)
 
-            Substring to search for
+            # Substring to search for
             SEARCH_SUBSTRING="ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev"
 
             # Use jq to search for the feature containing the substring
