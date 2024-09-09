@@ -20,19 +20,43 @@ runs:
           shell: bash
           run: |
             echo "Reading confugration"
+
+            # Path to the devcontainer.json file
+            DEVCONTAINER_FILE="devcontainer.json"
             
             DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.REPO_DIR }} --log-level debug)
 
-            echo "set the smb_enabled_in_cluster to ${{ inputs.REPO_DIR }}"
-            # set the smb_enabled_in_cluster to  new value
-            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq '.configuration.features."ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev:0.11.0"."smb_enabled_in_cluster" = ${{ inputs.VALUE }}')
+            Substring to search for
+            SEARCH_SUBSTRING="ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev"
 
-            echo "Remove the extra configFilePath"
-            # Remove the extra configFilePath
-            DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq 'del(.configuration.configFilePath)')
+            # Use jq to search for the feature containing the substring
+            FEATURE=$(echo "$DEVCONTAINER_JSON" | jq -r --arg search "$SEARCH_SUBSTRING" '.configuration.features | to_entries[] | select(.key | contains($search))')
 
-            echo "Extract only the configuration"
-            # extract only the configuration
-            echo "$DEVCONTAINER_JSON" | jq '.configuration' > ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
+            # Check if the feature was found
+            if [ -n "$FEATURE" ]; then
+                echo "Feature found:"
+                echo "$FEATURE"
 
-            cat ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
+                # Add "smb_enabled_in_cluster": True to the found feature
+                MODIFIED_FEATURE=$(echo "$FEATURE" | jq '.value += {"smb_enabled_in_cluster": ${{ inputs.VALUE }} ')
+
+                # Update the devcontainer.json with the modified feature
+                UPDATED_DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq --argjson feature "$MODIFIED_FEATURE" --arg key "$(echo "$FEATURE" | jq -r '.key')" '
+                    .configuration.features[$key] = $feature.value
+                ')
+
+                echo "Remove the extra configFilePath"
+                # Remove the extra configFilePath
+                UPDATED_DEVCONTAINER_JSON=$(echo "$UPDATED_DEVCONTAINER_JSON" | jq 'del(.configuration.configFilePath)')
+
+                echo "Extract only the configuration"
+                # extract only the configuration
+                echo "$UPDATED_DEVCONTAINER_JSON" | jq '.configuration' > ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
+
+                cat  ${{ inputs.REPO_DIR }}/.devcontainer/devcontainer.json
+                
+                echo "devcontainer.json updated successfully."
+            else
+                echo "Feature containing '$SEARCH_SUBSTRING' not found."
+                exit 1
+            fi

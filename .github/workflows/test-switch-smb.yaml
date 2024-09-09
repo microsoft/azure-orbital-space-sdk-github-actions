@@ -27,9 +27,43 @@ jobs:
       run: |
         sudo apt-get install jq -y
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@0.11.0-nightly
-      with:
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@al/update-upload-artifact
         REPO_DIR: "${{ inputs.artifact_dir }}"
         VALUE: "true"
 
+    - name: Validate SMB
+      run: |
+        echo "Reading confugration"
+
+        # Path to the devcontainer.json file
+        DEVCONTAINER_FILE="devcontainer.json"
+
+        
+        DEVCONTAINER_JSON=$(devcontainer read-configuration --workspace-folder ${{ inputs.artifact_dir }} --log-level debug)
+
+        Substring to search for
+        SEARCH_SUBSTRING="ghcr.io/microsoft/azure-orbital-space-sdk/spacefx-dev"
+
+        # Use jq to search for the feature containing the substring
+        FEATURE=$(echo "$DEVCONTAINER_JSON" | jq -r --arg search "$SEARCH_SUBSTRING" '.configuration.features | to_entries[] | select(.key | contains($search))')
+
+        # Check if the feature was found
+        if [ -n "$FEATURE" ]; then
+            echo "Feature found:"
+            echo "$FEATURE"
+
+            # Validate SMB step: Check if "smb_enabled_in_cluster": true is present within the FEATURE
+            SMB_ENABLED=$(echo "$FEATURE" | jq -e '.value.smb_enabled_in_cluster == true')
+
+            if [ $? -eq 0 ]; then
+              echo "Validation successful: 'smb_enabled_in_cluster' is set to true."
+            else
+              echo "Validation failed: 'smb_enabled_in_cluster' is not set to true."
+              exit 1
+            fi
+
+        else
+            echo "Feature containing '$SEARCH_SUBSTRING' not found."
+            exit 1
+        fi
     
