@@ -38,7 +38,7 @@ runs:
                 echo "$FEATURE"
 
                 # Add "smb_enabled_in_cluster": True to the found feature
-                MODIFIED_FEATURE=$(echo "$FEATURE" | jq '.value += {"smb_enabled_in_cluster": ${{ inputs.VALUE }} ')
+                MODIFIED_FEATURE=$(echo "$FEATURE" | jq '.value += {"smb_enabled_in_cluster": ${{ inputs.VALUE }}}')
 
                 # Update the devcontainer.json with the modified feature
                 UPDATED_DEVCONTAINER_JSON=$(echo "$DEVCONTAINER_JSON" | jq --argjson feature "$MODIFIED_FEATURE" --arg key "$(echo "$FEATURE" | jq -r '.key')" '
