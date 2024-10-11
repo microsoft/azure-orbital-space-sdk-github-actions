@@ -150,7 +150,7 @@ jobs:
     with: 
       artifact: ./test-artifacts/test-push-build-artifact/push-build-artifact-test.txt
       WORKFLOW_AGENT: spacesdk-ubuntu-2204LTS-arm64
-      architecture: amd64
+      architecture: arm64
     secrets:
       GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
       GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}

@@ -57,8 +57,9 @@ jobs:
       run: |
         source ${{ inputs.env-file }}
         filename=$(basename "${{ inputs.artifact }}" .txt)
-        echo "Executing: oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
-        oras pull ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly
+        echo "Executing: regctl artifact get ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly --output ${PWD} --filter-artifact-type application/vnd.spacefx.${{ inputs.architecture }}}.buildartifact"
+
+        regctl artifact get ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly --output ${PWD} --filter-artifact-type application/vnd.spacefx.${{ inputs.architecture }}.buildartifact
         
         echo "Outputing contents of ghcr.io/microsoft/azure-orbital-space-sdk/buildartifacts/txt/${filename}:${SPACEFX_VERSION}-nightly"
         cat push-build-artifact-test.txt
