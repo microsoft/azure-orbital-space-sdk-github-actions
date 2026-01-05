@@ -7,5 +7,12 @@ runs:
           shell: bash
           run: |
             sudo apt-get update
-            sudo apt-get install -y socat nuget
+            sudo apt-get install -y socat
+
+        - name: Install Nuget CLI
+          shell: bash
+          run: |
+            sudo sh -c 'echo "deb http://archive.ubuntu.com/ubuntu jammy main universe" > /etc/apt/sources.list.d/jammy.list'
+            sudo apt-get install mono-complete
+            sudo apt-get install nuget
             
