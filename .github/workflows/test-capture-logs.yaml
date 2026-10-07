@@ -24,7 +24,7 @@ jobs:
     steps:
     - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/initialize@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
       with:
         GIT_HUB_USER_NAME: ${{ secrets.GIT_HUB_USER_NAME }}
         GIT_HUB_USER_TOKEN: ${{ secrets.GIT_HUB_USER_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
         sudo chown -R $USER:$USER /var/spacedev
         sudo echo "Hello World" > /var/spacedev/logs/hello.txt
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/capture-logs@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
       with:
         ARTIFACT_NAME: 'var-spacedev-logs'
         DIRECTORY_PATH: '/var/spacedev/logs/**'
