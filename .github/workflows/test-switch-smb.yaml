@@ -17,17 +17,17 @@ jobs:
     steps:
     - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-docker@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
       with:
         VER_DOCKER_MAX: 26.1.3
     
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/install-devcontainer-cli@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
 
     - name: install jq
       run: |
         sudo apt-get install jq -y
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/switch-smb@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
       with:
         REPO_DIR: "${{ inputs.artifact_dir }}"
         VALUE: "true"

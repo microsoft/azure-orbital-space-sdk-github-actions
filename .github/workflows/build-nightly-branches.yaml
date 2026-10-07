@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-      - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+      - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
 
       - name: Loop through REPO_URLS and clone
         shell: bash

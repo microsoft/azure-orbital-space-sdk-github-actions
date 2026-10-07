@@ -14,4 +14,4 @@ jobs:
     steps:
     - uses: actions/checkout@0717577d45739eb3c851188b29f50ed6c0b2194e # v2.8.0
 
-    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@main
+    - uses: microsoft/azure-orbital-space-sdk-github-actions/composite-actions/get-agent-details@91139444fd295127136acd184289f8b5aaac8f23 # experiment-km
